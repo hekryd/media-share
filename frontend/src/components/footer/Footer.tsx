@@ -28,8 +28,12 @@ const useStyles = createStyles((theme) => ({
     root: {
       position: "fixed",
       bottom: 0,
-      zIndex: 1,
-      backgroundColor: "#edefef",
+      zIndex: 10,
+        backgroundColor:
+        theme.colorScheme === "dark"
+            ? theme.colors.dark[9]
+            : "#edefef",
+
     },
   
     footer: {

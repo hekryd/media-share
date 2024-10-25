@@ -135,6 +135,10 @@ const Header = () => {
     {
       component: <ActionAvatar />,
     },
+    {
+      link: "https://www.hektor-rydzewski.de/",
+      label: "Hektor-Rydzewski",
+    }
   ];
 
   let unauthenticatedLinks: NavLink[] = [
@@ -155,11 +159,11 @@ const Header = () => {
     });
   }
 
-  if (config.get("general.showHomePage"))
-    unauthenticatedLinks.unshift({
-      link: "/",
-      label: t("navbar.home"),
-    });
+  // if (config.get("general.showHomePage"))
+  //   unauthenticatedLinks.unshift({
+  //     link: "/",
+  //     label: t("navbar.home"),
+  //   });
 
   if (config.get("share.allowRegistration"))
     unauthenticatedLinks.push({
@@ -196,7 +200,7 @@ const Header = () => {
   return (
     <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root}>
       <Container className={classes.header}>
-        <Link href="/" passHref>
+        <Link href="https://www.hektor-rydzewski.de/" passHref>
           <Group>
             <Logo src={"/img/logo.png"} height={30} width={120} />
           </Group>
