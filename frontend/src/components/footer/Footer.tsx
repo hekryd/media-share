@@ -29,11 +29,10 @@ const useStyles = createStyles((theme) => ({
       position: "fixed",
       bottom: 0,
       zIndex: 10,
-        backgroundColor:
+      backgroundColor:
         theme.colorScheme === "dark"
             ? theme.colors.dark[9]
             : "#edefef",
-
     },
   
     footer: {
@@ -46,7 +45,11 @@ const useStyles = createStyles((theme) => ({
     copyright: {
         paddingTop: "40px",
         fontSize: "12px",
-        color: "#4a4a4a",
+        color:
+            theme.colorScheme === "dark"
+                ? theme.colors.dark[0]
+                : "#4a4a4a",
+
     },
   
     link: {

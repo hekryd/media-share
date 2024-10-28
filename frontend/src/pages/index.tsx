@@ -82,6 +82,10 @@ export default function Home() {
       if (user) {
         router.replace("/upload");
       }
+      // If the user is not logged in, redirect to the sign-in page
+      else{
+        router.replace("/auth/signIn");
+        }
     });
 
     // If registration is disabled, get started button should redirect to the sign in page

@@ -81,7 +81,7 @@ const useStyles = createStyles((theme) => ({
     color:
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+        : "#7f7f7f",
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
@@ -205,15 +205,18 @@ const Header = () => {
             <Logo src={"/img/logo.png"} height={30} width={120} />
           </Group>
         </Link>
+
         <Group spacing={5} className={classes.links}>
           <Group>{items} </Group>
         </Group>
+
         <Burger
           opened={opened}
           onClick={() => toggleOpened.toggle()}
           className={classes.burger}
           size="sm"
         />
+
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
