@@ -16,6 +16,7 @@ import { TbCheck } from "react-icons/tb";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useUser from "../hooks/user.hook";
+import SignIn from "./auth/signIn";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -83,9 +84,9 @@ export default function Home() {
         router.replace("/upload");
       }
       // If the user is not logged in, redirect to the sign-in page
-      else{
-        router.replace("/auth/signIn");
-        }
+      // else{
+      //   router.replace("/auth/signIn");
+      //   }
     });
 
     // If registration is disabled, get started button should redirect to the sign in page
@@ -128,6 +129,7 @@ export default function Home() {
             <Logo src="/img/transfer.svg" width={240} height={140} />
           </Group>
         </div>
+        <SignIn/>
       </Container>
     </>
   );

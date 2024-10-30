@@ -10,6 +10,7 @@ import {
   createStyles,
 } from "@mantine/core";
 import { ReactNode, useEffect, useState } from "react";
+
 import ActionAvatar from "./ActionAvatar";
 import Link from "next/link";
 import Logo from "../Logo";
@@ -46,6 +47,8 @@ const useStyles = createStyles((theme) => ({
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
     overflow: "hidden",
+    display: "flex",
+    justifyContent: "flex-end",
 
     [theme.fn.largerThan("sm")]: {
       display: "none",
@@ -53,8 +56,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   header: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: "flex !important",
+    justifyContent: "center !important",
     alignItems: "center",
     height: "100%",
     borderBottom: "1px solid #ddddc5b3",
@@ -134,10 +137,6 @@ const Header = () => {
     },
     {
       component: <ActionAvatar />,
-    },
-    {
-      link: "https://www.hektor-rydzewski.de/",
-      label: "Hektor-Rydzewski",
     }
   ];
 
@@ -145,11 +144,7 @@ const Header = () => {
     {
       link: "/auth/signIn",
       label: t("navbar.signin"),
-    },
-    {
-      link: "https://www.hektor-rydzewski.de/",
-      label: "Hektor-Rydzewski",
-    },
+    }
   ];
 
   if (config.get("share.allowUnauthenticatedShares")) {
@@ -200,11 +195,6 @@ const Header = () => {
   return (
     <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root}>
       <Container className={classes.header}>
-        <Link href="https://www.hektor-rydzewski.de/" passHref>
-          <Group>
-            <Logo src={"/img/logo.png"} height={30} width={120} />
-          </Group>
-        </Link>
 
         <Group spacing={5} className={classes.links}>
           <Group>{items} </Group>

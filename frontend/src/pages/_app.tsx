@@ -6,6 +6,7 @@ import {
 } from "@mantine/core";
 import { getCookie, setCookie } from "cookies-next";
 import { useEffect, useRef, useState } from "react";
+
 import type { AppProps } from "next/app";
 import Config from "../types/config.type";
 import { ConfigContext } from "../hooks/config.hook";
@@ -34,7 +35,7 @@ import userService from "../services/user.service";
 const excludeDefaultLayoutRoutes = ["/admin/config/[category]"];
 
 function App({ Component, pageProps }: AppProps) {
-  const systemTheme = "light";
+  const systemTheme = useColorScheme(pageProps.colorScheme);
   const router = useRouter();
 
   const [colorScheme, setColorScheme] = useState<ColorScheme>(systemTheme);
@@ -51,12 +52,7 @@ function App({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const interval = setInterval(
-      async () => await authService.refreshAccessToken(),
-      2 * 60 * 1000, // 2 minutes
-    );
-
-    return () => clearInterval(interval);
+    setInterval(async () => await authService.refreshAccessToken(), 30 * 1000);
   }, []);
 
   useEffect(() => {
@@ -75,7 +71,7 @@ function App({ Component, pageProps }: AppProps) {
         : userPreferences.get("colorScheme");
 
     toggleColorScheme(colorScheme);
-  }, [systemTheme]);
+  }, ["light"]);
 
   const toggleColorScheme = (value: ColorScheme) => {
     setColorScheme(value ?? "light");
@@ -138,7 +134,6 @@ function App({ Component, pageProps }: AppProps) {
                       <Container>
                         <Component {...pageProps} />
                       </Container>
-                      <Footer />
                     </>
                   )}
                 </UserContext.Provider>
