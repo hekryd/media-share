@@ -141,10 +141,10 @@ const Header = () => {
   ];
 
   let unauthenticatedLinks: NavLink[] = [
-    {
-      link: "/auth/signIn",
-      label: t("navbar.signin"),
-    }
+    // {
+    //   link: "/auth/signIn",
+    //   label: t("navbar.signin"),
+    // }
   ];
 
   if (config.get("share.allowUnauthenticatedShares")) {
@@ -154,11 +154,11 @@ const Header = () => {
     });
   }
 
-  // if (config.get("general.showHomePage"))
-  //   unauthenticatedLinks.unshift({
-  //     link: "/",
-  //     label: t("navbar.home"),
-  //   });
+  if (config.get("general.showHomePage"))
+    unauthenticatedLinks.unshift({
+      link: "/",
+      label: t("navbar.home"),
+    });
 
   if (config.get("share.allowRegistration"))
     unauthenticatedLinks.push({

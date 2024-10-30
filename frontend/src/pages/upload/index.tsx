@@ -17,6 +17,7 @@ import shareService from "../../services/share.service";
 import { FileUpload } from "../../types/File.type";
 import { CreateShare, Share } from "../../types/share.type";
 import toast from "../../utils/toast.util";
+import Shares from "../account/shares";
 
 const promiseLimit = pLimit(3);
 let errorToastShown = false;
@@ -215,6 +216,8 @@ const Upload = ({
       {files.length > 0 && (
         <FileList<FileUpload> files={files} setFiles={setFiles} />
       )}
+
+      <Shares />
     </>
   );
 };
