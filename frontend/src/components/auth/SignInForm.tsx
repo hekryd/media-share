@@ -1,4 +1,5 @@
 import * as yup from "yup";
+
 import {
   Anchor,
   Button,
@@ -14,6 +15,7 @@ import {
 } from "@mantine/core";
 import { getOAuthIcon, getOAuthUrl } from "../../utils/oauth.util";
 import { useForm, yupResolver } from "@mantine/form";
+
 import { FormattedMessage } from "react-intl";
 import Link from "next/link";
 import React from "react";
@@ -27,41 +29,16 @@ import useTranslate from "../../hooks/useTranslate.hook";
 import useUser from "../../hooks/user.hook";
 
 const useStyles = createStyles((theme) => ({
-  signInWith: {
-    fontWeight: 500,
-    "&:before": {
-      content: "''",
-      flex: 1,
-      display: "block",
-    },
-    "&:after": {
-      content: "''",
-      flex: 1,
-      display: "block",
-    },
-  },
   or: {
     "&:before": {
       content: "''",
       flex: 1,
       display: "block",
-      borderTopWidth: 1,
-      borderTopStyle: "solid",
-      borderColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[3]
-          : theme.colors.gray[4],
     },
     "&:after": {
       content: "''",
       flex: 1,
       display: "block",
-      borderTopWidth: 1,
-      borderTopStyle: "solid",
-      borderColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[3]
-          : theme.colors.gray[4],
     },
   },
 }));
@@ -151,9 +128,6 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
 
   return (
     <Container size={420} my={40}>
-      <Title order={2} align="center" weight={900}>
-        <FormattedMessage id="signin.title" />
-      </Title>
       {config.get("share.allowRegistration") && (
         <Text color="dimmed" size="sm" align="center" mt={5}>
           <FormattedMessage id="signin.description" />{" "}
@@ -162,7 +136,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
           </Anchor>
         </Text>
       )}
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper>
         {config.get("oauth.disablePassword") || (
           <form
             onSubmit={form.onSubmit((values) => {
@@ -208,10 +182,10 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
                 <Button
                   key={provider}
                   component="a"
+                  target="_blank"
                   title={t(`signIn.oauth.${provider}`)}
                   href={getOAuthUrl(config.get("general.appUrl"), provider)}
                   variant="light"
-                  fullWidth
                 >
                   {getOAuthIcon(provider)}
                   {"\u2002" + t(`signIn.oauth.${provider}`)}

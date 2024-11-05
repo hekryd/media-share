@@ -8,6 +8,7 @@ import {
   Stack,
   Transition,
   createStyles,
+  ActionIcon,
 } from "@mantine/core";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -20,11 +21,13 @@ import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import useTranslate from "../../hooks/useTranslate.hook";
 import useUser from "../../hooks/user.hook";
+import {TbArrowLoopLeft, TbLink} from "react-icons/tb";
 
-const HEADER_HEIGHT = 100;
+const HEADER_HEIGHT = 50;
 
 type NavLink = {
   link?: string;
+  icon?: ReactNode;
   label?: string;
   component?: ReactNode;
   action?: () => Promise<void>;
@@ -57,10 +60,9 @@ const useStyles = createStyles((theme) => ({
 
   header: {
     display: "flex !important",
-    justifyContent: "center !important",
+    justifyContent: "flex-end !important",
     alignItems: "center",
     height: "100%",
-    borderBottom: "1px solid #ddddc5b3",
   },
 
   links: {
@@ -111,6 +113,16 @@ const useStyles = createStyles((theme) => ({
         theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
     },
   },
+
+  linkContent: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: theme.spacing.xs, // Add some space between the icon and the label
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 const Header = () => {
@@ -130,10 +142,13 @@ const Header = () => {
   const authenticatedLinks: NavLink[] = [
     {
       link: "/upload",
-      label: t("navbar.upload"),
+      icon: <TbLink />,
+      label: t("navbar.links.shares"),
     },
     {
-      component: <NavbarShareMenu />,
+      link: "/account/reverseShares",
+      icon: <TbArrowLoopLeft />,
+      label: t("navbar.links.reverse"),
     },
     {
       component: <ActionAvatar />,
@@ -178,22 +193,26 @@ const Header = () => {
           );
         }
         return (
-          <Link
-            key={link.label}
-            href={link.link ?? ""}
-            onClick={() => toggleOpened.toggle()}
-            className={cx(classes.link, {
-              [classes.linkActive]: currentRoute == link.link,
-            })}
-          >
-            {link.label}
-          </Link>
-        );
+            <Link
+                key={link.label}
+                href={link.link ?? ""}
+                onClick={() => toggleOpened.toggle()}
+                className={cx(classes.link, {
+                  [classes.linkActive]: currentRoute == link.link,
+                })}
+            >
+              <span className={classes.linkContent}>
+                {link.icon && <span className={classes.icon}>{link.icon}</span>}
+                {link.label}
+              </span>
+            </Link>
+      );
       })}
-    </>
-  );
-  return (
-    <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root}>
+      </>
+      )
+        ;
+        return (
+    <MantineHeader height={HEADER_HEIGHT} mb={20} className={classes.root}>
       <Container className={classes.header}>
 
         <Group spacing={5} className={classes.links}>

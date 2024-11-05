@@ -193,8 +193,9 @@ const Upload = ({
 
   return (
     <>
-      <Meta title={t("upload.title")} />
-      <Group position="right" mb={20}>
+        <Shares />
+        <Meta title={t("upload.title")} />
+      <Group position="right" mb={20} mt={20}>
         <Button
           loading={isUploading}
           disabled={files.length <= 0}
@@ -217,7 +218,7 @@ const Upload = ({
         <FileList<FileUpload> files={files} setFiles={setFiles} />
       )}
 
-      <Shares />
+
     </>
   );
 };

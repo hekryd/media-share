@@ -19,6 +19,16 @@ const GlobalStyle = () => {
           paddingLeft: "0.5em",
           paddingRight: "0.5em",
         },
+        ".mantine-Modal-overlay": {
+          backgroundColor: "transparent", // Remove the background color
+        },
+        ".sign-in-page > .mantine-Container-root": {
+          marginLeft: "0", // Override margin for this page only
+          marginTop: "0"
+        },
+        // ".mantine-Container-root": {
+        //     maxWidth: "none ", // Override Mantine Container max-width
+        // },
       })}
     />
   );
