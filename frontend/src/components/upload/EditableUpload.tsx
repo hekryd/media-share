@@ -209,6 +209,9 @@ const EditableUpload = ({
 
   return (
     <>
+      {existingAndUploadedFiles.length > 0 && (
+          <FileList files={existingAndUploadedFiles} setFiles={setFiles} />
+      )}
       <Group position="right" mb={20}>
         <Button loading={isUploading} disabled={!dirty} onClick={() => save()}>
           <FormattedMessage id="common.button.save" />
@@ -220,9 +223,6 @@ const EditableUpload = ({
         onFilesChanged={appendFiles}
         isUploading={isUploading}
       />
-      {existingAndUploadedFiles.length > 0 && (
-        <FileList files={existingAndUploadedFiles} setFiles={setFiles} />
-      )}
     </>
   );
 };

@@ -220,6 +220,19 @@ const CreateUploadModalBody = ({
       )}
       <form onSubmit={onSubmit}>
         <Stack align="stretch">
+
+          <Group align={ "center" }>
+            <Textarea
+                style={{ flex: "1" }}
+                variant="filled"
+                label={t("upload.modal.accordion.description.title")}
+                placeholder={t("upload.modal.accordion.description.placeholder",)}
+                required={true}
+                {...form.getInputProps("description")}
+            />
+          </Group>
+
+
           <Group align={form.errors.link ? "center" : "flex-end"}>
             <TextInput
               style={{ flex: "1" }}
@@ -270,84 +283,6 @@ const CreateUploadModalBody = ({
               </Text>
             </>
           )}
-          <Accordion>
-            <Accordion.Item value="description" sx={{ borderBottom: "none" }}>
-              <Accordion.Control>
-                <FormattedMessage id="upload.modal.accordion.name-and-description.title" />
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Stack align="stretch">
-                  <TextInput
-                    variant="filled"
-                    placeholder={t(
-                      "upload.modal.accordion.name-and-description.name.placeholder",
-                    )}
-                    {...form.getInputProps("name")}
-                  />
-                  <Textarea
-                    variant="filled"
-                    placeholder={t(
-                      "upload.modal.accordion.name-and-description.description.placeholder",
-                    )}
-                    {...form.getInputProps("description")}
-                  />
-                </Stack>
-              </Accordion.Panel>
-            </Accordion.Item>
-            {options.enableEmailRecepients && (
-              <Accordion.Item value="recipients" sx={{ borderBottom: "none" }}>
-                <Accordion.Control>
-                  <FormattedMessage id="upload.modal.accordion.email.title" />
-                </Accordion.Control>
-                <Accordion.Panel>
-                  <MultiSelect
-                    data={form.values.recipients}
-                    placeholder={t("upload.modal.accordion.email.placeholder")}
-                    searchable
-                    creatable
-                    id="recipient-emails"
-                    inputMode="email"
-                    getCreateLabel={(query) => `+ ${query}`}
-                    onCreate={(query) => {
-                      if (!query.match(/^\S+@\S+\.\S+$/)) {
-                        form.setFieldError(
-                          "recipients",
-                          t("upload.modal.accordion.email.invalid-email"),
-                        );
-                      } else {
-                        form.setFieldError("recipients", null);
-                        form.setFieldValue("recipients", [
-                          ...form.values.recipients,
-                          query,
-                        ]);
-                        return query;
-                      }
-                    }}
-                    {...form.getInputProps("recipients")}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                      // Add email on comma or semicolon
-                      if (e.key === "," || e.key === ";") {
-                        e.preventDefault();
-                        const inputValue = (
-                          e.target as HTMLInputElement
-                        ).value.trim();
-                        if (inputValue.match(/^\S+@\S+\.\S+$/)) {
-                          form.setFieldValue("recipients", [
-                            ...form.values.recipients,
-                            inputValue,
-                          ]);
-                          (e.target as HTMLInputElement).value = "";
-                        }
-                      } else if (e.key === " ") {
-                        e.preventDefault();
-                        (e.target as HTMLInputElement).value = "";
-                      }
-                    }}
-                  />
-                </Accordion.Panel>
-              </Accordion.Item>
-            )}
-          </Accordion>
           <Button type="submit" data-autofocus>
             <FormattedMessage id="common.button.share" />
           </Button>

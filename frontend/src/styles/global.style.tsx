@@ -26,9 +26,9 @@ const GlobalStyle = () => {
           marginLeft: "0", // Override margin for this page only
           marginTop: "0"
         },
-        // ".mantine-Container-root": {
-        //     maxWidth: "none ", // Override Mantine Container max-width
-        // },
+        ".mantine-Container-root": {
+            maxWidth: "none", // Override Mantine Container max-width
+        },
       })}
     />
   );

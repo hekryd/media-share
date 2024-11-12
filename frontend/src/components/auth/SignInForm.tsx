@@ -127,7 +127,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
     );
 
   return (
-    <Container size={420} my={40}>
+    <Container size={420} my={40} style={{maxWidth:"26.25rem"}}>
       {config.get("share.allowRegistration") && (
         <Text color="dimmed" size="sm" align="center" mt={5}>
           <FormattedMessage id="signin.description" />{" "}

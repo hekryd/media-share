@@ -27,8 +27,19 @@ import useTranslate from "../../hooks/useTranslate.hook";
 import shareService from "../../services/share.service";
 import { MyShare } from "../../types/share.type";
 import toast from "../../utils/toast.util";
+import { Collapse } from "@mantine/core";
+import React from "react";
+import EditShare from "../share/[shareId]/edit";
+import { TbChevronDown, TbChevronRight } from "react-icons/tb";
 
+// Move the useState hook inside the MyShares component
 const MyShares = () => {
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
+
+  const toggleRow = (id: string) => {
+    setExpandedRow(expandedRow === id ? null : id);
+  };
+
   const modals = useModals();
   const clipboard = useClipboard();
   const config = useConfig();
@@ -43,141 +54,169 @@ const MyShares = () => {
   if (!shares) return <CenterLoader />;
 
   return (
-    <>
-      <Meta title={t("account.shares.title")} />
-      <Title mb={30} order={3}>
-        <FormattedMessage id="account.shares.title" />
-      </Title>
-      {shares.length == 0 ? (
-        <Center style={{ height: "70vh" }}>
-          <Stack align="center" spacing={10}>
-            <Title order={3}>
-              <FormattedMessage id="account.shares.title.empty" />
-            </Title>
-            <Text>
-              <FormattedMessage id="account.shares.description.empty" />
-            </Text>
-            <Space h={5} />
-            <Button component={Link} href="/upload" variant="light">
-              <FormattedMessage id="account.shares.button.create" />
-            </Button>
-          </Stack>
-        </Center>
-      ) : (
-        <Box sx={{ display: "block", overflowX: "auto" }}>
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="account.shares.table.id" />
-                </th>
-                <th>
-                  <FormattedMessage id="account.shares.table.name" />
-                </th>
-                <th>
-                  <FormattedMessage id="account.shares.table.visitors" />
-                </th>
-                <th>
-                  <FormattedMessage id="account.shares.table.expiresAt" />
-                </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {shares.map((share) => (
-                <tr key={share.id}>
-                  <td>{share.id}</td>
-                  <td>{share.name}</td>
-                  <td>{share.views}</td>
-                  <td>
-                    {moment(share.expiration).unix() === 0
-                      ? "Never"
-                      : moment(share.expiration).format("LLL")}
-                  </td>
-                  <td>
-                    <Group position="right">
-                      <Link href={`/share/${share.id}/edit`}>
-                        <ActionIcon color="orange" variant="light" size={25}>
-                          <TbEdit />
-                        </ActionIcon>
-                      </Link>
-                      <ActionIcon
-                        color="blue"
-                        variant="light"
-                        size={25}
-                        onClick={() => {
-                          showShareInformationsModal(
-                            modals,
-                            share,
-                            config.get("general.appUrl"),
-                            parseInt(config.get("share.maxSize")),
-                          );
-                        }}
-                      >
-                        <TbInfoCircle />
-                      </ActionIcon>
-                      <ActionIcon
-                        color="victoria"
-                        variant="light"
-                        size={25}
-                        onClick={() => {
-                          if (window.isSecureContext) {
-                            clipboard.copy(
-                              `${config.get("general.appUrl")}/s/${share.id}`,
-                            );
-                            toast.success(t("common.notify.copied"));
-                          } else {
-                            showShareLinkModal(
-                              modals,
-                              share.id,
-                              config.get("general.appUrl"),
-                            );
-                          }
-                        }}
-                      >
-                        <TbLink />
-                      </ActionIcon>
-                      <ActionIcon
-                        color="red"
-                        variant="light"
-                        size={25}
-                        onClick={() => {
-                          modals.openConfirmModal({
-                            title: t("account.shares.modal.delete.title", {
-                              share: share.id,
-                            }),
-                            children: (
-                              <Text size="sm">
-                                <FormattedMessage id="account.shares.modal.delete.description" />
-                              </Text>
-                            ),
-                            confirmProps: {
-                              color: "red",
-                            },
-                            labels: {
-                              confirm: t("common.button.delete"),
-                              cancel: t("common.button.cancel"),
-                            },
-                            onConfirm: () => {
-                              shareService.remove(share.id);
-                              setShares(
-                                shares.filter((item) => item.id !== share.id),
-                              );
-                            },
-                          });
-                        }}
-                      >
-                        <TbTrash />
-                      </ActionIcon>
-                    </Group>
-                  </td>
+      <>
+        <Meta title={t("account.shares.title")} />
+        <Title mb={30} order={3}>
+          <FormattedMessage id="account.shares.title" />
+        </Title>
+        {shares.length == 0 ? (
+            <Center style={{ height: "70vh" }}>
+              <Stack align="center" spacing={10}>
+                <Title order={3}>
+                  <FormattedMessage id="account.shares.title.empty" />
+                </Title>
+                <Text>
+                  <FormattedMessage id="account.shares.description.empty" />
+                </Text>
+                <Space h={5} />
+                <Button component={Link} href="/upload" variant="light">
+                  <FormattedMessage id="account.shares.button.create" />
+                </Button>
+              </Stack>
+            </Center>
+        ) : (
+            <Box sx={{ display: "block", overflowX: "auto" }}>
+              <Table>
+                <thead>
+                <tr>
+                  <th></th>
+                  {/* Add an empty header for the collapse icon */}
+                  <th>
+                    {/* <FormattedMessage id="account.shares.table.id" /> */}
+                    <FormattedMessage id="account.shares.table.description"/>
+                  </th>
+                  <th>
+                    <FormattedMessage id="account.shares.table.name"/>
+                  </th>
+                  <th>
+                    <FormattedMessage id="account.shares.table.visitors"/>
+                  </th>
+                  <th>
+                    <FormattedMessage id="account.shares.table.expiresAt"/>
+                  </th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Box>
-      )}
-    </>
+                </thead>
+                <tbody>
+                {shares.map((share) => (
+                    <React.Fragment key={share.id}>
+                      <tr onClick={() => toggleRow(share.id)}>
+                        <td>
+                          {expandedRow === share.id ? <TbChevronDown/> : <TbChevronRight/>}
+                        </td>
+                        <td
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              maxWidth: "200px",
+                            }}
+                        >
+                          {share.description || ""}
+                        </td>
+                        <td>{share.id}</td>
+                        <td>{share.views}</td>
+                        <td>
+                          {moment(share.expiration).unix() === 0
+                              ? "Never"
+                              : moment(share.expiration).format("LLL")}
+                        </td>
+                        <td>
+                          <Group position="right">
+                            <Link href={`/share/${share.id}/edit`}>
+                              <ActionIcon color="orange" variant="light" size={25}>
+                                <TbEdit/>
+                              </ActionIcon>
+                            </Link>
+                            <ActionIcon
+                                color="blue"
+                                variant="light"
+                                size={25}
+                                onClick={() => {
+                                  showShareInformationsModal(
+                                      modals,
+                                      share,
+                                      config.get("general.appUrl"),
+                                      parseInt(config.get("share.maxSize"))
+                                  );
+                                }}
+                            >
+                              <TbInfoCircle/>
+                            </ActionIcon>
+                            <ActionIcon
+                                color="victoria"
+                                variant="light"
+                                size={25}
+                                onClick={() => {
+                                  if (window.isSecureContext) {
+                                    clipboard.copy(
+                                        `${config.get("general.appUrl")}/s/${share.id}`
+                                    );
+                                    toast.success(t("common.notify.copied"));
+                                  } else {
+                                    showShareLinkModal(
+                                        modals,
+                                        share.id,
+                                        config.get("general.appUrl")
+                                    );
+                                  }
+                                }}
+                            >
+                              <TbLink/>
+                            </ActionIcon>
+                            <ActionIcon
+                                color="red"
+                                variant="light"
+                                size={25}
+                                onClick={() => {
+                                  modals.openConfirmModal({
+                                    title: t("account.shares.modal.delete.title", {
+                                      share: share.id,
+                                    }),
+                                    children: (
+                                        <Text size="sm">
+                                          <FormattedMessage id="account.shares.modal.delete.description"/>
+                                        </Text>
+                                    ),
+                                    confirmProps: {
+                                      color: "red",
+                                    },
+                                    labels: {
+                                      confirm: t("common.button.delete"),
+                                      cancel: t("common.button.cancel"),
+                                    },
+                                    onConfirm: () => {
+                                      shareService.remove(share.id);
+                                      setShares(
+                                          shares.filter((item) => item.id !== share.id)
+                                      );
+                                    },
+                                  });
+                                }}
+                            >
+                              <TbTrash/>
+                            </ActionIcon>
+                          </Group>
+                        </td>
+                      </tr>
+                      <tr style={{border: "none"}}>
+                        <td colSpan={6} style={{border: "none", padding: 0, textAlign: "center"}}>
+                          <Collapse in={expandedRow === share.id}>
+                            <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
+                              <div style={{width: "90%"}}>
+                                <EditShare shareId={share.id}/>
+                              </div>
+                            </div>
+                          </Collapse>
+                        </td>
+                      </tr>
+                    </React.Fragment>
+                  ))}
+                </tbody>
+              </Table>
+            </Box>
+        )}
+      </>
   );
 };
 

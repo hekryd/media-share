@@ -18,6 +18,7 @@ import { FileUpload } from "../../types/File.type";
 import { CreateShare, Share } from "../../types/share.type";
 import toast from "../../utils/toast.util";
 import Shares from "../account/shares";
+import {useRouter} from "next/router";
 
 const promiseLimit = pLimit(3);
 let errorToastShown = false;
@@ -35,6 +36,7 @@ const Upload = ({
   const modals = useModals();
   const t = useTranslate();
 
+  const router = useRouter();
   const { user } = useUser();
   const config = useConfig();
   const [files, setFiles] = useState<FileUpload[]>([]);
@@ -193,7 +195,7 @@ const Upload = ({
 
   return (
     <>
-        <Shares />
+        {user && router.pathname === "/upload" && <Shares />}
         <Meta title={t("upload.title")} />
       <Group position="right" mb={20} mt={20}>
         <Button
