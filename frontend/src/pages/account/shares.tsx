@@ -4,14 +4,13 @@ import {
   Button,
   Center,
   Group,
-  MediaQuery,
   Space,
   Stack,
   Table,
   Text,
   Title,
 } from "@mantine/core";
-import { useClipboard } from "@mantine/hooks";
+import {useClipboard, useMediaQuery} from "@mantine/hooks";
 import { useModals } from "@mantine/modals";
 import moment from "moment";
 import Link from "next/link";
@@ -35,6 +34,8 @@ import { TbChevronDown, TbChevronRight } from "react-icons/tb";
 // Move the useState hook inside the MyShares component
 const MyShares = () => {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+
+  const isSmallScreen = useMediaQuery("(max-width: 900px");
 
   const toggleRow = (id: string) => {
     setExpandedRow(expandedRow === id ? null : id);
@@ -86,9 +87,12 @@ const MyShares = () => {
                     <FormattedMessage id="account.shares.table.description"/>
                   </th>
                   <th>
+                    <FormattedMessage id="account.shares.table.amount"/>
+                  </th>
+                  <th style={{display: isSmallScreen ?"none":""}}>
                     <FormattedMessage id="account.shares.table.name"/>
                   </th>
-                  <th>
+                  <th style={{display: isSmallScreen ?"none":""}}>
                     <FormattedMessage id="account.shares.table.visitors"/>
                   </th>
                   <th>
@@ -108,14 +112,15 @@ const MyShares = () => {
                             style={{
                               overflow: "hidden",
                               textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              maxWidth: "200px",
+                              // whiteSpace: "nowrap",
+                              // maxWidth: "200px",
                             }}
                         >
                           {share.description || ""}
                         </td>
-                        <td>{share.id}</td>
-                        <td>{share.views}</td>
+                        <td>{share.files.length}</td>
+                        <td style={{display: isSmallScreen ?"none":""}}>{share.id}</td>
+                        <td style={{display: isSmallScreen ?"none":""}}>{share.views}</td>
                         <td>
                           {moment(share.expiration).unix() === 0
                               ? "Never"
@@ -123,16 +128,17 @@ const MyShares = () => {
                         </td>
                         <td>
                           <Group position="right">
-                            <Link href={`/share/${share.id}/edit`}>
-                              <ActionIcon color="orange" variant="light" size={25}>
-                                <TbEdit/>
-                              </ActionIcon>
-                            </Link>
+                            {/*<Link href={`/share/${share.id}/edit`}>*/}
+                            {/*  <ActionIcon color="orange" variant="light" size={25}>*/}
+                            {/*    <TbEdit/>*/}
+                            {/*  </ActionIcon>*/}
+                            {/*</Link>*/}
                             <ActionIcon
                                 color="blue"
                                 variant="light"
                                 size={25}
-                                onClick={() => {
+                                onClick={(event) => {
+                                  event.stopPropagation();
                                   showShareInformationsModal(
                                       modals,
                                       share,
@@ -147,7 +153,8 @@ const MyShares = () => {
                                 color="victoria"
                                 variant="light"
                                 size={25}
-                                onClick={() => {
+                                onClick={(event) => {
+                                  event.stopPropagation();
                                   if (window.isSecureContext) {
                                     clipboard.copy(
                                         `${config.get("general.appUrl")}/s/${share.id}`
@@ -168,7 +175,8 @@ const MyShares = () => {
                                 color="red"
                                 variant="light"
                                 size={25}
-                                onClick={() => {
+                                onClick={(event) => {
+                                  event.stopPropagation();
                                   modals.openConfirmModal({
                                     title: t("account.shares.modal.delete.title", {
                                       share: share.id,
@@ -200,10 +208,10 @@ const MyShares = () => {
                         </td>
                       </tr>
                       <tr style={{border: "none"}}>
-                        <td colSpan={6} style={{border: "none", padding: 0, textAlign: "center"}}>
+                      <td colSpan={7} style={{border: "none", padding: 0}}>
                           <Collapse in={expandedRow === share.id}>
                             <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
-                              <div style={{width: "90%"}}>
+                              <div style={{width: "100%"}}>
                                 <EditShare shareId={share.id}/>
                               </div>
                             </div>

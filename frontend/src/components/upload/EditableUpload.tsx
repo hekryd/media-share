@@ -1,7 +1,6 @@
 import { Button, Group } from "@mantine/core";
 import { cleanNotifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
-import { useRouter } from "next/router";
 import pLimit from "p-limit";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -12,6 +11,8 @@ import useTranslate from "../../hooks/useTranslate.hook";
 import shareService from "../../services/share.service";
 import { FileListItem, FileMetaData, FileUpload } from "../../types/File.type";
 import toast from "../../utils/toast.util";
+import { useRouter } from "next/router";
+import { useMediaQuery } from "@mantine/hooks";
 
 const promiseLimit = pLimit(3);
 let errorToastShown = false;
@@ -171,7 +172,7 @@ const EditableUpload = ({
 
       if (!hasFailed) {
         toast.success(t("share.edit.notify.save-success"));
-        router.back();
+        window.location.reload();
       }
     } catch {
       toast.error(t("share.edit.notify.generic-error"));
@@ -207,22 +208,34 @@ const EditableUpload = ({
     }
   }, [uploadingFiles]);
 
+  const isSmallScreen = useMediaQuery("(max-width: 900px");
+
   return (
     <>
-      {existingAndUploadedFiles.length > 0 && (
-          <FileList files={existingAndUploadedFiles} setFiles={setFiles} />
-      )}
-      <Group position="right" mb={20}>
-        <Button loading={isUploading} disabled={!dirty} onClick={() => save()}>
-          <FormattedMessage id="common.button.save" />
-        </Button>
-      </Group>
-      <Dropzone
-        title={t("share.edit.append-upload")}
-        maxShareSize={maxShareSize}
-        onFilesChanged={appendFiles}
-        isUploading={isUploading}
-      />
+      <div style={{
+        marginTop: "20px",
+        marginBottom: "40px",
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: isSmallScreen ?"column" :"row",
+      }}>
+        {existingAndUploadedFiles.length > 0 && (
+            <FileList files={existingAndUploadedFiles} setFiles={setFiles}/>
+        )}
+        <div style={{marginLeft: isSmallScreen ?"0" :"20px", marginTop: isSmallScreen ?"20px" :"0"}}>
+          <Group position="right" mb={0}>
+            <Button loading={isUploading} disabled={!dirty} onClick={() => save()}>
+              <FormattedMessage id="common.button.save"/>
+            </Button>
+          </Group>
+          <Dropzone
+              title={t("share.edit.append-upload")}
+              maxShareSize={maxShareSize}
+              onFilesChanged={appendFiles}
+              isUploading={isUploading}
+          />
+        </div>
+      </div>
     </>
   );
 };

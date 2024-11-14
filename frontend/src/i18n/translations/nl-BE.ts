@@ -9,6 +9,7 @@ export default {
   "navbar.avatar.account": "Mijn account",
   "navbar.avatar.admin": "Beheer",
   "navbar.avatar.signout": "Afmelden",
+  "navbar.logged-in-as":"Geregistreerd als:",
   // END navbar
   // FOOTER
   "footer.links.copyrigth": `${new Date().getFullYear()} Hektor + Rydzewski GmbH`,
@@ -128,6 +129,8 @@ export default {
   "account.shares.table.expiresAt": "Verloopt op",
   "account.shares.table.createdAt": "Aangemaakt op",
   "account.shares.table.size": "Grootte",
+  "account.shares.table.amount": "Bestanden",
+
   "account.shares.modal.share-informations": "Gegevens delen",
   "account.shares.modal.share-link": "Deel link",
   "account.shares.modal.delete.title": "Verwijder share {share}",

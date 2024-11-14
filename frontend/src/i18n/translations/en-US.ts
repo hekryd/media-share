@@ -11,6 +11,7 @@ export default {
   "navbar.avatar.account": "My account",
   "navbar.avatar.admin": "Administration",
   "navbar.avatar.signout": "Sign out",
+  "navbar.logged-in-as":"Logged in as:",
   // END navbar
 
   // FOOTER
@@ -158,6 +159,7 @@ export default {
   "account.shares.table.expiresAt": "Expires at",
   "account.shares.table.createdAt": "Created at",
   "account.shares.table.size": "Size",
+  "account.shares.table.amount": "Files",
 
   "account.shares.modal.share-informations": "Share informations",
   "account.shares.modal.share-link": "Share link",

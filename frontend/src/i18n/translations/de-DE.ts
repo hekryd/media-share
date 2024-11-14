@@ -9,6 +9,7 @@ export default {
   "navbar.avatar.account": "Mein Konto",
   "navbar.avatar.admin": "Verwaltung",
   "navbar.avatar.signout": "Abmelden",
+  "navbar.logged-in-as":"Angemeldet als:",
   // END navbar
   // FOOTER
   "footer.links.copyrigth": `${new Date().getFullYear()} Hektor + Rydzewski GmbH`,
@@ -129,6 +130,7 @@ export default {
   "account.shares.table.expiresAt": "Läuft ab am",
   "account.shares.table.createdAt": "Erstellt am",
   "account.shares.table.size": "Größe",
+  "account.shares.table.amount": "Dateien",
   "account.shares.modal.share-informations": "Teile deine Information",
   "account.shares.modal.share-link": "Projekt teilen",
   "account.shares.modal.delete.title": "Lösche Projekt {share}",
