@@ -208,7 +208,7 @@ const EditableUpload = ({
     }
   }, [uploadingFiles]);
 
-  const isSmallScreen = useMediaQuery("(max-width: 900px");
+  const isSmallScreen = useMediaQuery("(max-width: 1000px");
 
   return (
     <>
@@ -218,6 +218,7 @@ const EditableUpload = ({
         display: "flex",
         alignItems: "flex-start",
         flexDirection: isSmallScreen ?"column" :"row",
+        width: isSmallScreen ?"100%" :"90%",
       }}>
         {existingAndUploadedFiles.length > 0 && (
             <FileList files={existingAndUploadedFiles} setFiles={setFiles}/>

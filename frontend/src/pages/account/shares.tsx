@@ -35,7 +35,7 @@ import { TbChevronDown, TbChevronRight } from "react-icons/tb";
 const MyShares = () => {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
-  const isSmallScreen = useMediaQuery("(max-width: 900px");
+  const isSmallScreen = useMediaQuery("(max-width: 1000px");
 
   const toggleRow = (id: string) => {
     setExpandedRow(expandedRow === id ? null : id);
@@ -128,11 +128,11 @@ const MyShares = () => {
                         </td>
                         <td>
                           <Group position="right">
-                            {/*<Link href={`/share/${share.id}/edit`}>*/}
-                            {/*  <ActionIcon color="orange" variant="light" size={25}>*/}
-                            {/*    <TbEdit/>*/}
-                            {/*  </ActionIcon>*/}
-                            {/*</Link>*/}
+                            <Link href={`/share/${share.id}/edit`}>
+                              <ActionIcon color="orange" variant="light" size={25}>
+                                <TbEdit/>
+                              </ActionIcon>
+                            </Link>
                             <ActionIcon
                                 color="blue"
                                 variant="light"
@@ -211,9 +211,7 @@ const MyShares = () => {
                       <td colSpan={7} style={{border: "none", padding: 0}}>
                           <Collapse in={expandedRow === share.id}>
                             <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
-                              <div style={{width: "100%"}}>
-                                <EditShare shareId={share.id}/>
-                              </div>
+                              <EditShare shareId={share.id}/>
                             </div>
                           </Collapse>
                         </td>

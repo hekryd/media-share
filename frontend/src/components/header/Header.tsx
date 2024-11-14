@@ -11,7 +11,7 @@ import {
   ActionIcon,
   Text,
 } from "@mantine/core";
-import { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import ActionAvatar from "./ActionAvatar";
 import Link from "next/link";
@@ -22,7 +22,8 @@ import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import useTranslate from "../../hooks/useTranslate.hook";
 import useUser from "../../hooks/user.hook";
-import { TbArrowLoopLeft, TbLink } from "react-icons/tb";
+import {TbUser, TbSettings, TbDoorExit, TbLink, TbArrowLoopLeft} from "react-icons/tb";
+import authService from "../../services/auth.service";
 
 const HEADER_HEIGHT = 50;
 
@@ -32,6 +33,7 @@ type NavLink = {
   label?: string;
   component?: ReactNode;
   action?: () => Promise<void>;
+  condition?: boolean; // Add the condition property
 };
 
 const useStyles = createStyles((theme) => ({
@@ -44,7 +46,6 @@ const useStyles = createStyles((theme) => ({
   dropdown: {
     position: "absolute",
     top: HEADER_HEIGHT,
-    left: 0,
     right: 0,
     zIndex: 0,
     borderTopRightRadius: 0,
@@ -171,6 +172,44 @@ const Header = () => {
     },
   ];
 
+  const authenticatedBurgerLinks: NavLink[] = [
+    {
+      link: "/upload",
+      icon: <TbLink />,
+      label: t("navbar.links.shares"),
+    },
+    {
+      link: "/account/reverseShares",
+      icon: <TbArrowLoopLeft />,
+      label: t("navbar.links.reverse"),
+    },
+    {
+      link: "/account",
+      icon: <TbUser size={14} />,
+      label: t("navbar.avatar.account"),
+    },
+    {
+      link: "/admin",
+      icon: <TbSettings size={14} />,
+      label: t("navbar.avatar.admin"),
+      condition: user?.isAdmin,
+    },
+    {
+      action: async () => {
+        await authService.signOut();
+      },
+      icon: <TbDoorExit size={14} />,
+      label: t("navbar.avatar.signout"),
+    },
+  ];
+
+  const unauthenticatedBurgerLinks: NavLink[] = [
+        {
+      link: "/",
+      label: t("navbar.home"),
+    },
+  ];
+
   let unauthenticatedLinks: NavLink[] = [];
 
   if (config.get("share.allowUnauthenticatedShares")) {
@@ -222,6 +261,29 @@ const Header = () => {
       </>
   );
 
+  const burgerItems = (
+      <>
+        {(user ? authenticatedBurgerLinks : unauthenticatedBurgerLinks).map(
+            (link, i) =>
+                (!link.condition || link.condition) && (
+                    <Link
+                        key={link.label}
+                        href={link.link ?? ""}
+                        onClick={link.action ? link.action : () => toggleOpened.toggle()}
+                        className={cx(classes.link, {
+                          [classes.linkActive]: currentRoute == link.link,
+                        })}
+                    >
+            <span className={classes.linkContent}>
+              {link.icon && <span className={classes.icon}>{link.icon}</span>}
+              {link.label}
+            </span>
+                    </Link>
+                )
+        )}
+      </>
+  );
+
   return (
       <MantineHeader height={HEADER_HEIGHT} mb={20} className={classes.root}>
         <Container className={classes.header}>
@@ -236,15 +298,15 @@ const Header = () => {
           size="sm"
         />
 
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              <Stack spacing={0}>{items}</Stack>
-            </Paper>
-          )}
-        </Transition>
-      </Container>
-    </MantineHeader>
+          <Transition transition="pop-top-right" duration={200} mounted={opened}>
+            {(styles) => (
+                <Paper className={classes.dropdown} withBorder style={styles}>
+                  <Stack spacing={0}>{burgerItems}</Stack>
+                </Paper>
+            )}
+          </Transition>
+        </Container>
+      </MantineHeader>
   );
 };
 

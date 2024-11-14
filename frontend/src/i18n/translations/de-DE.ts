@@ -222,7 +222,7 @@ export default {
   "upload.notify.generic-error": "Während der Erstellung des Projekts ist ein Fehler aufgetreten.",
   "upload.notify.count-failed": "{count} Dateien konnten nicht hochgeladen werden. Wird erneut versucht.",
   // Dropzone.tsx
-  "upload.dropzone.title": "Dateien hochladen",
+  "upload.dropzone.title": "Neues Projekt anlegen",
   "upload.dropzone.description": "Ziehe Dateien hierher, um dein Projekt zu starten. Wir können nur Dateien akzeptieren, die insgesamt weniger als {maxSize} groß sind.",
   "upload.dropzone.notify.file-too-big": "Ihre Dateien überschreiten die maximale Projektgröße von {maxSize}.",
   // FileList.tsx
