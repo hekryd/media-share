@@ -28,6 +28,7 @@ const ThemeSwitcher = () => {
           toggleColorScheme(
             value == "system" ? systemColorScheme : (value as ColorScheme),
           );
+          window.location.reload();
         }}
         data={[
           {

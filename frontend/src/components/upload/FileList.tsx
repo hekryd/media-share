@@ -107,20 +107,20 @@ const FileList = <T extends FileListItem = FileListItem>({
   ));
 
   return (
-    <Table>
-      <thead>
+      <Table style={{ width: "100%", tableLayout: "fixed" }}>
+        <thead>
         <tr>
-          <th>
+          <th style={{ width: "50%" }}>
             <FormattedMessage id="upload.filelist.name" />
           </th>
-          <th>
+          <th style={{ width: "25%" }}>
             <FormattedMessage id="upload.filelist.size" />
           </th>
-          <th></th>
+          <th style={{ width: "25%" }}></th>
         </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </Table>
+        </thead>
+        <tbody>{rows}</tbody>
+      </Table>
   );
 };
 

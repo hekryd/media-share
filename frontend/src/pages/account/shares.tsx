@@ -29,7 +29,9 @@ import toast from "../../utils/toast.util";
 import { Collapse } from "@mantine/core";
 import React from "react";
 import EditShare from "../share/[shareId]/edit";
+import ShowShare from "../share/[shareId]/index";
 import { TbChevronDown, TbChevronRight } from "react-icons/tb";
+import { Switch } from "@mantine/core";
 
 // Move the useState hook inside the MyShares component
 const MyShares = () => {
@@ -48,6 +50,12 @@ const MyShares = () => {
 
   const [shares, setShares] = useState<MyShare[]>();
 
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const toggleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
+
   useEffect(() => {
     shareService.getMyShares().then((shares) => setShares(shares));
   }, []);
@@ -57,9 +65,9 @@ const MyShares = () => {
   return (
       <>
         <Meta title={t("account.shares.title")} />
-        <Title mb={30} order={3}>
-          <FormattedMessage id="account.shares.title" />
-        </Title>
+        {/*<Title mb={30} order={3}>*/}
+        {/*  <FormattedMessage id="account.shares.title" />*/}
+        {/*</Title>*/}
         {shares.length == 0 ? (
             <Center style={{ height: "70vh" }}>
               <Stack align="center" spacing={10}>
@@ -179,7 +187,7 @@ const MyShares = () => {
                                   event.stopPropagation();
                                   modals.openConfirmModal({
                                     title: t("account.shares.modal.delete.title", {
-                                      share: share.id,
+                                      share: share.description,
                                     }),
                                     children: (
                                         <Text size="sm">
@@ -209,19 +217,35 @@ const MyShares = () => {
                       </tr>
                       <tr style={{border: "none"}}>
                       <td colSpan={7} style={{border: "none", padding: 0}}>
-                          <Collapse in={expandedRow === share.id}>
-                            <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
-                              <EditShare shareId={share.id}/>
+                        <Collapse in={expandedRow === share.id}>
+                          <div style={{ display:"flex", justifyContent:"center", flexWrap:"wrap", width: "100%"}}>
+                            <Switch
+                                checked={isEditMode}
+                                onChange={toggleEditMode}
+                                label={isEditMode ? "Edit Share" : "Show Share"}
+                                style={{width:"100%", display:"flex", justifyContent:"flex-start", marginBottom:"20px"}}
+                            />
+                            <div style={{
+                              marginTop: "20px",
+                              marginBottom: "40px",
+                              display: "flex",
+                              alignItems: "center",
+                              // flexDirection: isSmallScreen ? "column" : "row",
+                              flexDirection: "column",
+                              width: isSmallScreen ? "100%" : "90%",
+                            }}>
+                              {isEditMode ? <EditShare shareId={share.id}/> : <ShowShare shareId={share.id}/>}
                             </div>
-                          </Collapse>
-                        </td>
+                          </div>
+                        </Collapse>
+                      </td>
                       </tr>
                     </React.Fragment>
                   ))}
                 </tbody>
               </Table>
             </Box>
-        )}
+          )}
       </>
   );
 };

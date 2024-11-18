@@ -212,30 +212,22 @@ const EditableUpload = ({
 
   return (
     <>
-      <div style={{
-        marginTop: "20px",
-        marginBottom: "40px",
-        display: "flex",
-        alignItems: "flex-start",
-        flexDirection: isSmallScreen ?"column" :"row",
-        width: isSmallScreen ?"100%" :"90%",
-      }}>
-        {existingAndUploadedFiles.length > 0 && (
-            <FileList files={existingAndUploadedFiles} setFiles={setFiles}/>
-        )}
-        <div style={{marginLeft: isSmallScreen ?"0" :"20px", marginTop: isSmallScreen ?"20px" :"0"}}>
-          <Group position="right" mb={0}>
-            <Button loading={isUploading} disabled={!dirty} onClick={() => save()}>
-              <FormattedMessage id="common.button.save"/>
-            </Button>
-          </Group>
-          <Dropzone
-              title={t("share.edit.append-upload")}
-              maxShareSize={maxShareSize}
-              onFilesChanged={appendFiles}
-              isUploading={isUploading}
-          />
-        </div>
+      {existingAndUploadedFiles.length > 0 && (
+          <FileList files={existingAndUploadedFiles} setFiles={setFiles}/>
+      )}
+      {/*<div style={{marginLeft: isSmallScreen ?"0" :"20px", marginTop: isSmallScreen ?"20px" :"0"}}>*/}
+      <div style={{marginTop:"20px"}}>
+        <Group position="right" mb={20}>
+          <Button loading={isUploading} disabled={!dirty} onClick={() => save()}>
+            <FormattedMessage id="common.button.save"/>
+          </Button>
+        </Group>
+        <Dropzone
+            title={t("share.edit.append-upload")}
+            maxShareSize={maxShareSize}
+            onFilesChanged={appendFiles}
+            isUploading={isUploading}
+        />
       </div>
     </>
   );
