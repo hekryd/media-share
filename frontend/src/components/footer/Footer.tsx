@@ -29,6 +29,7 @@ const useStyles = createStyles((theme) => ({
       position: "fixed",
       bottom: 0,
       zIndex: 1,
+      backgroundColor: "#edefef",
     },
   
     footer: {
@@ -39,22 +40,19 @@ const useStyles = createStyles((theme) => ({
     },
     
     copyright: {
-      [theme.fn.smallerThan("sm")]: {
-        fontWeight: 400,
-      },
+        paddingTop: "40px",
+        fontSize: "12px",
+        color: "#4a4a4a",
     },
   
     link: {
       display: "block",
       lineHeight: 1,
-      padding: "8px 12px",
+      paddingTop: "20px",
       borderRadius: theme.radius.sm,
       textDecoration: "none",
-      color:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[0]
-          : theme.colors.gray[7],
-      fontSize: theme.fontSizes.sm,
+      fontSize: "12px",
+      color: "#4a4a4a",
       fontWeight: 500,
       [theme.fn.smallerThan("sm")]: {
         display: "none",
@@ -104,12 +102,12 @@ const useStyles = createStyles((theme) => ({
       </>
     );
     return(
-        <MantineFooter height={FOOTER_HEIGHT} mt={40} className={cx(classes.root)}>
+        <MantineFooter height={FOOTER_HEIGHT} mt={480} className={cx(classes.root)}>
             <Container className={cx(classes.footer)}>
               <Group>
                <div className={cx(classes.copyright)} id="footer.links.copyrigth">{t("footer.links.copyrigth")}</div>  
               </Group>            
-              <Group spacing={5} className={cx(classes.link)}>
+              <Group spacing={0} className={cx(classes.link)}>
                 <Group>{items} </Group>
               </Group>         
             </Container>

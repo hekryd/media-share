@@ -33,6 +33,7 @@ const useStyles = createStyles((theme) => ({
   root: {
     position: "relative",
     zIndex: 1,
+    border:"none !important",
   },
 
   dropdown: {
@@ -56,6 +57,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     height: "100%",
+    borderBottom: "1px solid #ddddc5b3",
   },
 
   links: {
