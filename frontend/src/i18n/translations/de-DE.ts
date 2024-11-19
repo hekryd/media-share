@@ -135,6 +135,8 @@ export default {
   "account.shares.modal.share-link": "Projekt teilen",
   "account.shares.modal.delete.title": "Lösche Projekt {share}",
   "account.shares.modal.delete.description": "Möchtest du wirklich dieses Projekt löschen?",
+  "account.shares.switch.edit": "Projekt Bearbeiten",
+  "account.shares.switch.show": "Projekt Vorschau",
   // END /account/shares
   // /account/reverseShares
   "account.reverseShares.title": "Externe Projekte",

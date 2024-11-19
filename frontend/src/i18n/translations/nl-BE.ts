@@ -135,6 +135,8 @@ export default {
   "account.shares.modal.share-link": "Deel link",
   "account.shares.modal.delete.title": "Verwijder share {share}",
   "account.shares.modal.delete.description": "Weet u zeker dat u deze share wilt verwijderen?",
+  "account.shares.switch.edit": "Deel bewerken",
+  "account.shares.switch.show": "Voorbeeld delen",
   // END /account/shares
   // /account/reverseShares
   "account.reverseShares.title": "Omgekeerde share",

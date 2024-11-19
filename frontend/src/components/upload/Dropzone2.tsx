@@ -11,7 +11,7 @@ import toast from "../../utils/toast.util";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     position: "relative",
-    marginBottom: 30,
+    // marginBottom: 30,
   },
 
   dropzone: {

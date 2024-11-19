@@ -199,8 +199,8 @@ const Upload = ({
         {files.length > 0 && (
             <FileList<FileUpload> files={files} setFiles={setFiles} />
         )}
-        <div style={{display:"flex", justifyContent:"flex-start", alignItems:"flex-start"}}>
-            <Title mb={30} mr={20} order={3}>
+        <div style={{display:"flex", justifyContent:"flex-start", alignItems:"center", marginBottom:"20px"}}>
+            <Title mr={20} order={3}>
                 <FormattedMessage id="account.shares.title" />
             </Title>
             <Dropzone

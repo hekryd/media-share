@@ -32,6 +32,7 @@ import EditShare from "../share/[shareId]/edit";
 import ShowShare from "../share/[shareId]/index";
 import { TbChevronDown, TbChevronRight } from "react-icons/tb";
 import { Switch } from "@mantine/core";
+import { Transition} from "@mantine/core";
 
 // Move the useState hook inside the MyShares component
 const MyShares = () => {
@@ -51,9 +52,14 @@ const MyShares = () => {
   const [shares, setShares] = useState<MyShare[]>();
 
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const toggleEditMode = () => {
-    setIsEditMode(!isEditMode);
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setIsEditMode(!isEditMode);
+      setIsTransitioning(false);
+    }, 265); // Duration of the transition
   };
 
   useEffect(() => {
@@ -88,25 +94,26 @@ const MyShares = () => {
               <Table>
                 <thead>
                 <tr>
-                  <th></th>
-                  {/* Add an empty header for the collapse icon */}
-                  <th>
+                  <th style={{ width: "25px" }}>
+                    {/* Add an empty header for the collapse icon */}
+                  </th>
+                  <th style={{ width: "200px" }}>
                     {/* <FormattedMessage id="account.shares.table.id" /> */}
                     <FormattedMessage id="account.shares.table.description"/>
                   </th>
-                  <th>
-                    <FormattedMessage id="account.shares.table.amount"/>
+                  <th style={{ width: "25px" }}>
+                    <FormattedMessage id="account.shares.table.amount" />
                   </th>
-                  <th style={{display: isSmallScreen ?"none":""}}>
-                    <FormattedMessage id="account.shares.table.name"/>
+                  <th style={{ width: "150px", display: isSmallScreen ? "none" : "" }}>
+                    <FormattedMessage id="account.shares.table.name" />
                   </th>
-                  <th style={{display: isSmallScreen ?"none":""}}>
-                    <FormattedMessage id="account.shares.table.visitors"/>
+                  <th style={{ width: "25px", display: isSmallScreen ? "none" : "" }}>
+                    <FormattedMessage id="account.shares.table.visitors" />
                   </th>
-                  <th>
-                    <FormattedMessage id="account.shares.table.expiresAt"/>
+                  <th style={{ width: "150px" }}>
+                    <FormattedMessage id="account.shares.table.expiresAt" />
                   </th>
-                  <th></th>
+                  <th style={{ width: "150px" }}></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -114,21 +121,14 @@ const MyShares = () => {
                     <React.Fragment key={share.id}>
                       <tr onClick={() => toggleRow(share.id)}>
                         <td>
-                          {expandedRow === share.id ? <TbChevronDown/> : <TbChevronRight/>}
+                          {expandedRow === share.id ? <TbChevronDown /> : <TbChevronRight />}
                         </td>
-                        <td
-                            style={{
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              // whiteSpace: "nowrap",
-                              // maxWidth: "200px",
-                            }}
-                        >
+                        <td style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
                           {share.description || ""}
                         </td>
                         <td>{share.files.length}</td>
-                        <td style={{display: isSmallScreen ?"none":""}}>{share.id}</td>
-                        <td style={{display: isSmallScreen ?"none":""}}>{share.views}</td>
+                        <td style={{ display: isSmallScreen ? "none" : "" }}>{share.id}</td>
+                        <td style={{ display: isSmallScreen ? "none" : "" }}>{share.views}</td>
                         <td>
                           {moment(share.expiration).unix() === 0
                               ? "Never"
@@ -138,7 +138,7 @@ const MyShares = () => {
                           <Group position="right">
                             <Link href={`/share/${share.id}/edit`}>
                               <ActionIcon color="orange" variant="light" size={25}>
-                                <TbEdit/>
+                                <TbEdit />
                               </ActionIcon>
                             </Link>
                             <ActionIcon
@@ -155,7 +155,7 @@ const MyShares = () => {
                                   );
                                 }}
                             >
-                              <TbInfoCircle/>
+                              <TbInfoCircle />
                             </ActionIcon>
                             <ActionIcon
                                 color="victoria"
@@ -177,7 +177,7 @@ const MyShares = () => {
                                   }
                                 }}
                             >
-                              <TbLink/>
+                              <TbLink />
                             </ActionIcon>
                             <ActionIcon
                                 color="red"
@@ -191,7 +191,7 @@ const MyShares = () => {
                                     }),
                                     children: (
                                         <Text size="sm">
-                                          <FormattedMessage id="account.shares.modal.delete.description"/>
+                                          <FormattedMessage id="account.shares.modal.delete.description" />
                                         </Text>
                                     ),
                                     confirmProps: {
@@ -203,49 +203,84 @@ const MyShares = () => {
                                     },
                                     onConfirm: () => {
                                       shareService.remove(share.id);
-                                      setShares(
-                                          shares.filter((item) => item.id !== share.id)
-                                      );
+                                      setShares(shares.filter((item) => item.id !== share.id));
                                     },
                                   });
                                 }}
                             >
-                              <TbTrash/>
+                              <TbTrash />
                             </ActionIcon>
                           </Group>
                         </td>
                       </tr>
-                      <tr style={{border: "none"}}>
-                      <td colSpan={7} style={{border: "none", padding: 0}}>
-                        <Collapse in={expandedRow === share.id}>
-                          <div style={{ display:"flex", justifyContent:"center", flexWrap:"wrap", width: "100%"}}>
-                            <Switch
-                                checked={isEditMode}
-                                onChange={toggleEditMode}
-                                label={isEditMode ? "Edit Share" : "Show Share"}
-                                style={{width:"100%", display:"flex", justifyContent:"flex-start", marginBottom:"20px"}}
-                            />
-                            <div style={{
-                              marginTop: "20px",
-                              marginBottom: "40px",
-                              display: "flex",
-                              alignItems: "center",
-                              // flexDirection: isSmallScreen ? "column" : "row",
-                              flexDirection: "column",
-                              width: isSmallScreen ? "100%" : "90%",
-                            }}>
-                              {isEditMode ? <EditShare shareId={share.id}/> : <ShowShare shareId={share.id}/>}
+                      <tr style={{ border: "none" }}>
+                        <td colSpan={7} style={{ border: "none", padding: 0 }}>
+                          <Collapse in={expandedRow === share.id}>
+                            <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  flexWrap: "wrap",
+                                  width: "100%",
+                                }}
+                            >
+                              <Switch
+                                  checked={isEditMode}
+                                  onChange={toggleEditMode}
+                                  // label={isEditMode ? t("account.shares.switch.show") : t("account.shares.switch.edit")}
+                                  label={t("account.shares.switch.edit")}
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    justifyContent: "flex-start",
+                                    marginBottom: "20px",
+                                  }}
+                              />
+                              <div
+                                  style={{
+                                    marginTop: "20px",
+                                    marginBottom: "40px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                    width: isSmallScreen ? "100%" : "90%",
+                                  }}
+                              >
+                                <Transition
+                                    mounted={isEditMode && !isTransitioning}
+                                    transition="fade"
+                                    duration={300}
+                                    timingFunction="ease"
+                                >
+                                  {(styles) => (
+                                      <div style={styles}>
+                                        <EditShare shareId={share.id} />
+                                      </div>
+                                  )}
+                                </Transition>
+                                <Transition
+                                    mounted={!isEditMode && !isTransitioning}
+                                    transition="fade"
+                                    duration={300}
+                                    timingFunction="ease"
+                                >
+                                  {(styles) => (
+                                      <div style={styles}>
+                                        <ShowShare shareId={share.id} />
+                                      </div>
+                                  )}
+                                </Transition>
+                              </div>
                             </div>
-                          </div>
-                        </Collapse>
-                      </td>
+                          </Collapse>
+                        </td>
                       </tr>
                     </React.Fragment>
-                  ))}
+                ))}
                 </tbody>
               </Table>
             </Box>
-          )}
+        )}
       </>
   );
 };

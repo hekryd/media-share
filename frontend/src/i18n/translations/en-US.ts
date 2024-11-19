@@ -168,6 +168,9 @@ export default {
   "account.shares.modal.delete.description":
     "Do you really want to delete this share?",
 
+  "account.shares.switch.edit": "Edit Share",
+  "account.shares.switch.show": "Preview Share",
+
   // END /account/shares
 
   // /account/reverseShares
