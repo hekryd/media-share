@@ -145,7 +145,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
       {config.get("share.allowRegistration") && (
         <Text color="dimmed" size="sm" align="center" mt={5}>
           <FormattedMessage id="signin.description" />{" "}
-          <Anchor component={Link} href={"signUp"} size="sm">
+          <Anchor component={Link} href={"/auth/signUp"} size="sm">
             <FormattedMessage id="signin.button.signup" />
           </Anchor>
         </Text>
