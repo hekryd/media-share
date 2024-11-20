@@ -11,24 +11,25 @@ export default {
   "navbar.avatar.account": "My account",
   "navbar.avatar.admin": "Administration",
   "navbar.avatar.signout": "Sign out",
+  "navbar.logged-in-as":"Logged in as:",
   // END navbar
 
+  // FOOTER
+  "footer.links.copyrigth": `${new Date().getFullYear()} Hektor + Rydzewski GmbH`,
+  "footer.links.privacy": "Data protection",
+  "footer.links.terms": "Terms of use",
+  "footer.links.imprint": "Imprint",
+  // END FOOTER/
+
   // /
-  "home.title": "A <h>self-hosted</h> file sharing platform.",
-
-  "home.description":
-    "Do you really want to give your personal files in the hand of third parties like WeTransfer?",
-  "home.bullet.a.name": "Self-Hosted",
-  "home.bullet.a.description": "Host Pingvin Share on your own machine.",
-  "home.bullet.b.name": "Privacy",
-  "home.bullet.b.description":
-    "Your files are yours and will never be accessed by third parties.",
-  "home.bullet.c.name": "No annoying file size limit",
-  "home.bullet.c.description":
-    "Upload files as big as you want. Only your hard drive will be your limit.",
-
-  "home.button.start": "Get started",
-  "home.button.source": "Source code",
+  "home.title": "Media-Manager",
+  "home.description": "Log in with your personal access data under \"Login\" to use the Media-Manager. If you do not have an account yet, you can send an e-mail request for registration to post@hektor-rydzewski.de here.",
+  "home.request.signup.firstname": "First name",
+  "home.request.signup.lastname": "Last name",
+  "home.request.signup.email": "Email",
+  "home.request.signup.firstname.placeholder": "Your first name",
+  "home.request.signup.lastname.placeholder": "Your last name",
+  "home.request.signup.email.placeholder": "Your email",
   // END /
 
   // /auth/signin
@@ -158,6 +159,7 @@ export default {
   "account.shares.table.expiresAt": "Expires on",
   "account.shares.table.createdAt": "Created on",
   "account.shares.table.size": "Size",
+  "account.shares.table.amount": "Files",
 
   "account.shares.modal.share-informations": "Share informations",
   "account.shares.modal.share-link": "Share link",
@@ -165,6 +167,9 @@ export default {
   "account.shares.modal.delete.title": "Delete share: {share}",
   "account.shares.modal.delete.description":
     "Do you really want to delete this share?",
+
+  "account.shares.switch.edit": "Edit Share",
+  "account.shares.switch.show": "Preview Share",
 
   // END /account/shares
 

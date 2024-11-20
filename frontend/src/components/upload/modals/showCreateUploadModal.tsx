@@ -144,7 +144,7 @@ const CreateUploadModalBody = ({
       password: undefined,
       maxViews: undefined,
       description: undefined,
-      expiration_num: 1,
+      expiration_num: 7,
       expiration_unit: "-days",
       never_expires: false,
     },
@@ -184,7 +184,6 @@ const CreateUploadModalBody = ({
         );
         return;
       }
-
       uploadCallback(
         {
           id: values.link,
@@ -218,6 +217,19 @@ const CreateUploadModalBody = ({
       )}
       <form onSubmit={onSubmit}>
         <Stack align="stretch">
+
+          <Group align={ "center" }>
+            <Textarea
+                style={{ flex: "1" }}
+                variant="filled"
+                label={t("upload.modal.accordion.description.title")}
+                placeholder={t("upload.modal.accordion.description.placeholder",)}
+                required={true}
+                {...form.getInputProps("description")}
+            />
+          </Group>
+
+
           <Group align={form.errors.link ? "center" : "flex-end"}>
             <TextInput
               style={{ flex: "1" }}
@@ -234,7 +246,6 @@ const CreateUploadModalBody = ({
               <FormattedMessage id="common.button.generate" />
             </Button>
           </Group>
-
           <Text
             italic
             size="xs"
@@ -246,69 +257,6 @@ const CreateUploadModalBody = ({
           </Text>
           {!options.isReverseShare && (
             <>
-              <Grid align={form.errors.expiration_num ? "center" : "flex-end"}>
-                <Col xs={6}>
-                  <NumberInput
-                    min={1}
-                    max={99999}
-                    precision={0}
-                    variant="filled"
-                    label={t("upload.modal.expires.label")}
-                    disabled={form.values.never_expires}
-                    {...form.getInputProps("expiration_num")}
-                  />
-                </Col>
-                <Col xs={6}>
-                  <Select
-                    disabled={form.values.never_expires}
-                    {...form.getInputProps("expiration_unit")}
-                    data={[
-                      {
-                        value: "-minutes",
-                        label:
-                          form.values.expiration_num == 1
-                            ? t("upload.modal.expires.minute-singular")
-                            : t("upload.modal.expires.minute-plural"),
-                      },
-                      {
-                        value: "-hours",
-                        label:
-                          form.values.expiration_num == 1
-                            ? t("upload.modal.expires.hour-singular")
-                            : t("upload.modal.expires.hour-plural"),
-                      },
-                      {
-                        value: "-days",
-                        label:
-                          form.values.expiration_num == 1
-                            ? t("upload.modal.expires.day-singular")
-                            : t("upload.modal.expires.day-plural"),
-                      },
-                      {
-                        value: "-weeks",
-                        label:
-                          form.values.expiration_num == 1
-                            ? t("upload.modal.expires.week-singular")
-                            : t("upload.modal.expires.week-plural"),
-                      },
-                      {
-                        value: "-months",
-                        label:
-                          form.values.expiration_num == 1
-                            ? t("upload.modal.expires.month-singular")
-                            : t("upload.modal.expires.month-plural"),
-                      },
-                      {
-                        value: "-years",
-                        label:
-                          form.values.expiration_num == 1
-                            ? t("upload.modal.expires.year-singular")
-                            : t("upload.modal.expires.year-plural"),
-                      },
-                    ]}
-                  />
-                </Col>
-              </Grid>
               {options.maxExpirationInHours == 0 && (
                 <Checkbox
                   label={t("upload.modal.expires.never-long")}
@@ -332,113 +280,6 @@ const CreateUploadModalBody = ({
               </Text>
             </>
           )}
-          <Accordion>
-            <Accordion.Item value="description" sx={{ borderBottom: "none" }}>
-              <Accordion.Control>
-                <FormattedMessage id="upload.modal.accordion.name-and-description.title" />
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Stack align="stretch">
-                  <TextInput
-                    variant="filled"
-                    placeholder={t(
-                      "upload.modal.accordion.name-and-description.name.placeholder",
-                    )}
-                    {...form.getInputProps("name")}
-                  />
-                  <Textarea
-                    variant="filled"
-                    placeholder={t(
-                      "upload.modal.accordion.name-and-description.description.placeholder",
-                    )}
-                    {...form.getInputProps("description")}
-                  />
-                </Stack>
-              </Accordion.Panel>
-            </Accordion.Item>
-            {options.enableEmailRecepients && (
-              <Accordion.Item value="recipients" sx={{ borderBottom: "none" }}>
-                <Accordion.Control>
-                  <FormattedMessage id="upload.modal.accordion.email.title" />
-                </Accordion.Control>
-                <Accordion.Panel>
-                  <MultiSelect
-                    data={form.values.recipients}
-                    placeholder={t("upload.modal.accordion.email.placeholder")}
-                    searchable
-                    creatable
-                    id="recipient-emails"
-                    inputMode="email"
-                    getCreateLabel={(query) => `+ ${query}`}
-                    onCreate={(query) => {
-                      if (!query.match(/^\S+@\S+\.\S+$/)) {
-                        form.setFieldError(
-                          "recipients",
-                          t("upload.modal.accordion.email.invalid-email"),
-                        );
-                      } else {
-                        form.setFieldError("recipients", null);
-                        form.setFieldValue("recipients", [
-                          ...form.values.recipients,
-                          query,
-                        ]);
-                        return query;
-                      }
-                    }}
-                    {...form.getInputProps("recipients")}
-                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                      // Add email on comma or semicolon
-                      if (e.key === "," || e.key === ";") {
-                        e.preventDefault();
-                        const inputValue = (
-                          e.target as HTMLInputElement
-                        ).value.trim();
-                        if (inputValue.match(/^\S+@\S+\.\S+$/)) {
-                          form.setFieldValue("recipients", [
-                            ...form.values.recipients,
-                            inputValue,
-                          ]);
-                          (e.target as HTMLInputElement).value = "";
-                        }
-                      } else if (e.key === " ") {
-                        e.preventDefault();
-                        (e.target as HTMLInputElement).value = "";
-                      }
-                    }}
-                  />
-                </Accordion.Panel>
-              </Accordion.Item>
-            )}
-
-            <Accordion.Item value="security" sx={{ borderBottom: "none" }}>
-              <Accordion.Control>
-                <FormattedMessage id="upload.modal.accordion.security.title" />
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Stack align="stretch">
-                  <PasswordInput
-                    variant="filled"
-                    placeholder={t(
-                      "upload.modal.accordion.security.password.placeholder",
-                    )}
-                    label={t("upload.modal.accordion.security.password.label")}
-                    autoComplete="new-password"
-                    {...form.getInputProps("password")}
-                  />
-                  <NumberInput
-                    min={1}
-                    type="number"
-                    variant="filled"
-                    placeholder={t(
-                      "upload.modal.accordion.security.max-views.placeholder",
-                    )}
-                    label={t("upload.modal.accordion.security.max-views.label")}
-                    {...form.getInputProps("maxViews")}
-                  />
-                </Stack>
-              </Accordion.Panel>
-            </Accordion.Item>
-          </Accordion>
           <Button type="submit" data-autofocus>
             <FormattedMessage id="common.button.share" />
           </Button>

@@ -70,6 +70,7 @@ const Body = ({ share }: { share: CompletedShare }) => {
             router.reload();
           } else {
             router.push("/upload");
+            window.location.reload();
           }
         }}
       >

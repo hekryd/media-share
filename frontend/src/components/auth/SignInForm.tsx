@@ -1,32 +1,33 @@
+import * as yup from "yup";
+
 import {
   Anchor,
   Button,
   Container,
-  createStyles,
   Group,
-  Loader,
   Paper,
   PasswordInput,
   Stack,
   Text,
   TextInput,
-  Title,
+  createStyles,
+  Loader,
 } from "@mantine/core";
-import { useForm, yupResolver } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { TbInfoCircle } from "react-icons/tb";
-import { FormattedMessage } from "react-intl";
-import * as yup from "yup";
-import useConfig from "../../hooks/config.hook";
-import useUser from "../../hooks/user.hook";
-import useTranslate from "../../hooks/useTranslate.hook";
-import authService from "../../services/auth.service";
 import { getOAuthIcon, getOAuthUrl } from "../../utils/oauth.util";
-import { safeRedirectPath } from "../../utils/router.util";
+import { useForm, yupResolver } from "@mantine/form";
+
+import { FormattedMessage } from "react-intl";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { TbInfoCircle } from "react-icons/tb";
+import authService from "../../services/auth.service";
+import { showNotification } from "@mantine/notifications";
 import toast from "../../utils/toast.util";
+import useConfig from "../../hooks/config.hook";
+import { useRouter } from "next/router";
+import useTranslate from "../../hooks/useTranslate.hook";
+import useUser from "../../hooks/user.hook";
+import { safeRedirectPath } from "../../utils/router.util";
 
 const useStyles = createStyles((theme) => ({
   signInWith: {
@@ -47,23 +48,11 @@ const useStyles = createStyles((theme) => ({
       content: "''",
       flex: 1,
       display: "block",
-      borderTopWidth: 1,
-      borderTopStyle: "solid",
-      borderColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[3]
-          : theme.colors.gray[4],
     },
     "&:after": {
       content: "''",
       flex: 1,
       display: "block",
-      borderTopWidth: 1,
-      borderTopStyle: "solid",
-      borderColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[3]
-          : theme.colors.gray[4],
     },
   },
 }));
@@ -147,10 +136,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
     );
 
   return (
-    <Container size={420} my={40}>
-      <Title order={2} align="center" weight={900}>
-        <FormattedMessage id="signin.title" />
-      </Title>
+    <Container size={420} my={40} style={{maxWidth:"26.25rem"}}>
       {config.get("share.allowRegistration") && (
         <Text color="dimmed" size="sm" align="center" mt={5}>
           <FormattedMessage id="signin.description" />{" "}
@@ -159,7 +145,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
           </Anchor>
         </Text>
       )}
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper>
         {config.get("oauth.disablePassword") || (
           <form
             onSubmit={form.onSubmit((values) => {
@@ -205,10 +191,10 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
                 <Button
                   key={provider}
                   component="a"
+                  target="_blank"
                   title={t(`signIn.oauth.${provider}`)}
                   href={getOAuthUrl(window.location.origin, provider)}
                   variant="light"
-                  fullWidth
                 >
                   {getOAuthIcon(provider)}
                   {"\u2002" + t(`signIn.oauth.${provider}`)}

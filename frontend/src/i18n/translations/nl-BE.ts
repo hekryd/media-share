@@ -9,18 +9,23 @@ export default {
   "navbar.avatar.account": "Mijn account",
   "navbar.avatar.admin": "Beheer",
   "navbar.avatar.signout": "Afmelden",
+  "navbar.logged-in-as":"Geregistreerd als:",
   // END navbar
+  // FOOTER
+  "footer.links.copyrigth": `${new Date().getFullYear()} Hektor + Rydzewski GmbH`,
+  "footer.links.privacy": "Gegevensbescherming",
+  "footer.links.terms": "Gebruiksvoorwaarden",
+  "footer.links.imprint": "Imprint",
+  // END FOOTER/
   // /
-  "home.title": "Een <h>zelfgehost</h> platform voor het delen van bestanden.",
-  "home.description": "Wil je echt je persoonlijke bestanden geven aan derden zoals WeTransfer?",
-  "home.bullet.a.name": "Zelfgehost",
-  "home.bullet.a.description": "Host Pingvin Share op uw eigen machine.",
-  "home.bullet.b.name": "Privacy",
-  "home.bullet.b.description": "Your files are yours and will never be accessed by third parties.",
-  "home.bullet.c.name": "Geen vervelende limiet voor bestandsgrootte",
-  "home.bullet.c.description": "Upload files as big as you want. Only your hard drive will be your limit.",
-  "home.button.start": "Aan de slag",
-  "home.button.source": "Broncode",
+  "home.title": "Media-Manager",
+  "home.description": "Log in met je persoonlijke toegangsgegevens onder \"Login\" om de Media Manager te gebruiken. Als je nog geen account hebt, kun je hier een e-mailverzoek voor registratie sturen naar post@hektor-rydzewski.de.",
+  "home.request.signup.firstname": "Voornaam",
+  "home.request.signup.lastname": "Achternaam",
+  "home.request.signup.email": "E-mail",
+  "home.request.signup.firstname.placeholder": "Uw voornaam",
+  "home.request.signup.lastname.placeholder": "Uw achternaam",
+  "home.request.signup.email.placeholder": "Uw e-mail",
   // END /
   // /auth/signin
   "signin.title": "Welkom terug",
@@ -124,10 +129,14 @@ export default {
   "account.shares.table.expiresAt": "Expires on",
   "account.shares.table.createdAt": "Created on",
   "account.shares.table.size": "Grootte",
+  "account.shares.table.amount": "Bestanden",
+
   "account.shares.modal.share-informations": "Gegevens delen",
   "account.shares.modal.share-link": "Deel link",
   "account.shares.modal.delete.title": "Delete share: {share}",
   "account.shares.modal.delete.description": "Weet u zeker dat u deze share wilt verwijderen?",
+  "account.shares.switch.edit": "Deel bewerken",
+  "account.shares.switch.show": "Voorbeeld delen",
   // END /account/shares
   // /account/reverseShares
   "account.reverseShares.title": "Omgekeerde share",

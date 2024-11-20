@@ -4,7 +4,6 @@ import {
   Container,
   MantineProvider,
 } from "@mantine/core";
-import { useColorScheme } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import axios from "axios";
@@ -14,7 +13,6 @@ import "moment/min/locales";
 import { GetServerSidePropsContext } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { IntlProvider } from "react-intl";
 import Header from "../components/header/Header";
@@ -29,6 +27,8 @@ import globalStyle from "../styles/mantine.style";
 import Config from "../types/config.type";
 import { CurrentUser } from "../types/user.type";
 import i18nUtil from "../utils/i18n.util";
+import { useColorScheme } from "@mantine/hooks";
+import { useRouter } from "next/router";
 import userPreferences from "../utils/userPreferences.util";
 
 const excludeDefaultLayoutRoutes = ["/admin/config/[category]"];
@@ -51,12 +51,7 @@ function App({ Component, pageProps }: AppProps) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const interval = setInterval(
-      async () => await authService.refreshAccessToken(),
-      2 * 60 * 1000, // 2 minutes
-    );
-
-    return () => clearInterval(interval);
+    setInterval(async () => await authService.refreshAccessToken(), 30 * 1000);
   }, []);
 
   useEffect(() => {
@@ -75,7 +70,7 @@ function App({ Component, pageProps }: AppProps) {
         : userPreferences.get("colorScheme");
 
     toggleColorScheme(colorScheme);
-  }, [systemTheme]);
+  }, ["light"]);
 
   const toggleColorScheme = (value: ColorScheme) => {
     setColorScheme(value ?? "light");
@@ -103,7 +98,7 @@ function App({ Component, pageProps }: AppProps) {
         <MantineProvider
           withGlobalStyles
           withNormalizeCSS
-          theme={{ colorScheme, ...globalStyle }}
+          theme={{ colorScheme, ...globalStyle, fontFamily: "Trebuchet MS, Helvetica, sans-serif" }}
         >
           <ColorSchemeProvider
             colorScheme={colorScheme}

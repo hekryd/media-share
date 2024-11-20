@@ -1,4 +1,4 @@
-import { LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay, Group, Box, Title, Text } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { GetServerSidePropsContext } from "next";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import useConfirmLeave from "../../../hooks/confirm-leave.hook";
 import useTranslate from "../../../hooks/useTranslate.hook";
 import shareService from "../../../services/share.service";
 import { Share as ShareType } from "../../../types/share.type";
+import DownloadAllButton from "../../../components/share/DownloadAllButton";
 
 export function getServerSideProps(context: GetServerSidePropsContext) {
   return {
@@ -68,10 +69,17 @@ const Share = ({ shareId }: { shareId: string }) => {
   if (isLoading) return <LoadingOverlay visible />;
 
   return (
-    <>
-      <Meta title={t("share.edit.title", { shareId })} />
-      <EditableUpload shareId={shareId} files={share?.files || []} />
-    </>
+      <>
+        <Meta title={t("share.edit.title", { shareId })} />
+          <Group position="apart" mb="26px" style={{width:"100%", display:"flex", justifyContent:"space-between"}}>
+              <Box style={{ maxWidth: "70%" }}>
+                  <Title order={3}>{share?.description}</Title>
+                  <Text size="sm">{share?.id}</Text>
+              </Box>
+              {share?.files.length > 1 && <DownloadAllButton shareId={shareId} />}
+          </Group>
+        <EditableUpload shareId={shareId} files={share?.files || []} />
+      </>
   );
 };
 

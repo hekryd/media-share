@@ -11,12 +11,12 @@ import toast from "../../utils/toast.util";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     position: "relative",
-    marginBottom: 30,
+    // marginBottom: 30,
   },
 
   dropzone: {
-    borderWidth: 1,
-    paddingBottom: 50,
+    // borderWidth: 1,
+    // paddingBottom: 50,
   },
 
   icon: {
@@ -36,19 +36,20 @@ const Dropzone = ({
   title,
   isUploading,
   maxShareSize,
-  onFilesChanged,
+  showCreateUploadModalCallback,
 }: {
   title?: string;
   isUploading: boolean;
   maxShareSize: number;
-  onFilesChanged: (files: FileUpload[]) => void;
+  showCreateUploadModalCallback: (files: FileUpload[]) => void;
 }) => {
   const t = useTranslate();
 
   const { classes } = useStyles();
   const openRef = useRef<() => void>();
+
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} style={{ width:"220px" }}>
       <MantineDropzone
         onReject={(e) => {
           toast.error(e[0].errors[0].message);
@@ -69,39 +70,40 @@ const Dropzone = ({
               newFile.uploadingProgress = 0;
               return newFile;
             });
-            onFilesChanged(files);
+            showCreateUploadModalCallback(files);
           }
         }}
         className={classes.dropzone}
-        radius="md"
+        // radius="md"
+        style={{ padding:0, }}
       >
-        <div style={{ pointerEvents: "none" }}>
-          <Group position="center">
-            <TbCloudUpload size={50} />
+        <div style={{
+          pointerEvents: "none",
+          display:"flex",
+          justifyContent: "center",
+          alignContent:"center",
+          backgroundColor:"#F5F5F5",
+        }}>
+          <Group mr={5}>
+            <TbCloudUpload size={20} />
           </Group>
-          <Text align="center" weight={700} size="lg" mt="xl">
+          <Text weight={100} size="lg">
             {title || <FormattedMessage id="upload.dropzone.title" />}
-          </Text>
-          <Text align="center" size="sm" mt="xs" color="dimmed">
-            <FormattedMessage
-              id="upload.dropzone.description"
-              values={{ maxSize: byteToHumanSizeString(maxShareSize) }}
-            />
           </Text>
         </div>
       </MantineDropzone>
-      <Center>
-        <Button
-          className={classes.control}
-          variant="light"
-          size="sm"
-          radius="xl"
-          disabled={isUploading}
-          onClick={() => openRef.current && openRef.current()}
-        >
-          {<TbUpload />}
-        </Button>
-      </Center>
+      {/*<Center>*/}
+      {/*  <Button*/}
+      {/*    className={classes.control}*/}
+      {/*    variant="light"*/}
+      {/*    size="sm"*/}
+      {/*    radius="xl"*/}
+      {/*    disabled={isUploading}*/}
+      {/*    onClick={() => openRef.current && openRef.current()}*/}
+      {/*  >*/}
+      {/*    {<TbUpload />}*/}
+      {/*  </Button>*/}
+      {/*</Center>*/}
     </div>
   );
 };
