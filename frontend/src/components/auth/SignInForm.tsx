@@ -10,15 +10,15 @@ import {
   Stack,
   Text,
   TextInput,
-  Title,
   createStyles,
+  Loader,
 } from "@mantine/core";
 import { getOAuthIcon, getOAuthUrl } from "../../utils/oauth.util";
 import { useForm, yupResolver } from "@mantine/form";
 
 import { FormattedMessage } from "react-intl";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TbInfoCircle } from "react-icons/tb";
 import authService from "../../services/auth.service";
 import { showNotification } from "@mantine/notifications";
@@ -27,8 +27,22 @@ import useConfig from "../../hooks/config.hook";
 import { useRouter } from "next/router";
 import useTranslate from "../../hooks/useTranslate.hook";
 import useUser from "../../hooks/user.hook";
+import { safeRedirectPath } from "../../utils/router.util";
 
 const useStyles = createStyles((theme) => ({
+  signInWith: {
+    fontWeight: 500,
+    "&:before": {
+      content: "''",
+      flex: 1,
+      display: "block",
+    },
+    "&:after": {
+      content: "''",
+      flex: 1,
+      display: "block",
+    },
+  },
   or: {
     "&:before": {
       content: "''",

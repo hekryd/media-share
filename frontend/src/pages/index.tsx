@@ -13,10 +13,11 @@ import Link from "next/link";
 import Logo from "../components/Logo";
 import Meta from "../components/Meta";
 import { TbCheck } from "react-icons/tb";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useUser from "../hooks/user.hook";
 import SignIn from "./auth/signIn";
+import useConfig from "../hooks/config.hook";
 
 const useStyles = createStyles((theme) => ({
   inner: {

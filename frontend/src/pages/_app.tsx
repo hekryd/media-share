@@ -11,7 +11,6 @@ import type { AppProps } from "next/app";
 import Config from "../types/config.type";
 import { ConfigContext } from "../hooks/config.hook";
 import { CurrentUser } from "../types/user.type";
-import Footer from "../components/footer/Footer";
 import { GetServerSidePropsContext } from "next";
 import GlobalStyle from "../styles/global.style";
 import Head from "next/head";
@@ -31,6 +30,8 @@ import { useColorScheme } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import userPreferences from "../utils/userPreferences.util";
 import userService from "../services/user.service";
+import "moment/min/locales";
+import moment from "moment";
 
 const excludeDefaultLayoutRoutes = ["/admin/config/[category]"];
 

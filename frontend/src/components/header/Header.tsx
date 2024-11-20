@@ -231,7 +231,6 @@ const Header = () => {
       label: t("navbar.signup"),
     });
 
-  const { classes, cx } = useStyles();
   const items = (
       <>
         {(user ? authenticatedLinks : unauthenticatedLinks).map((link, i) => {
