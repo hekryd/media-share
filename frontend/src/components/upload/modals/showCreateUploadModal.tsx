@@ -225,8 +225,8 @@ const CreateUploadModalBody = ({
             <Textarea
                 style={{ flex: "1" }}
                 variant="filled"
-                label={t("upload.modal.accordion.description.title")}
-                placeholder={t("upload.modal.accordion.description.placeholder",)}
+                label={t("upload.modal.accordion.name-and-description.title")}
+                placeholder={t("upload.modal.accordion.name-and-description.description.placeholder",)}
                 required={true}
                 {...form.getInputProps("description")}
             />
