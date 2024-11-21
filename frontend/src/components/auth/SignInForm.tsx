@@ -70,10 +70,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
 
   const validationSchema = yup.object().shape({
     emailOrUsername: yup.string().required(t("common.error.field-required")),
-    password: yup
-      .string()
-      .min(8, t("common.error.too-short", { length: 8 }))
-      .required(t("common.error.field-required")),
+    password: yup.string().required(t("common.error.field-required")),
   });
 
   const form = useForm({
@@ -120,9 +117,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
           config.get("oauth.disablePassword")
         ) {
           setIsRedirectingToOauthProvider(true);
-          router.push(
-            getOAuthUrl(config.get("general.appUrl"), providers.data[0]),
-          );
+          router.push(getOAuthUrl(window.location.origin, providers.data[0]));
         }
       })
       .catch(toast.axiosError);
@@ -198,7 +193,7 @@ const SignInForm = ({ redirectPath }: { redirectPath: string }) => {
                   component="a"
                   target="_blank"
                   title={t(`signIn.oauth.${provider}`)}
-                  href={getOAuthUrl(config.get("general.appUrl"), provider)}
+                  href={getOAuthUrl(window.location.origin, provider)}
                   variant="light"
                 >
                   {getOAuthIcon(provider)}

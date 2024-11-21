@@ -1,3 +1,54 @@
+## [1.4.0](https://github.com/stonith404/pingvin-share/compare/v1.3.0...v1.4.0) (2024-11-17)
+
+
+### Features
+
+* add "creatorEmail" config bariable to share recipient email message ([c7dacb2](https://github.com/stonith404/pingvin-share/commit/c7dacb26e87504a1c5e6b0d87cdcd5ed91b9cdf5))
+
+
+### Bug Fixes
+
+* remote arbitrary file overwrite on file upload endpoint ([6cf5c66](https://github.com/stonith404/pingvin-share/commit/6cf5c66fe2eda1e0a525edf7440d047fe2f0e35b))
+
+## [1.3.0](https://github.com/stonith404/pingvin-share/compare/v1.2.4...v1.3.0) (2024-11-14)
+
+
+### Features
+
+* add 'secureCookies' configuration variable to explicitly set the secure flag and prevent confusion ([4ce6420](https://github.com/stonith404/pingvin-share/commit/4ce64206be7440a99299e1ed238ced7408c0563d))
+* add confirm dialog for leaving the page if an upload is in progress ([d8084e4](https://github.com/stonith404/pingvin-share/commit/d8084e401d7572b2d6e38ffa20cb678a0fb0e615))
+
+
+### Bug Fixes
+
+* improve share completed dialog redirection for reverse shares ([4ef7ebb](https://github.com/stonith404/pingvin-share/commit/4ef7ebb0622f16d2d2c4d114b5fc15298e2ba24f))
+* prevent deletion of last admin account ([e1a5d19](https://github.com/stonith404/pingvin-share/commit/e1a5d195448e3d741b77fb982ce515489a360562))
+* throw error if no disk space is left ([c26de4e](https://github.com/stonith404/pingvin-share/commit/c26de4e881edfe6c7db617c0aeba89871397ebe2))
+* use current window url instead of app url in frontend ([6f45c3b](https://github.com/stonith404/pingvin-share/commit/6f45c3b1fbf4a95b29e5742878b55a1afa0b8886))
+
+## [1.2.4](https://github.com/stonith404/pingvin-share/compare/v1.2.3...v1.2.4) (2024-10-24)
+
+
+### Bug Fixes
+
+* don't enforce password lenght for sign in form because of LDAP ([428c1d2](https://github.com/stonith404/pingvin-share/commit/428c1d2b993a05a25cc94aabe56216b9ab969fa1))
+* use app name as totp issuer ([c89ca7e](https://github.com/stonith404/pingvin-share/commit/c89ca7e64b08f437dd1b7e9bf2b9d674cc612228))
+
+## [1.2.3](https://github.com/stonith404/pingvin-share/compare/v1.2.2...v1.2.3) (2024-10-23)
+
+
+### Bug Fixes
+
+* share password can be bypassed if a deleted share with the same id was visited before ([acbff6e](https://github.com/stonith404/pingvin-share/commit/acbff6e129d236452180f8b96775457d135ac080))
+
+## [1.2.2](https://github.com/stonith404/pingvin-share/compare/v1.2.1...v1.2.2) (2024-10-18)
+
+
+### Bug Fixes
+
+* **admin:** change general config icon to gear ([#649](https://github.com/stonith404/pingvin-share/issues/649)) ([958b79d](https://github.com/stonith404/pingvin-share/commit/958b79d787585c367a693872fd105a326e6e8d38))
+* environment variable `API_URL` can't be changed ([fe085b5](https://github.com/stonith404/pingvin-share/commit/fe085b58a5f3c0152df12957aa150c0876c2a074))
+
 ## [1.2.1](https://github.com/stonith404/pingvin-share/compare/v1.2.0...v1.2.1) (2024-10-15)
 
 
