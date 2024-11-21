@@ -204,10 +204,15 @@ const Upload = ({
                 <FormattedMessage id="account.shares.title" />
             </Title>
             <Dropzone
+                title={
+                !autoOpenCreateUploadModal && files.length > 0
+                    ? t("share.edit.append-upload")
+                    : undefined
+            }
                 maxShareSize={maxShareSize}
-                showCreateUploadModalCallback={showCreateUploadModalCallback}
+                onFilesChanged={handleDropzoneFilesChanged}
                 isUploading={isUploading}
-            />
+                />
             <Group ml={20}>
                 <Button
                     loading={isUploading}
