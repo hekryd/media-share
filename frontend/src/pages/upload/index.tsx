@@ -1,12 +1,12 @@
-import { Button, Group } from "@mantine/core";
+import { Button, Group, Title } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { cleanNotifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import pLimit from "p-limit";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import Meta from "../../components/Meta";
-import Dropzone from "../../components/upload/Dropzone";
+import Dropzone from "../../components/upload/Dropzone2";
 import FileList from "../../components/upload/FileList";
 import showCompletedUploadModal from "../../components/upload/modals/showCompletedUploadModal";
 import showCreateUploadModal from "../../components/upload/modals/showCreateUploadModal";
@@ -17,6 +17,8 @@ import shareService from "../../services/share.service";
 import { FileUpload } from "../../types/File.type";
 import { CreateShare, Share } from "../../types/share.type";
 import toast from "../../utils/toast.util";
+import Shares from "../account/shares";
+import {useRouter} from "next/router";
 
 const promiseLimit = pLimit(3);
 let errorToastShown = false;
@@ -34,6 +36,7 @@ const Upload = ({
   const modals = useModals();
   const t = useTranslate();
 
+  const router = useRouter();
   const { user } = useUser();
   const config = useConfig();
   const [files, setFiles] = useState<FileUpload[]>([]);
@@ -192,29 +195,32 @@ const Upload = ({
 
   return (
     <>
-      <Meta title={t("upload.title")} />
-      <Group position="right" mb={20}>
-        <Button
-          loading={isUploading}
-          disabled={files.length <= 0}
-          onClick={() => showCreateUploadModalCallback(files)}
-        >
-          <FormattedMessage id="common.button.share" />
-        </Button>
-      </Group>
-      <Dropzone
-        title={
-          !autoOpenCreateUploadModal && files.length > 0
-            ? t("share.edit.append-upload")
-            : undefined
-        }
-        maxShareSize={maxShareSize}
-        onFilesChanged={handleDropzoneFilesChanged}
-        isUploading={isUploading}
-      />
-      {files.length > 0 && (
-        <FileList<FileUpload> files={files} setFiles={setFiles} />
-      )}
+
+        {files.length > 0 && (
+            <FileList<FileUpload> files={files} setFiles={setFiles} />
+        )}
+        <div style={{display:"flex", justifyContent:"flex-start", alignItems:"center", marginBottom:"20px"}}>
+            <Title mr={20} order={3}>
+                <FormattedMessage id="account.shares.title" />
+            </Title>
+            <Dropzone
+                maxShareSize={maxShareSize}
+                showCreateUploadModalCallback={showCreateUploadModalCallback}
+                isUploading={isUploading}
+            />
+            <Group ml={20}>
+                <Button
+                    loading={isUploading}
+                    disabled={files.length <= 0}
+                    onClick={() => showCreateUploadModalCallback(files)}
+                >
+                    <FormattedMessage id="common.button.share" />
+                </Button>
+            </Group>
+        </div>
+        {user && router.pathname === "/upload" && <Shares />}
+        <Meta title={t("upload.title")} />
+
     </>
   );
 };

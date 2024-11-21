@@ -66,6 +66,7 @@ const Body = ({ share, appUrl }: { share: CompletedShare; appUrl: string }) => {
         onClick={() => {
           modals.closeAll();
           router.push("/upload");
+            window.location.reload();
         }}
       >
         <FormattedMessage id="common.button.done" />

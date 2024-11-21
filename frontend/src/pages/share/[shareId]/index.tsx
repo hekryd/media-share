@@ -101,7 +101,7 @@ const Share = ({ shareId }: { shareId: string }) => {
         description={t("share.description")}
       />
 
-      <Group position="apart" mb="lg">
+      <Group position="apart" mb="lg" style={{width:"100%", display:"flex", justifyContent:"space-between"}}>
         <Box style={{ maxWidth: "70%" }}>
           <Title order={3}>{share?.name || share?.id}</Title>
           <Text size="sm">{share?.description}</Text>
@@ -109,12 +109,14 @@ const Share = ({ shareId }: { shareId: string }) => {
         {share?.files.length > 1 && <DownloadAllButton shareId={shareId} />}
       </Group>
 
-      <FileList
-        files={share?.files}
-        setShare={setShare}
-        share={share!}
-        isLoading={!share}
-      />
+      <div style={{width:"100%"}}>
+        <FileList
+          files={share?.files}
+          setShare={setShare}
+          share={share!}
+          isLoading={!share}
+        />
+      </div>
     </>
   );
 };

@@ -2,50 +2,58 @@ import {
   Box,
   Burger,
   Container,
-  createStyles,
   Group,
   Header as MantineHeader,
   Paper,
   Stack,
-  Text,
   Transition,
+  createStyles,
+  ActionIcon,
+  Text,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState } from "react";
-import useConfig from "../../hooks/config.hook";
-import useUser from "../../hooks/user.hook";
-import useTranslate from "../../hooks/useTranslate.hook";
-import Logo from "../Logo";
-import ActionAvatar from "./ActionAvatar";
-import NavbarShareMenu from "./NavbarShareMenu";
+import React, { ReactNode, useEffect, useState } from "react";
 
-const HEADER_HEIGHT = 60;
+import ActionAvatar from "./ActionAvatar";
+import Link from "next/link";
+import Logo from "../Logo";
+import NavbarShareMenu from "./NavbarShareMenu";
+import useConfig from "../../hooks/config.hook";
+import { useDisclosure } from "@mantine/hooks";
+import { useRouter } from "next/router";
+import useTranslate from "../../hooks/useTranslate.hook";
+import useUser from "../../hooks/user.hook";
+import {TbUser, TbSettings, TbDoorExit, TbLink, TbArrowLoopLeft} from "react-icons/tb";
+import authService from "../../services/auth.service";
+
+const HEADER_HEIGHT = 50;
 
 type NavLink = {
   link?: string;
+  icon?: ReactNode;
   label?: string;
   component?: ReactNode;
   action?: () => Promise<void>;
+  condition?: boolean; // Add the condition property
 };
 
 const useStyles = createStyles((theme) => ({
   root: {
     position: "relative",
     zIndex: 1,
+    border: "none !important",
   },
 
   dropdown: {
     position: "absolute",
     top: HEADER_HEIGHT,
-    left: 0,
     right: 0,
     zIndex: 0,
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
     overflow: "hidden",
+    display: "flex",
+    justifyContent: "flex-end",
 
     [theme.fn.largerThan("sm")]: {
       display: "none",
@@ -53,8 +61,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   header: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: "flex !important",
+    justifyContent: "flex-end !important",
     alignItems: "center",
     height: "100%",
   },
@@ -77,18 +85,15 @@ const useStyles = createStyles((theme) => ({
     padding: "8px 12px",
     borderRadius: theme.radius.sm,
     textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : "#7f7f7f",
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
     "&:hover": {
       backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+          theme.colorScheme === "dark"
+              ? theme.colors.dark[6]
+              : theme.colors.gray[0],
     },
 
     [theme.fn.smallerThan("sm")]: {
@@ -100,12 +105,32 @@ const useStyles = createStyles((theme) => ({
   linkActive: {
     "&, &:hover": {
       backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-          : theme.colors[theme.primaryColor][0],
+          theme.colorScheme === "dark"
+              ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+              : theme.colors[theme.primaryColor][0],
       color:
-        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
+          theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
     },
+  },
+
+  linkContent: {
+    display: "flex",
+    alignItems: "center",
+  },
+  icon: {
+    marginRight: theme.spacing.xs,
+    display: "flex",
+    alignItems: "center",
+  },
+  username: {
+    display: "block",
+    lineHeight: 1,
+    padding: "8px 8px 8px 12px",
+    borderRadius: theme.radius.sm,
+    textDecoration: "none",
+    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : "#7f7f7f",
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 500,
   },
 }));
 
@@ -116,32 +141,76 @@ const Header = () => {
   const t = useTranslate();
 
   const [opened, toggleOpened] = useDisclosure(false);
-
   const [currentRoute, setCurrentRoute] = useState("");
 
   useEffect(() => {
     setCurrentRoute(router.pathname);
   }, [router.pathname]);
 
+  const { classes, cx } = useStyles();
+
   const authenticatedLinks: NavLink[] = [
     {
       link: "/upload",
-      label: t("navbar.upload"),
+      icon: <TbLink />,
+      label: t("navbar.links.shares"),
     },
     {
-      component: <NavbarShareMenu />,
+      link: "/account/reverseShares",
+      icon: <TbArrowLoopLeft />,
+      label: t("navbar.links.reverse"),
     },
     {
-      component: <ActionAvatar />,
+      component: (
+          <Group spacing={0}>
+            <Text className={classes.username}>
+              {t("navbar.logged-in-as")} {user?.username.split(/(?=[A-Z])/).join(" ")}
+            </Text>
+            <ActionAvatar />
+          </Group>
+      ),
     },
   ];
 
-  let unauthenticatedLinks: NavLink[] = [
+  const authenticatedBurgerLinks: NavLink[] = [
     {
-      link: "/auth/signIn",
-      label: t("navbar.signin"),
+      link: "/upload",
+      icon: <TbLink />,
+      label: t("navbar.links.shares"),
+    },
+    {
+      link: "/account/reverseShares",
+      icon: <TbArrowLoopLeft />,
+      label: t("navbar.links.reverse"),
+    },
+    {
+      link: "/account",
+      icon: <TbUser size={14} />,
+      label: t("navbar.avatar.account"),
+    },
+    {
+      link: "/admin",
+      icon: <TbSettings size={14} />,
+      label: t("navbar.avatar.admin"),
+      condition: user?.isAdmin,
+    },
+    {
+      action: async () => {
+        await authService.signOut();
+      },
+      icon: <TbDoorExit size={14} />,
+      label: t("navbar.avatar.signout"),
     },
   ];
+
+  const unauthenticatedBurgerLinks: NavLink[] = [
+        {
+      link: "/",
+      label: t("navbar.home"),
+    },
+  ];
+
+  let unauthenticatedLinks: NavLink[] = [];
 
   if (config.get("share.allowUnauthenticatedShares")) {
     unauthenticatedLinks.unshift({
@@ -162,59 +231,81 @@ const Header = () => {
       label: t("navbar.signup"),
     });
 
-  const { classes, cx } = useStyles();
   const items = (
-    <>
-      {(user ? authenticatedLinks : unauthenticatedLinks).map((link, i) => {
-        if (link.component) {
+      <>
+        {(user ? authenticatedLinks : unauthenticatedLinks).map((link, i) => {
+          if (link.component) {
+            return (
+                <Box pl={5} py={15} key={i}>
+                  {link.component}
+                </Box>
+            );
+          }
           return (
-            <Box pl={5} py={15} key={i}>
-              {link.component}
-            </Box>
+              <Link
+                  key={link.label}
+                  href={link.link ?? ""}
+                  onClick={() => toggleOpened.toggle()}
+                  className={cx(classes.link, {
+                    [classes.linkActive]: currentRoute == link.link,
+                  })}
+              >
+            <span className={classes.linkContent}>
+              {link.icon && <span className={classes.icon}>{link.icon}</span>}
+              {link.label}
+            </span>
+              </Link>
           );
-        }
-        return (
-          <Link
-            key={link.label}
-            href={link.link ?? ""}
-            onClick={() => toggleOpened.toggle()}
-            className={cx(classes.link, {
-              [classes.linkActive]: currentRoute == link.link,
-            })}
-          >
-            {link.label}
-          </Link>
-        );
-      })}
-    </>
+        })}
+      </>
   );
+
+  const burgerItems = (
+      <>
+        {(user ? authenticatedBurgerLinks : unauthenticatedBurgerLinks).map(
+            (link, i) =>
+                (!link.condition || link.condition) && (
+                    <Link
+                        key={link.label}
+                        href={link.link ?? ""}
+                        onClick={link.action ? link.action : () => toggleOpened.toggle()}
+                        className={cx(classes.link, {
+                          [classes.linkActive]: currentRoute == link.link,
+                        })}
+                    >
+            <span className={classes.linkContent}>
+              {link.icon && <span className={classes.icon}>{link.icon}</span>}
+              {link.label}
+            </span>
+                    </Link>
+                )
+        )}
+      </>
+  );
+
   return (
-    <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root}>
-      <Container className={classes.header}>
-        <Link href="/" passHref>
-          <Group>
-            <Logo height={35} width={35} />
-            <Text weight={600}>{config.get("general.appName")}</Text>
+      <MantineHeader height={HEADER_HEIGHT} mb={20} className={classes.root}>
+        <Container className={classes.header}>
+          <Group spacing={5} className={classes.links}>
+            <Group>{items}</Group>
           </Group>
-        </Link>
-        <Group spacing={5} className={classes.links}>
-          <Group>{items} </Group>
-        </Group>
+
         <Burger
           opened={opened}
           onClick={() => toggleOpened.toggle()}
           className={classes.burger}
           size="sm"
         />
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              <Stack spacing={0}> {items}</Stack>
-            </Paper>
-          )}
-        </Transition>
-      </Container>
-    </MantineHeader>
+
+          <Transition transition="pop-top-right" duration={200} mounted={opened}>
+            {(styles) => (
+                <Paper className={classes.dropdown} withBorder style={styles}>
+                  <Stack spacing={0}>{burgerItems}</Stack>
+                </Paper>
+            )}
+          </Transition>
+        </Container>
+      </MantineHeader>
   );
 };
 

@@ -88,26 +88,26 @@ const FileList = ({
 
   return (
     <Box sx={{ display: "block", overflowX: "auto" }}>
-      <Table>
+      <Table style={{ width: "100%", tableLayout: "fixed" }}>
         <thead>
-          <tr>
-            <th>
-              <Group spacing="xs">
-                <FormattedMessage id="share.table.name" />
-                <TableSortIcon sort={sort} setSort={setSort} property="name" />
-              </Group>
-            </th>
-            <th>
-              <Group spacing="xs">
-                <FormattedMessage id="share.table.size" />
-                <TableSortIcon sort={sort} setSort={setSort} property="size" />
-              </Group>
-            </th>
-            <th></th>
-          </tr>
+        <tr>
+          <th style={{ width: "50%" }}>
+            <Group spacing="xs">
+              <FormattedMessage id="share.table.name" />
+              <TableSortIcon sort={sort} setSort={setSort} property="name" />
+            </Group>
+          </th>
+          <th style={{ width: "25%" }}>
+            <Group spacing="xs">
+              <FormattedMessage id="share.table.size" />
+              <TableSortIcon sort={sort} setSort={setSort} property="size" />
+            </Group>
+          </th>
+          <th style={{ width: "25%" }}></th>
+        </tr>
         </thead>
         <tbody>
-          {isLoading
+        {isLoading
             ? skeletonRows
             : files!.map((file) => (
                 <tr key={file.name}>
@@ -116,35 +116,35 @@ const FileList = ({
                   <td>
                     <Group position="right">
                       {shareService.doesFileSupportPreview(file.name) && (
-                        <ActionIcon
-                          onClick={() =>
-                            showFilePreviewModal(share.id, file, modals)
-                          }
-                          size={25}
-                        >
-                          <TbEye />
-                        </ActionIcon>
+                          <ActionIcon
+                              onClick={() =>
+                                  showFilePreviewModal(share.id, file, modals)
+                              }
+                              size={25}
+                          >
+                            <TbEye />
+                          </ActionIcon>
                       )}
                       {!share.hasPassword && (
-                        <ActionIcon
-                          size={25}
-                          onClick={() => copyFileLink(file)}
-                        >
-                          <TbLink />
-                        </ActionIcon>
+                          <ActionIcon
+                              size={25}
+                              onClick={() => copyFileLink(file)}
+                          >
+                            <TbLink />
+                          </ActionIcon>
                       )}
                       <ActionIcon
-                        size={25}
-                        onClick={async () => {
-                          await shareService.downloadFile(share.id, file.id);
-                        }}
+                          size={25}
+                          onClick={async () => {
+                            await shareService.downloadFile(share.id, file.id);
+                          }}
                       >
                         <TbDownload />
                       </ActionIcon>
                     </Group>
                   </td>
                 </tr>
-              ))}
+            ))}
         </tbody>
       </Table>
     </Box>

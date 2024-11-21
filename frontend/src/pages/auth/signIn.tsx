@@ -1,4 +1,4 @@
-import { LoadingOverlay } from "@mantine/core";
+import { Global, LoadingOverlay } from "@mantine/core";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -35,10 +35,11 @@ const SignIn = ({ redirectPath }: { redirectPath?: string }) => {
   if (isLoading) return <LoadingOverlay overlayOpacity={1} visible />;
 
   return (
-    <>
-      <Meta title={t("signin.title")} />
-      <SignInForm redirectPath={redirectPath ?? "/upload"} />
-    </>
+      <>
+          <div className="sign-in-page">
+              <SignInForm redirectPath={redirectPath ?? "/upload"}/>
+          </div>
+      </>
   );
 };
 export default SignIn;
