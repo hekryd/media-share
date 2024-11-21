@@ -274,7 +274,10 @@ export class AuthService {
             URL.canParse(configuration.end_session_endpoint)
           ) {
             const redirectURI = new URL(configuration.end_session_endpoint);
-            redirectURI.searchParams.append("post_logout_redirect_uri", this.config.get("general.appUrl"));
+            redirectURI.searchParams.append(
+              "post_logout_redirect_uri",
+              this.config.get("general.appUrl"),
+            );
             redirectURI.searchParams.append("id_token_hint", idTokenHint);
             redirectURI.searchParams.append(
               "client_id",
@@ -331,7 +334,7 @@ export class AuthService {
     refreshToken?: string,
     accessToken?: string,
   ) {
-    const isSecure = this.config.get("general.appUrl").startsWith("https");
+    const isSecure = this.config.get("general.secureCookies");
     if (accessToken)
       response.cookie("access_token", accessToken, {
         sameSite: "lax",

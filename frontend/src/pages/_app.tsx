@@ -1,24 +1,22 @@
 import {
-  ColorScheme,
-  ColorSchemeProvider,
-  Container,
-  MantineProvider,
+    ColorScheme,
+    ColorSchemeProvider,
+    Container,
+    MantineProvider,
 } from "@mantine/core";
-import { getCookie, setCookie } from "cookies-next";
-import { useEffect, useRef, useState } from "react";
-
-import type { AppProps } from "next/app";
-import Config from "../types/config.type";
-import { ConfigContext } from "../hooks/config.hook";
-import { CurrentUser } from "../types/user.type";
-import { GetServerSidePropsContext } from "next";
-import GlobalStyle from "../styles/global.style";
-import Head from "next/head";
-import Header from "../components/header/Header";
-import { IntlProvider } from "react-intl";
-import { LOCALES } from "../i18n/locales";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
+import axios from "axios";
+import { getCookie, setCookie } from "cookies-next";
+import moment from "moment";
+import "moment/min/locales";
+import { GetServerSidePropsContext } from "next";
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { useEffect, useRef, useState } from "react";
+import { IntlProvider } from "react-intl";
+import Header from "../components/header/Header";
+import { ConfigContext } from "../hooks/config.hook";
 import { UserContext } from "../hooks/user.hook";
 import authService from "../services/auth.service";
 import axios from "axios";
@@ -29,161 +27,157 @@ import i18nUtil from "../utils/i18n.util";
 import { useColorScheme } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import userPreferences from "../utils/userPreferences.util";
-import userService from "../services/user.service";
-import "moment/min/locales";
-import moment from "moment";
 
 const excludeDefaultLayoutRoutes = ["/admin/config/[category]"];
 
 function App({ Component, pageProps }: AppProps) {
-  const systemTheme = useColorScheme(pageProps.colorScheme);
-  const router = useRouter();
+    const systemTheme = useColorScheme(pageProps.colorScheme);
+    const router = useRouter();
 
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(systemTheme);
+    const [colorScheme, setColorScheme] = useState<ColorScheme>(systemTheme);
 
-  const [user, setUser] = useState<CurrentUser | null>(pageProps.user);
-  const [route, setRoute] = useState<string>(pageProps.route);
+    const [user, setUser] = useState<CurrentUser | null>(pageProps.user);
+    const [route, setRoute] = useState<string>(pageProps.route);
 
-  const [configVariables, setConfigVariables] = useState<Config[]>(
-    pageProps.configVariables,
-  );
+    const [configVariables, setConfigVariables] = useState<Config[]>(
+        pageProps.configVariables,
+    );
 
-  useEffect(() => {
-    setRoute(router.pathname);
-  }, [router.pathname]);
+    useEffect(() => {
+        setRoute(router.pathname);
+    }, [router.pathname]);
 
-  useEffect(() => {
-    setInterval(async () => await authService.refreshAccessToken(), 30 * 1000);
-  }, []);
+    useEffect(() => {
+        setInterval(async () => await authService.refreshAccessToken(), 30 * 1000);
+    }, []);
 
-  useEffect(() => {
-    if (!pageProps.language) return;
-    const cookieLanguage = getCookie("language");
-    if (pageProps.language != cookieLanguage) {
-      i18nUtil.setLanguageCookie(pageProps.language);
-      if (cookieLanguage) location.reload();
-    }
-  }, []);
+    useEffect(() => {
+        if (!pageProps.language) return;
+        const cookieLanguage = getCookie("language");
+        if (pageProps.language != cookieLanguage) {
+            i18nUtil.setLanguageCookie(pageProps.language);
+            if (cookieLanguage) location.reload();
+        }
+    }, []);
 
-  useEffect(() => {
-    const colorScheme =
-      userPreferences.get("colorScheme") == "system"
-        ? systemTheme
-        : userPreferences.get("colorScheme");
+    useEffect(() => {
+        const colorScheme =
+            userPreferences.get("colorScheme") == "system"
+                ? systemTheme
+                : userPreferences.get("colorScheme");
 
-    toggleColorScheme(colorScheme);
-  }, ["light"]);
+        toggleColorScheme(colorScheme);
+    }, ["light"]);
 
-  const toggleColorScheme = (value: ColorScheme) => {
-    setColorScheme(value ?? "light");
-    setCookie("mantine-color-scheme", value ?? "light", {
-      sameSite: "lax",
-    });
-  };
+    const toggleColorScheme = (value: ColorScheme) => {
+        setColorScheme(value ?? "light");
+        setCookie("mantine-color-scheme", value ?? "light", {
+            sameSite: "lax",
+        });
+    };
 
-  const language = useRef(pageProps.language);
-  moment.locale(language.current);
+    const language = useRef(pageProps.language);
+    moment.locale(language.current);
 
-  return (
-    <>
-      <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
-      </Head>
-      <IntlProvider
-        messages={i18nUtil.getLocaleByCode(language.current)?.messages}
-        locale={language.current}
-        defaultLocale={LOCALES.ENGLISH.code}
-      >
-        <MantineProvider
-          withGlobalStyles
-          withNormalizeCSS
-          theme={{ colorScheme, ...globalStyle, fontFamily: "Trebuchet MS, Helvetica, sans-serif" }}
-        >
-          <ColorSchemeProvider
-            colorScheme={colorScheme}
-            toggleColorScheme={toggleColorScheme}
-          >
-            <GlobalStyle />
-            <Notifications />
-            <ModalsProvider>
-              <ConfigContext.Provider
-                value={{
-                  configVariables,
-                  refresh: async () => {
-                    setConfigVariables(await configService.list());
-                  },
-                }}
-              >
-                <UserContext.Provider
-                  value={{
-                    user,
-                    refreshUser: async () => {
-                      const user = await userService.getCurrentUser();
-                      setUser(user);
-                      return user;
-                    },
-                  }}
+    return (
+        <>
+            <Head>
+                <meta
+                    name="viewport"
+                    content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+                />
+            </Head>
+            <IntlProvider
+                messages={i18nUtil.getLocaleByCode(language.current)?.messages}
+                locale={language.current}
+                defaultLocale={LOCALES.ENGLISH.code}
+            >
+                <MantineProvider
+                    withGlobalStyles
+                    withNormalizeCSS
+                    theme={{ colorScheme, ...globalStyle, fontFamily: "Trebuchet MS, Helvetica, sans-serif" }}
                 >
-                  {excludeDefaultLayoutRoutes.includes(route) ? (
-                    <Component {...pageProps} />
-                  ) : (
-                    <>
-                      <Header />
-                      <Container>
-                        <Component {...pageProps} />
-                      </Container>
-                    </>
-                  )}
-                </UserContext.Provider>
-              </ConfigContext.Provider>
-            </ModalsProvider>
-          </ColorSchemeProvider>
-        </MantineProvider>
-      </IntlProvider>
-    </>
-  );
+                    <ColorSchemeProvider
+                        colorScheme={colorScheme}
+                        toggleColorScheme={toggleColorScheme}
+                    >
+                        <GlobalStyle />
+                        <Notifications />
+                        <ModalsProvider>
+                            <ConfigContext.Provider
+                                value={{
+                                    configVariables,
+                                    refresh: async () => {
+                                        setConfigVariables(await configService.list());
+                                    },
+                                }}
+                            >
+                                <UserContext.Provider
+                                    value={{
+                                        user,
+                                        refreshUser: async () => {
+                                            const user = await userService.getCurrentUser();
+                                            setUser(user);
+                                            return user;
+                                        },
+                                    }}
+                                >
+                                    {excludeDefaultLayoutRoutes.includes(route) ? (
+                                        <Component {...pageProps} />
+                                    ) : (
+                                        <>
+                                            <Header />
+                                            <Container>
+                                                <Component {...pageProps} />
+                                            </Container>
+                                        </>
+                                    )}
+                                </UserContext.Provider>
+                            </ConfigContext.Provider>
+                        </ModalsProvider>
+                    </ColorSchemeProvider>
+                </MantineProvider>
+            </IntlProvider>
+        </>
+    );
 }
 
 // Fetch user and config variables on server side when the first request is made
 // These will get passed as a page prop to the App component and stored in the contexts
 App.getInitialProps = async ({ ctx }: { ctx: GetServerSidePropsContext }) => {
-  const { apiURL } = getConfig().serverRuntimeConfig;
+    let pageProps: {
+        user?: CurrentUser;
+        configVariables?: Config[];
+        route?: string;
+        colorScheme: ColorScheme;
+        language?: string;
+    } = {
+        route: ctx.resolvedUrl,
+        colorScheme:
+            (getCookie("mantine-color-scheme", ctx) as ColorScheme) ?? "light",
+    };
 
-  let pageProps: {
-    user?: CurrentUser;
-    configVariables?: Config[];
-    route?: string;
-    colorScheme: ColorScheme;
-    language?: string;
-  } = {
-    route: ctx.resolvedUrl,
-    colorScheme:
-      (getCookie("mantine-color-scheme", ctx) as ColorScheme) ?? "light",
-  };
+    if (ctx.req) {
+        const apiURL = process.env.API_URL || "http://localhost:8080";
+        const cookieHeader = ctx.req.headers.cookie;
 
-  if (ctx.req) {
-    const cookieHeader = ctx.req.headers.cookie;
+        pageProps.user = await axios(`${apiURL}/api/users/me`, {
+            headers: { cookie: cookieHeader },
+        })
+            .then((res) => res.data)
+            .catch(() => null);
 
-    pageProps.user = await axios(`${apiURL}/api/users/me`, {
-      headers: { cookie: cookieHeader },
-    })
-      .then((res) => res.data)
-      .catch(() => null);
+        pageProps.configVariables = (await axios(`${apiURL}/api/configs`)).data;
 
-    pageProps.configVariables = (await axios(`${apiURL}/api/configs`)).data;
+        pageProps.route = ctx.req.url;
 
-    pageProps.route = ctx.req.url;
+        const requestLanguage = i18nUtil.getLanguageFromAcceptHeader(
+            ctx.req.headers["accept-language"],
+        );
 
-    const requestLanguage = i18nUtil.getLanguageFromAcceptHeader(
-      ctx.req.headers["accept-language"],
-    );
-
-    pageProps.language = ctx.req.cookies["language"] ?? requestLanguage;
-  }
-  return { pageProps };
+        pageProps.language = ctx.req.cookies["language"] ?? requestLanguage;
+    }
+    return { pageProps };
 };
 
 export default App;
