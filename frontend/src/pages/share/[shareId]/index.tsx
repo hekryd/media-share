@@ -99,8 +99,8 @@ const Share = ({ shareId }: { shareId: string }) => {
   return (
     <>
       <Meta
-        title={t("share.title", { shareId: share?.name || shareId })}
-        description={t("share.description")}
+        title={t("share.description")}
+        description={t("share.title", { shareId: share?.name || shareId })}
       />
 
       <Group position="apart" mb="lg" style={{width:"100%", display:"flex", justifyContent:"space-between"}}>
