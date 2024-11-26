@@ -4,6 +4,7 @@ import {
     Container,
     MantineProvider,
 } from "@mantine/core";
+import { useColorScheme } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import axios from "axios";
@@ -13,20 +14,23 @@ import "moment/min/locales";
 import { GetServerSidePropsContext } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { IntlProvider } from "react-intl";
 import Header from "../components/header/Header";
 import { ConfigContext } from "../hooks/config.hook";
 import { UserContext } from "../hooks/user.hook";
+import { LOCALES } from "../i18n/locales";
 import authService from "../services/auth.service";
-import axios from "axios";
 import configService from "../services/config.service";
-import getConfig from "next/config";
+import userService from "../services/user.service";
+import GlobalStyle from "../styles/global.style";
 import globalStyle from "../styles/mantine.style";
+import Config from "../types/config.type";
+import { CurrentUser } from "../types/user.type";
 import i18nUtil from "../utils/i18n.util";
-import { useColorScheme } from "@mantine/hooks";
-import { useRouter } from "next/router";
 import userPreferences from "../utils/userPreferences.util";
+
 
 const excludeDefaultLayoutRoutes = ["/admin/config/[category]"];
 
