@@ -84,9 +84,9 @@ const MyShares = () => {
                             <FormattedMessage id="account.shares.description.empty" />
                         </Text>
                         <Space h={5} />
-                        <Button component={Link} href="/upload" variant="light">
-                            <FormattedMessage id="account.shares.button.create" />
-                        </Button>
+                        {/*<Button component={Link} href="/upload" variant="light">*/}
+                        {/*    <FormattedMessage id="account.shares.button.create" />*/}
+                        {/*</Button>*/}
                     </Stack>
                 </Center>
             ) : (
@@ -98,14 +98,13 @@ const MyShares = () => {
                                 {/* Add an empty header for the collapse icon */}
                             </th>
                             <th style={{ width: "200px" }}>
-                                {/* <FormattedMessage id="account.shares.table.id" /> */}
-                                <FormattedMessage id="account.shares.table.description"/>
+                                <FormattedMessage id="account.shares.table.name"/>
                             </th>
                             <th style={{ width: "25px" }}>
                                 <FormattedMessage id="account.shares.table.amount" />
                             </th>
                             <th style={{ width: "150px", display: isSmallScreen ? "none" : "" }}>
-                                <FormattedMessage id="account.shares.table.name" />
+                                <FormattedMessage id="account.shares.table.id" />
                             </th>
                             <th style={{ width: "25px", display: isSmallScreen ? "none" : "" }}>
                                 <FormattedMessage id="account.shares.table.visitors" />
@@ -124,7 +123,7 @@ const MyShares = () => {
                                         {expandedRow === share.id ? <TbChevronDown /> : <TbChevronRight />}
                                     </td>
                                     <td style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
-                                        {share.description || ""}
+                                        {share.name}
                                     </td>
                                     <td>{share.files.length}</td>
                                     <td style={{ display: isSmallScreen ? "none" : "" }}>{share.id}</td>

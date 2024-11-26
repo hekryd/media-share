@@ -73,8 +73,8 @@ const Share = ({ shareId }: { shareId: string }) => {
             <Meta title={t("share.edit.title", { shareId })} />
             <Group position="apart" mb="26px" style={{width:"100%", display:"flex", justifyContent:"space-between"}}>
                 <Box style={{ maxWidth: "70%" }}>
-                    <Title order={3}>{share?.description}</Title>
-                    <Text size="sm">{share?.id}</Text>
+                    <Title order={3}>{share?.name || share?.id}</Title>
+                    <Text size="sm">{share?.description}</Text>
                 </Box>
                 {share?.files.length > 1 && <DownloadAllButton shareId={shareId} />}
             </Group>

@@ -218,16 +218,24 @@ const CreateUploadModalBody = ({
       <form onSubmit={onSubmit}>
         <Stack align="stretch">
 
-          <Group align={ "center" }>
-            <Textarea
-                style={{ flex: "1" }}
+          <Group align={ "stretch" } style={{ display:"flex", flexDirection:"column", }}>
+            <FormattedMessage id="upload.modal.accordion.name-and-description.title" />
+            <TextInput
                 variant="filled"
-                label={t("upload.modal.accordion.name-and-description.title")}
-                placeholder={t("upload.modal.accordion.name-and-description.description.placeholder",)}
+                placeholder={t("upload.modal.accordion.name-and-description.name.placeholder",)}
                 required={true}
+                {...form.getInputProps("name")}
+            />
+            <Textarea
+                variant="filled"
+                placeholder={t(
+                    "upload.modal.accordion.name-and-description.description.placeholder",
+                )}
                 {...form.getInputProps("description")}
             />
           </Group>
+
+
 
 
           <Group align={form.errors.link ? "center" : "flex-end"}>
