@@ -30,6 +30,16 @@ const useStyles = createStyles((theme) => ({
     // position: "absolute",
     bottom: 20,
   },
+  div:{
+    pointerEvents: "none",
+    display:"flex",
+    justifyContent: "center",
+    alignContent:"center",
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? ""
+        : "#F5F5F5",
+  }
 }));
 
 const Dropzone = ({
@@ -77,13 +87,7 @@ const Dropzone = ({
         // radius="md"
         style={{ padding:0, }}
       >
-        <div style={{
-          pointerEvents: "none",
-          display:"flex",
-          justifyContent: "center",
-          alignContent:"center",
-          backgroundColor:"#F5F5F5",
-        }}>
+        <div className={classes.div}>
           <Group mr={5}>
             <TbCloudUpload size={20} />
           </Group>

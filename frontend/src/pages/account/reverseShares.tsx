@@ -37,6 +37,8 @@ const MyShares = () => {
 
   const config = useConfig();
 
+  const appUrl = config.get("general.appUrl");
+
   const [reverseShares, setReverseShares] = useState<MyReverseShare[]>();
 
   const getReverseShares = () => {
@@ -144,7 +146,7 @@ const MyShares = () => {
                             {reverseShare.shares.map((share) => (
                               <Group key={share.id} mb={4}>
                                 <Anchor
-                                  href={`${window.location.origin}/share/${share.id}`}
+                                  href={`${appUrl}/share/${share.id}`}
                                   target="_blank"
                                 >
                                   <Text maw={120} truncate>
@@ -158,11 +160,11 @@ const MyShares = () => {
                                   onClick={() => {
                                     if (window.isSecureContext) {
                                       clipboard.copy(
-                                        `${window.location.origin}/s/${share.id}`,
+                                        `${appUrl}/s/${share.id}`,
                                       );
                                       toast.success(t("common.notify.copied"));
                                     } else {
-                                      showShareLinkModal(modals, share.id);
+                                      showShareLinkModal(modals, share.id, config.get("general.appUrl"),);
                                     }
                                   }}
                                 >
@@ -193,7 +195,7 @@ const MyShares = () => {
                         onClick={() => {
                           if (window.isSecureContext) {
                             clipboard.copy(
-                              `${window.location.origin}/upload/${
+                                `${config.get("general.appUrl")}/upload/${
                                 reverseShare.token
                               }`,
                             );
@@ -202,6 +204,7 @@ const MyShares = () => {
                             showReverseShareLinkModal(
                               modals,
                               reverseShare.token,
+                              config.get("general.appUrl"),
                             );
                           }
                         }}

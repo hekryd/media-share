@@ -37,6 +37,7 @@ const showCreateUploadModal = (
   options: {
     isUserSignedIn: boolean;
     isReverseShare: boolean;
+    appUrl: string;
     allowUnauthenticatedShares: boolean;
     enableEmailRecepients: boolean;
     maxExpirationInHours: number;
@@ -99,6 +100,7 @@ const CreateUploadModalBody = ({
   options: {
     isUserSignedIn: boolean;
     isReverseShare: boolean;
+    appUrl: string;
     allowUnauthenticatedShares: boolean;
     enableEmailRecepients: boolean;
     maxExpirationInHours: number;
@@ -261,7 +263,7 @@ const CreateUploadModalBody = ({
               color: theme.colors.gray[6],
             })}
           >
-            {`${window.location.origin}/s/${form.values.link}`}
+            {`${options.appUrl}/s/${form.values.link}`}
           </Text>
           {!options.isReverseShare && (
             <>
@@ -307,6 +309,7 @@ const SimplifiedCreateUploadModalModal = ({
   options: {
     isUserSignedIn: boolean;
     isReverseShare: boolean;
+    appUrl: string;
     allowUnauthenticatedShares: boolean;
     enableEmailRecepients: boolean;
     maxExpirationInHours: number;

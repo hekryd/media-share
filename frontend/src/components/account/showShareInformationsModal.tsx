@@ -12,9 +12,10 @@ const showShareInformationsModal = (
   modals: ModalsContextProps,
   share: MyShare,
   maxShareSize: number,
+  appUrl: string,
 ) => {
   const t = translateOutsideContext();
-  const link = `${window.location.origin}/s/${share.id}`;
+  const link = `${appUrl}/s/${share.id}`;
 
   const formattedShareSize = byteToHumanSizeString(share.size);
   const formattedMaxShareSize = byteToHumanSizeString(maxShareSize);
