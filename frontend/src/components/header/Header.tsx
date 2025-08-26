@@ -1,15 +1,11 @@
 import {
   Box,
-  Burger,
   Container,
   createStyles,
   Group,
   Header as MantineHeader,
-  Paper,
   Stack,
-  Transition,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
@@ -35,22 +31,6 @@ const useStyles = createStyles((theme) => ({
     zIndex: 1,
   },
 
-  dropdown: {
-    position: "absolute",
-    top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 0,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
-    overflow: "hidden",
-
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
-  },
-
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -59,16 +39,10 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
+  // Keep links visible on all viewport sizes
   },
 
-  burger: {
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
-  },
+  // no responsive hamburger menu; links are always visible
 
   link: {
     display: "block",
@@ -88,11 +62,6 @@ const useStyles = createStyles((theme) => ({
         theme.colorScheme === "dark"
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
-    },
-
-    [theme.fn.smallerThan("sm")]: {
-      borderRadius: 0,
-      padding: theme.spacing.md,
     },
   },
 
@@ -114,8 +83,6 @@ const Header = () => {
   const config = useConfig();
   const t = useTranslate();
 
-  const [opened, toggleOpened] = useDisclosure(false);
-
   const [currentRoute, setCurrentRoute] = useState("");
 
   useEffect(() => {
@@ -128,6 +95,10 @@ const Header = () => {
       label: t("navbar.upload"),
     },
     {
+      link: "/account/reverseShares",
+      label: t("navbar.links.reverse"),
+    },
+    {
       component: <NavbarShareMenu />,
     },
     {
@@ -136,10 +107,7 @@ const Header = () => {
   ];
 
   let unauthenticatedLinks: NavLink[] = [
-    {
-      link: "/auth/signIn",
-      label: t("navbar.signin"),
-    },
+    {},
   ];
 
   if (config.get("share.allowUnauthenticatedShares")) {
@@ -176,7 +144,6 @@ const Header = () => {
           <Link
             key={link.label}
             href={link.link ?? ""}
-            onClick={() => toggleOpened.toggle()}
             className={cx(classes.link, {
               [classes.linkActive]: currentRoute == link.link,
             })}
@@ -195,19 +162,7 @@ const Header = () => {
         <Group spacing={5} className={classes.links}>
           <Group>{items} </Group>
         </Group>
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened.toggle()}
-          className={classes.burger}
-          size="sm"
-        />
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              <Stack spacing={0}> {items}</Stack>
-            </Paper>
-          )}
-        </Transition>
+        
       </Container>
     </MantineHeader>
   );

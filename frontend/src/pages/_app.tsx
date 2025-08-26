@@ -97,7 +97,7 @@ function App({ Component, pageProps }: AppProps) {
       <IntlProvider
         messages={i18nUtil.getLocaleByCode(language.current)?.messages}
         locale={language.current}
-        defaultLocale={LOCALES.ENGLISH.code}
+        defaultLocale={LOCALES.GERMAN.code}
       >
         <MantineProvider
           withGlobalStyles

@@ -35,7 +35,7 @@ const Body = ({ share }: { share: CompletedShare }) => {
 
   return (
     <Stack align="stretch">
-      <CopyTextField link={link} />
+      {/* <CopyTextField link={link} /> */}
       {share.notifyReverseShareCreator === true && (
         <Text
           size="sm"

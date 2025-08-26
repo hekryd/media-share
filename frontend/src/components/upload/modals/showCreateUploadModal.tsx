@@ -221,7 +221,7 @@ const CreateUploadModalBody = ({
 
   return (
     <>
-      {showNotSignedInAlert && !options.isUserSignedIn && (
+      {/* {showNotSignedInAlert && !options.isUserSignedIn && (
         <Alert
           withCloseButton
           onClose={() => setShowNotSignedInAlert(false)}
@@ -231,7 +231,7 @@ const CreateUploadModalBody = ({
         >
           <FormattedMessage id="upload.modal.not-signed-in-description" />
         </Alert>
-      )}
+      )} */}
       <form onSubmit={onSubmit}>
         <Stack align="stretch">
           <Group align={form.errors.link ? "center" : "flex-end"}>
@@ -538,7 +538,7 @@ const SimplifiedCreateUploadModalModal = ({
 
   return (
     <Stack>
-      {showNotSignedInAlert && !options.isUserSignedIn && (
+      {/* {showNotSignedInAlert && !options.isUserSignedIn && (
         <Alert
           withCloseButton
           onClose={() => setShowNotSignedInAlert(false)}
@@ -548,7 +548,7 @@ const SimplifiedCreateUploadModalModal = ({
         >
           <FormattedMessage id="upload.modal.not-signed-in-description" />
         </Alert>
-      )}
+      )} */}
       <form onSubmit={onSubmit}>
         <Stack align="stretch">
           <Stack align="stretch">
@@ -568,7 +568,7 @@ const SimplifiedCreateUploadModalModal = ({
             />
           </Stack>
           <Button type="submit" data-autofocus>
-            <FormattedMessage id="common.button.share" />
+            <FormattedMessage id="showCreateUploadModal.sendToHR" />
           </Button>
         </Stack>
       </form>

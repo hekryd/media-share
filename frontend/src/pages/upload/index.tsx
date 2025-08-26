@@ -208,7 +208,7 @@ const Upload = ({
           disabled={files.length <= 0}
           onClick={() => showCreateUploadModalCallback(files)}
         >
-          <FormattedMessage id="common.button.share" />
+          <FormattedMessage id="index.versand-vorbereiten" />
         </Button>
       </Group>
       <Dropzone
