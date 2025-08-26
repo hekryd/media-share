@@ -251,8 +251,8 @@ export default {
   "upload.modal.expires.year-singular": "Jahr",
   "upload.modal.expires.year-plural": "Jahre",
   "upload.modal.accordion.name-and-description.title": "Name und Beschreibung",
-  "upload.modal.accordion.name-and-description.name.placeholder": "Name",
-  "upload.modal.accordion.name-and-description.description.placeholder": "Hinweis für die Empfänger dieser Freigabe",
+  "upload.modal.accordion.name-and-description.name.placeholder": "Titel",
+  "upload.modal.accordion.name-and-description.description.placeholder": "Hinweis für den H+R Mitarbeiter",
   "upload.modal.accordion.email.title": "E-Mail-Empfänger",
   "upload.modal.accordion.email.placeholder": "E-Mail der Empfänger eingeben",
   "upload.modal.accordion.email.invalid-email": "Ungültige E-Mail-Adresse",
@@ -264,7 +264,7 @@ export default {
   // showCompletedUploadModal.tsx
   "upload.modal.completed.never-expires": "Diese Freigabe läuft niemals ab.",
   "upload.modal.completed.expires-on": "Diese Freigabe wird am {expiration} ablaufen.",
-  "upload.modal.completed.share-ready": "Freigabe bereit",
+  "upload.modal.completed.share-ready": "Ihre Dateien wurden erfolgreich an H+R GmbH gesendet.",
   "upload.modal.completed.notified-reverse-share-creator": "Wir haben den Ersteller der externen Freigabe benachrichtigt. Du kannst den Link auch auf andere Wege teilen.",
   // END /upload
   // /share/[id]
@@ -540,5 +540,8 @@ export default {
   "common.error.number-too-large": "Darf höchstens {max} sein",
   "common.error.exact-length": "Muss genau {length} Zeichen lang sein",
   "common.error.invalid-number": "Muss eine Zahl sein",
-  "common.error.field-required": "Dieses Feld ist erforderlich"
+  "common.error.field-required": "Dieses Feld ist erforderlich",
+//H+R stuff
+  "index.versand-vorbereiten": "Versand vorbereiten",
+  "showCreateUploadModal.sendToHR": "An H+R GmbH senden",
 };
