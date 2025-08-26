@@ -7,7 +7,6 @@ import {
   Header as MantineHeader,
   Paper,
   Stack,
-  Text,
   Transition,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -17,7 +16,7 @@ import { ReactNode, useEffect, useState } from "react";
 import useConfig from "../../hooks/config.hook";
 import useUser from "../../hooks/user.hook";
 import useTranslate from "../../hooks/useTranslate.hook";
-import Logo from "../Logo";
+// Removed logo
 import ActionAvatar from "./ActionAvatar";
 import NavbarShareMenu from "./NavbarShareMenu";
 
@@ -189,14 +188,10 @@ const Header = () => {
     </>
   );
   return (
-    <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root}>
+    <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root} withBorder={false}>
       <Container className={classes.header}>
-        <Link href="/" passHref>
-          <Group>
-            <Logo height={35} width={35} />
-            <Text weight={600}>{config.get("general.appName")}</Text>
-          </Group>
-        </Link>
+        {/* Left side intentionally left empty (logo and app name removed) */}
+        <div />
         <Group spacing={5} className={classes.links}>
           <Group>{items} </Group>
         </Group>

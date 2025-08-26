@@ -385,12 +385,6 @@ const Account = () => {
           </Title>
           <LanguagePicker />
         </Paper>
-        <Paper withBorder p="xl" mt="lg">
-          <Title order={5} mb="xs">
-            <FormattedMessage id="account.card.color.title" />
-          </Title>
-          <ThemeSwitcher />
-        </Paper>
         <Center mt={80} mb="lg">
           <Stack>
             <Button

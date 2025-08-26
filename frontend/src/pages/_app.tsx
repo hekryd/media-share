@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { IntlProvider } from "react-intl";
 import Header from "../components/header/Header";
+import LegacyHeader from "../components/header/LegacyHeader";
 import { ConfigContext } from "../hooks/config.hook";
 import { UserContext } from "../hooks/user.hook";
 import { LOCALES } from "../i18n/locales";
@@ -39,7 +40,7 @@ function App({ Component, pageProps }: AppProps) {
   const systemTheme = useColorScheme(pageProps.colorScheme);
   const router = useRouter();
 
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(systemTheme);
+  const [colorScheme, setColorScheme] = useState<ColorScheme>("light");
 
   const [user, setUser] = useState<CurrentUser | null>(pageProps.user);
   const [route, setRoute] = useState<string>(pageProps.route);
@@ -70,18 +71,14 @@ function App({ Component, pageProps }: AppProps) {
     }
   }, []);
 
+  // Always enforce light mode
   useEffect(() => {
-    const colorScheme =
-      userPreferences.get("colorScheme") == "system"
-        ? systemTheme
-        : userPreferences.get("colorScheme");
+    toggleColorScheme("light");
+  }, []);
 
-    toggleColorScheme(colorScheme);
-  }, [systemTheme]);
-
-  const toggleColorScheme = (value: ColorScheme) => {
-    setColorScheme(value ?? "light");
-    setCookie("mantine-color-scheme", value ?? "light", {
+  const toggleColorScheme = (_value: ColorScheme) => {
+    setColorScheme("light");
+    setCookie("mantine-color-scheme", "light", {
       sameSite: "lax",
     });
   };
@@ -138,9 +135,10 @@ function App({ Component, pageProps }: AppProps) {
                     <>
                       <Stack
                         justify="space-between"
-                        sx={{ minHeight: "100vh" }}
+                        sx={{ minHeight: "calc(100vh + var(--footer-height, 0px))" }}
                       >
                         <div>
+                          <LegacyHeader />
                           <Header />
                           <Container>
                             <Component {...pageProps} />
