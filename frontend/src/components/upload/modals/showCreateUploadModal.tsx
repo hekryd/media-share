@@ -19,7 +19,7 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useModals } from "@mantine/modals";
 import { ModalsContextProps } from "@mantine/modals/lib/context";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { TbAlertCircle } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
 import * as yup from "yup";
@@ -51,7 +51,7 @@ const showCreateUploadModal = (
 
   if (options.simplified) {
     return modals.openModal({
-      title: t("upload.modal.title"),
+      title: '',
       children: (
         <SimplifiedCreateUploadModalModal
           options={options}
@@ -63,7 +63,7 @@ const showCreateUploadModal = (
   }
 
   return modals.openModal({
-    title: t("upload.modal.title"),
+    title: '',
     children: (
       <CreateUploadModalBody
         options={options}
@@ -120,6 +120,16 @@ const CreateUploadModalBody = ({
   const modals = useModals();
   const t = useTranslate();
 
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const [accordionValue, setAccordionValue] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (accordionValue === "description") {
+      // focus after panel opens
+      setTimeout(() => nameInputRef.current?.focus(), 0);
+    }
+  }, [accordionValue]);
+
   const generatedLink = generateShareId(options.shareIdLength);
 
   const [showNotSignedInAlert, setShowNotSignedInAlert] = useState(true);
@@ -134,10 +144,10 @@ const CreateUploadModalBody = ({
         message: t("upload.modal.link.error.invalid"),
       }),
     name: yup
-      .string()
-      .transform((value) => value || undefined)
-      .min(3, t("common.error.too-short", { length: 3 }))
-      .max(30, t("common.error.too-long", { length: 30 })),
+  .string()
+  .required(t("common.error.field-required"))
+  .min(3, t("common.error.too-short", { length: 3 }))
+  .max(30, t("common.error.too-long", { length: 30 })),
     password: yup
       .string()
       .transform((value) => value || undefined)
@@ -354,7 +364,7 @@ const CreateUploadModalBody = ({
               </Text>
             </>
           )}
-          <Accordion>
+          <Accordion value={accordionValue} onChange={setAccordionValue}>
             <Accordion.Item value="description" sx={{ borderBottom: "none" }}>
               <Accordion.Control>
                 <FormattedMessage id="upload.modal.accordion.name-and-description.title" />
@@ -363,13 +373,23 @@ const CreateUploadModalBody = ({
                 <Stack align="stretch">
                   <TextInput
                     variant="filled"
+                    label={t(
+                      "upload.modal.accordion.name-and-description.name.placeholder",
+                    )}
+                    withAsterisk
                     placeholder={t(
                       "upload.modal.accordion.name-and-description.name.placeholder",
                     )}
+                    required
+                    ref={nameInputRef}
+                    styles={{ required: { marginLeft: 0 } }}
                     {...form.getInputProps("name")}
                   />
                   <Textarea
                     variant="filled"
+                    label={t(
+                      "upload.modal.accordion.name-and-description.description.placeholder",
+                    )}
                     placeholder={t(
                       "upload.modal.accordion.name-and-description.description.placeholder",
                     )}
@@ -494,7 +514,7 @@ const SimplifiedCreateUploadModalModal = ({
   const validationSchema = yup.object().shape({
     name: yup
       .string()
-      .transform((value) => value || undefined)
+      .required(t("common.error.field-required"))
       .min(3, t("common.error.too-short", { length: 3 }))
       .max(30, t("common.error.too-long", { length: 30 })),
   });
@@ -554,13 +574,23 @@ const SimplifiedCreateUploadModalModal = ({
           <Stack align="stretch">
             <TextInput
               variant="filled"
+              label={t(
+                "upload.modal.accordion.name-and-description.name.placeholder",
+              )}
+              withAsterisk
               placeholder={t(
                 "upload.modal.accordion.name-and-description.name.placeholder",
               )}
+              required
+              autoFocus
+              styles={{ required: { marginLeft: 0 } }}
               {...form.getInputProps("name")}
             />
             <Textarea
               variant="filled"
+              label={t(
+                "upload.modal.accordion.name-and-description.description.placeholder",
+              )}
               placeholder={t(
                 "upload.modal.accordion.name-and-description.description.placeholder",
               )}

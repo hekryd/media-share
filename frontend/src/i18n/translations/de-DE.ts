@@ -228,7 +228,7 @@ export default {
   "upload.filelist.name": "Name",
   "upload.filelist.size": "Größe",
   // showCreateUploadModal.tsx
-  "upload.modal.title": "Erstelle Freigabe",
+  "upload.modal.title": "",//Erstelle Freigabe
   "upload.modal.link.error.invalid": "Darf nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten",
   "upload.modal.link.error.taken": "Dieser Link wird bereits verwendet",
   "upload.modal.not-signed-in": "Du bist nicht angemeldet",
@@ -265,7 +265,7 @@ export default {
   "upload.modal.completed.never-expires": "Diese Freigabe läuft niemals ab.",
   "upload.modal.completed.expires-on": "Diese Freigabe wird am {expiration} ablaufen.",
   "upload.modal.completed.share-ready": "Ihre Dateien wurden erfolgreich an H+R GmbH gesendet.",
-  "upload.modal.completed.notified-reverse-share-creator": "Wir haben den Ersteller der externen Freigabe benachrichtigt. Du kannst den Link auch auf andere Wege teilen.",
+  "upload.modal.completed.notified-reverse-share-creator": "Die H+R GmbH wurde benachrichtigt.",
   // END /upload
   // /share/[id]
   "share.title": "Freigabe {shareId}",

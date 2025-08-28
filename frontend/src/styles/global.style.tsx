@@ -116,6 +116,7 @@ const GlobalStyle = () => {
         },
         ".footer-content li": {
           display: "inline",
+          marginRight: '5px',
         },
         ".indent": {
           maxWidth: "90%",

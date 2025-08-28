@@ -59,12 +59,12 @@ const Body = ({
 
   const form = useForm({
     initialValues: {
-      maxShareSize: 104857600,
-      maxUseCount: 1,
-      sendEmailNotification: false,
-      expiration_num: 1,
+      maxShareSize: 100000000000,
+      maxUseCount: 50,
+      sendEmailNotification: true,
+      expiration_num: 10,
       expiration_unit: "-days",
-      simplified: !!(getCookie("reverse-share.simplified") ?? false),
+      simplified: !!(getCookie("reverse-share.simplified") ?? true),
       publicAccess: !!(getCookie("reverse-share.public-access") ?? true),
     },
     validate: yupResolver(

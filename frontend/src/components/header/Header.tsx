@@ -5,6 +5,7 @@ import {
   Group,
   Header as MantineHeader,
   Stack,
+  Text,
 } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -98,6 +99,10 @@ const Header = () => {
       link: "/account/reverseShares",
       label: t("navbar.links.reverse"),
     },
+      {
+      link: "/admin/shares",
+      label: t("admin.button.shares"),
+      },
     {
       component: <NavbarShareMenu />,
     },
@@ -157,8 +162,8 @@ const Header = () => {
   return (
     <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root} withBorder={false}>
       <Container className={classes.header}>
-        {/* Left side intentionally left empty (logo and app name removed) */}
-        <div />
+        {/* Left side: app name */}
+        <Text weight={600}>H+R Media Share</Text>
         <Group spacing={5} className={classes.links}>
           <Group>{items} </Group>
         </Group>
