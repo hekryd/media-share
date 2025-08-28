@@ -37,7 +37,7 @@ const LegacyHeader = () => {
       <header>
         <div className="site-header indent">
           <div className="site-header-inner">
-            <a href="">
+            <a href="https://www.hektor-rydzewski.de">
               <img src="https://www.hektor-rydzewski.de/assets/images/hektor+rydzewski.webp" id="logo" width={120} height={30} />
             </a>
           </div>

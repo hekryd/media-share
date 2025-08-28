@@ -148,7 +148,7 @@ const MyShares = () => {
                                   target="_blank"
                                 >
                                   <Text maw={120} truncate>
-                                    {share.id}
+                                    {share.name}
                                   </Text>
                                 </Anchor>
                                 <ActionIcon

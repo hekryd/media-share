@@ -544,4 +544,5 @@ export default {
 //H+R stuff
   "index.versand-vorbereiten": "Versand vorbereiten",
   "showCreateUploadModal.sendToHR": "An H+R GmbH senden",
+  "header.leaveToHr": "Verlassen",
 };

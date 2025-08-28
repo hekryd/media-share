@@ -112,7 +112,10 @@ const Header = () => {
   ];
 
   let unauthenticatedLinks: NavLink[] = [
-    {},
+    {
+        link: "https://www.hektor-rydzewski.de",
+        label: t("header.leaveToHr"),
+    },
   ];
 
   if (config.get("share.allowUnauthenticatedShares")) {

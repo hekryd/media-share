@@ -39,9 +39,6 @@ const ManageShareTable = ({
         <thead>
           <tr>
             <th>
-              <FormattedMessage id="account.shares.table.id" />
-            </th>
-            <th>
               <FormattedMessage id="account.shares.table.name" />
             </th>
             <th>
@@ -55,6 +52,9 @@ const ManageShareTable = ({
             </th>
             <th>
               <FormattedMessage id="account.shares.table.expiresAt" />
+            </th>
+            <th>
+              <FormattedMessage id="account.shares.table.id" />
             </th>
             <th></th>
           </tr>

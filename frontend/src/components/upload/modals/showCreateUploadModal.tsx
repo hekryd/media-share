@@ -125,8 +125,17 @@ const CreateUploadModalBody = ({
 
   useEffect(() => {
     if (accordionValue === "description") {
-      // focus after panel opens
-      setTimeout(() => nameInputRef.current?.focus(), 0);
+      let attempts = 0;
+      const tryFocus = () => {
+        const el = nameInputRef.current;
+        if (el) {
+          (el as any).focus?.({ preventScroll: true } as any);
+          (el as HTMLInputElement).select?.();
+          if (document.activeElement === el) return;
+        }
+        if (attempts++ < 8) setTimeout(tryFocus, 50);
+      };
+      setTimeout(tryFocus, 150);
     }
   }, [accordionValue]);
 
@@ -382,7 +391,10 @@ const CreateUploadModalBody = ({
                     )}
                     required
                     ref={nameInputRef}
+                    id="upload-name-input"
                     styles={{ required: { marginLeft: 0 } }}
+                    description={<Text size="xs" color="red">{t("common.error.field-required")}</Text>}
+                    onFocus={(e: React.FocusEvent<HTMLInputElement>) => e.currentTarget.select()}
                     {...form.getInputProps("name")}
                   />
                   <Textarea
@@ -481,7 +493,7 @@ const CreateUploadModalBody = ({
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-          <Button type="submit" data-autofocus>
+          <Button type="submit">
             <FormattedMessage id="common.button.share" />
           </Button>
         </Stack>
@@ -510,6 +522,23 @@ const SimplifiedCreateUploadModalModal = ({
   const t = useTranslate();
 
   const [showNotSignedInAlert, setShowNotSignedInAlert] = useState(true);
+
+  // Focus and select Name on mount (important for reverse share easy mode)
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    let attempts = 0;
+    const tryFocus = () => {
+      const el = nameInputRef.current;
+      if (el) {
+  (el as any).focus?.({ preventScroll: true } as any);
+  (el as HTMLInputElement).select?.();
+        if (document.activeElement === el) return;
+      }
+      if (attempts++ < 10) setTimeout(tryFocus, 50);
+    };
+    const start = setTimeout(tryFocus, 150);
+    return () => clearTimeout(start);
+  }, []);
 
   const validationSchema = yup.object().shape({
     name: yup
@@ -582,8 +611,11 @@ const SimplifiedCreateUploadModalModal = ({
                 "upload.modal.accordion.name-and-description.name.placeholder",
               )}
               required
-              autoFocus
+              ref={nameInputRef}
+              id="upload-name-input"
               styles={{ required: { marginLeft: 0 } }}
+              description={<Text size="xs" color="red">{t("common.error.field-required")}</Text>}
+              onFocus={(e: React.FocusEvent<HTMLInputElement>) => e.currentTarget.select()}
               {...form.getInputProps("name")}
             />
             <Textarea
@@ -597,7 +629,7 @@ const SimplifiedCreateUploadModalModal = ({
               {...form.getInputProps("description")}
             />
           </Stack>
-          <Button type="submit" data-autofocus>
+          <Button type="submit">
             <FormattedMessage id="showCreateUploadModal.sendToHR" />
           </Button>
         </Stack>
