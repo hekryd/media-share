@@ -118,9 +118,9 @@ export default {
   "account.shares.button.create": "Erstelle eine",
   "account.shares.info.title": "Freigabe Informationen",
   "account.shares.table.id": "ID",
-  "account.shares.table.name": "Name",
+  "account.shares.table.name": "Titel",
   "account.shares.table.description": "Beschreibung",
-  "account.shares.table.visitors": "Besucher",
+  "account.shares.table.visitors": "Views",
   "account.shares.table.expiresAt": "Läuft ab am",
   "account.shares.table.createdAt": "Angelegt am",
   "account.shares.table.size": "Größe",
@@ -225,7 +225,7 @@ export default {
   "upload.dropzone.description": "Ziehe Dateien per Drag'n'Drop hierher, um deine Freigabe zu starten. Wir akzeptieren nur Dateien mit einer Gesamtgröße von bis zu {maxSize}.",
   "upload.dropzone.notify.file-too-big": "Ihre Dateien überschreiten die maximale Freigabegröße von {maxSize}.",
   // FileList.tsx
-  "upload.filelist.name": "Name",
+  "upload.filelist.name": "Dateiname",
   "upload.filelist.size": "Größe",
   // showCreateUploadModal.tsx
   "upload.modal.title": "",//Erstelle Freigabe
@@ -285,7 +285,7 @@ export default {
   "share.button.download-all": "Alles herunterladen",
   "share.notify.download-all-preparing": "Die Freigabe wird vorbereitet. Bitte versuche es in ein paar Minuten erneut.",
   "share.modal.file-link": "Dateilink",
-  "share.table.name": "Name",
+  "share.table.name": "Dateiname",
   "share.table.size": "Größe",
   "share.modal.file-preview.error.not-supported.title": "Vorschau wird nicht unterstützt",
   "share.modal.file-preview.error.not-supported.description": "Vorschaubilder werden für diesen Dateityp nicht unterstützt. Bitte lade die Datei herunter, um sie anzuzeigen.",

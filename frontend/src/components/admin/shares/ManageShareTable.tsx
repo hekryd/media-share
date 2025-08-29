@@ -42,9 +42,6 @@ const ManageShareTable = ({
               <FormattedMessage id="account.shares.table.name" />
             </th>
             <th>
-              <FormattedMessage id="admin.shares.table.username" />
-            </th>
-            <th>
               <FormattedMessage id="account.shares.table.visitors" />
             </th>
             <th>
@@ -52,6 +49,9 @@ const ManageShareTable = ({
             </th>
             <th>
               <FormattedMessage id="account.shares.table.expiresAt" />
+            </th>
+            <th>
+              <FormattedMessage id="admin.shares.table.username" />
             </th>
             <th>
               <FormattedMessage id="account.shares.table.id" />
@@ -64,15 +64,7 @@ const ManageShareTable = ({
             ? skeletonRows
             : shares.map((share) => (
                 <tr key={share.id}>
-                  <td>{share.id}</td>
                   <td>{share.name}</td>
-                  <td>
-                    {share.creator ? (
-                      share.creator.username
-                    ) : (
-                      <Text color="dimmed">Anonymous</Text>
-                    )}
-                  </td>
                   <td>{share.views}</td>
                   <td>{byteToHumanSizeString(share.size)}</td>
                   <td>
@@ -80,6 +72,14 @@ const ManageShareTable = ({
                       ? "Never"
                       : moment(share.expiration).format("LLL")}
                   </td>
+                  <td>
+                    {share.creator ? (
+                      share.creator.username
+                    ) : (
+                      <Text color="dimmed">Anonymous</Text>
+                    )}
+                  </td>
+                  <td>{share.id}</td>
                   <td>
                     <Group position="right">
                       <ActionIcon
