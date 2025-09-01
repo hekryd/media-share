@@ -12,7 +12,7 @@ const LegacyHeader = () => {
           </li>
 
           <li className="header-nav-wir">
-            <a className="wir-link" id="wirLink" href="https://www.hektor-rydzewski.de/https://www.hektor-rydzewski.de/#wir"><span>Wir</span></a>
+            <a className="wir-link" id="wirLink" href="https://www.hektor-rydzewski.de/#wir"><span>Wir</span></a>
           </li>
 
           <li className="header-nav-unsere-kunden">

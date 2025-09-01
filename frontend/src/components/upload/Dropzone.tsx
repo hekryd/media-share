@@ -1,7 +1,7 @@
 import { Button, Center, createStyles, Group, Text } from "@mantine/core";
 import { Dropzone as MantineDropzone } from "@mantine/dropzone";
 import { ForwardedRef, useRef } from "react";
-import { TbCloudUpload, TbUpload } from "react-icons/tb";
+import { TbUpload } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
 import useTranslate from "../../hooks/useTranslate.hook";
 import { FileUpload } from "../../types/File.type";
@@ -77,7 +77,7 @@ const Dropzone = ({
       >
         <div style={{ pointerEvents: "none" }}>
           <Group position="center">
-            <TbCloudUpload size={50} />
+            <TbUpload size={50} />
           </Group>
           <Text align="center" weight={700} size="lg" mt="xl">
             {title || <FormattedMessage id="upload.dropzone.title" />}

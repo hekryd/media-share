@@ -1,7 +1,7 @@
-import { Button, Group } from "@mantine/core";
+import { Button, Group, Title, Tooltip, ActionIcon } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { cleanNotifications } from "@mantine/notifications";
-import { AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import pLimit from "p-limit";
 import { useEffect, useRef, useState } from "react";
 import { FormattedMessage } from "react-intl";
@@ -19,6 +19,9 @@ import { FileUpload } from "../../types/File.type";
 import { CreateShare, Share } from "../../types/share.type";
 import toast from "../../utils/toast.util";
 import { useRouter } from "next/router";
+import { TbInfoCircle } from "react-icons/tb";
+import showUploadInfoModal from "../../components/upload/modals/showUploadInfoModal";
+import showCreateReverseShareModal from '../../components/share/modals/showCreateReverseShareModal';
 
 const promiseLimit = pLimit(3);
 let errorToastShown = false;
@@ -70,12 +73,12 @@ const Upload = ({
         let fileId;
 
         const setFileProgress = (progress: number) => {
-          setFiles((files) =>
-            files.map((file, callbackIndex) => {
+          setFiles((curr: FileUpload[]) =>
+            curr.map((f: FileUpload, callbackIndex: number) => {
               if (fileIndex == callbackIndex) {
-                file.uploadingProgress = progress;
+                f.uploadingProgress = progress;
               }
-              return file;
+              return f;
             }),
           );
         };
@@ -108,13 +111,14 @@ const Upload = ({
               });
 
             setFileProgress(((chunkIndex + 1) / chunks) * 100);
-          } catch (e) {
+          } catch (err: unknown) {
             if (
-              e instanceof AxiosError &&
-              e.response?.data.error == "unexpected_chunk_index"
+              isAxiosError(err) &&
+              err.response?.data?.error == "unexpected_chunk_index"
             ) {
               // Retry with the expected chunk index
-              chunkIndex = e.response!.data!.expectedChunkIndex - 1;
+              const expected = (err.response!.data as any).expectedChunkIndex as number;
+              chunkIndex = expected - 1;
               continue;
             } else {
               setFileProgress(-1);
@@ -156,14 +160,14 @@ const Upload = ({
       setFiles(files);
       showCreateUploadModalCallback(files);
     } else {
-      setFiles((oldArr) => [...oldArr, ...files]);
+      setFiles((oldArr: FileUpload[]) => [...oldArr, ...files]);
     }
   };
 
   useEffect(() => {
     // Check if there are any files that failed to upload
     const fileErrorCount = files.filter(
-      (file) => file.uploadingProgress == -1,
+      (file: FileUpload) => file.uploadingProgress == -1,
     ).length;
 
     if (fileErrorCount > 0) {
@@ -184,8 +188,8 @@ const Upload = ({
 
     // Complete share
     if (
-      files.length > 0 &&
-      files.every((file) => file.uploadingProgress >= 100) &&
+  files.length > 0 &&
+  files.every((file: FileUpload) => file.uploadingProgress >= 100) &&
       fileErrorCount == 0
     ) {
       shareService
@@ -202,14 +206,32 @@ const Upload = ({
   return (
     <>
       <Meta title={t("upload.title")} />
-      <Group position="right" mb={20}>
-        <Button
-          loading={isUploading}
-          disabled={files.length <= 0}
-          onClick={() => showCreateUploadModalCallback(files)}
-        >
-          <FormattedMessage id="index.versand-vorbereiten" />
-        </Button>
+        <Group position="apart" align="baseline" mb={20}>
+            <Group align="center" spacing={3} mb={30}>
+                <Title order={3}>
+                    <FormattedMessage id="index.uploadTitle" />
+                </Title>
+        <Tooltip
+                    position="bottom"
+                    multiline
+                    width={220}
+                    label={t("index.click")}
+                    events={{ hover: true, focus: false, touch: true }}
+                    openDelay={1200}
+                    closeDelay={100}
+                >
+          <ActionIcon aria-label="Info" onClick={() => showUploadInfoModal(modals)}>
+                        <TbInfoCircle />
+                    </ActionIcon>
+                </Tooltip>
+            </Group>
+            <Button
+                loading={isUploading}
+                disabled={files.length <= 0}
+                onClick={() => showCreateUploadModalCallback(files)}
+            >
+                <FormattedMessage id="index.versand-vorbereiten" />
+            </Button>
       </Group>
       <Dropzone
         title={
