@@ -1,5 +1,5 @@
 import { ModalsContextProps } from "@mantine/modals/lib/context";
-import { Stack, Text } from "@mantine/core";
+import { Button, Stack, Text } from "@mantine/core";
 import { translateOutsideContext } from "../../../hooks/useTranslate.hook";
 
 const showUploadInfoModal = (modals: ModalsContextProps) => {
@@ -8,10 +8,13 @@ const showUploadInfoModal = (modals: ModalsContextProps) => {
   return modals.openModal({
     title: "",
     children: (
-      <Stack>
+      <Stack align="stretch">
         <Text sx={{ whiteSpace: "pre-line" }}>
           {t("index.uploadTitleTooltip")}
         </Text>
+        <Button onClick={() => modals.closeAll()}>
+          {t("common.button.confirm")}
+        </Button>
       </Stack>
     ),
   });

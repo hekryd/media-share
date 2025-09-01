@@ -214,7 +214,6 @@ const Upload = ({
         <Tooltip
                     position="bottom"
                     multiline
-                    width={220}
                     label={t("index.click")}
                     events={{ hover: true, focus: false, touch: true }}
                     openDelay={1200}
