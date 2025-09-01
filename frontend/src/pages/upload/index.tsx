@@ -1,4 +1,4 @@
-import { Button, Group, Title, Tooltip, ActionIcon } from "@mantine/core";
+import { Button, Group, Title, Tooltip, ActionIcon, Text } from "@mantine/core";
 import { useModals } from "@mantine/modals";
 import { cleanNotifications } from "@mantine/notifications";
 import { AxiosError, isAxiosError } from "axios";
@@ -245,6 +245,18 @@ const Upload = ({
       {files.length > 0 && (
         <FileList<FileUpload> files={files} setFiles={setFiles} />
       )}
+      <Text
+        size="sm"
+  sx={(theme: any) => ({
+          whiteSpace: "pre-line",
+          borderTop: "1px solid",
+          borderColor: "rgba(221, 221, 197, 0.7)",
+          paddingTop: theme.spacing.md,
+          marginTop: theme.spacing.md,
+        })}
+      >
+        {t("index.uploadTitleTooltip")}
+      </Text>
     </>
   );
 };
