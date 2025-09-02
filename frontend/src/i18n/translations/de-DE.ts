@@ -252,7 +252,7 @@ export default {
   "upload.modal.expires.year-plural": "Jahre",
   "upload.modal.accordion.name-and-description.title": "Name und Beschreibung",
   "upload.modal.accordion.name-and-description.name.placeholder": "Titel",
-  "upload.modal.accordion.name-and-description.description.placeholder": "Hinweis für den H+R Mitarbeiter",
+  "upload.modal.accordion.name-and-description.description.placeholder": "Hinweis für die H+R Mitarbeiter",
   "upload.modal.accordion.email.title": "E-Mail-Empfänger",
   "upload.modal.accordion.email.placeholder": "E-Mail der Empfänger eingeben",
   "upload.modal.accordion.email.invalid-email": "Ungültige E-Mail-Adresse",
