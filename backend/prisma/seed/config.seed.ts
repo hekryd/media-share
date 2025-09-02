@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import * as crypto from "crypto";
 
-const configVariables: ConfigVariables = {
+export const configVariables = {
   internal: {
     jwtSecret: {
       type: "string",
@@ -30,8 +30,8 @@ const configVariables: ConfigVariables = {
       secret: false,
     },
     sessionDuration: {
-      type: "number",
-      defaultValue: "2160",
+      type: "timespan",
+      defaultValue: "3 months",
       secret: false,
     },
   },
@@ -47,12 +47,17 @@ const configVariables: ConfigVariables = {
       secret: false,
     },
     maxExpiration: {
+      type: "timespan",
+      defaultValue: "0 days",
+      secret: false,
+    },
+    shareIdLength: {
       type: "number",
-      defaultValue: "0",
+      defaultValue: "8",
       secret: false,
     },
     maxSize: {
-      type: "number",
+      type: "filesize",
       defaultValue: "1000000000",
       secret: false,
     },
@@ -61,7 +66,7 @@ const configVariables: ConfigVariables = {
       defaultValue: "9",
     },
     chunkSize: {
-      type: "number",
+      type: "filesize",
       defaultValue: "10000000",
       secret: false,
     },
@@ -69,6 +74,25 @@ const configVariables: ConfigVariables = {
       type: "boolean",
       defaultValue: "false",
       secret: false,
+    },
+  },
+  cache: {
+    "redis-enabled": {
+      type: "boolean",
+      defaultValue: "false",
+    },
+    "redis-url": {
+      type: "string",
+      defaultValue: "redis://pingvin-redis:6379",
+      secret: true,
+    },
+    ttl: {
+      type: "number",
+      defaultValue: "60",
+    },
+    maxItems: {
+      type: "number",
+      defaultValue: "1000",
     },
   },
   email: {
@@ -84,7 +108,7 @@ const configVariables: ConfigVariables = {
     shareRecipientsMessage: {
       type: "text",
       defaultValue:
-        "Hey!\n\n{creator} ({creatorEmail}) shared some files with you, view or download the files with this link: {shareUrl}\n\nThe share will expire {expires}.\n\nNote: {desc}\n\nShared securely with Pingvin Share 🐧",
+        "Hey!\n\n{creator} ({creatorEmail}) shared some files with you. You can view or download the files with this link: {shareUrl}\n\nThe share will expire {expires}.\n\nNote: {desc}\n\nShared securely with Pingvin Share 🐧",
     },
     reverseShareSubject: {
       type: "string",
@@ -102,7 +126,7 @@ const configVariables: ConfigVariables = {
     resetPasswordMessage: {
       type: "text",
       defaultValue:
-        "Hey!\n\nYou requested a password reset. Click this link to reset your password: {url}\nThe link expires in a hour.\n\nPingvin Share 🐧",
+        "Hey!\n\nYou requested a password reset. Click this link to reset your password: {url}\nThe link expires in an hour.\n\nPingvin Share 🐧",
     },
     inviteSubject: {
       type: "string",
@@ -176,12 +200,12 @@ const configVariables: ConfigVariables = {
     },
     searchQuery: {
       type: "string",
-      defaultValue: ""
+      defaultValue: "",
     },
 
     adminGroups: {
       type: "string",
-      defaultValue: ""
+      defaultValue: "",
     },
 
     fieldNameMemberOf: {
@@ -191,18 +215,18 @@ const configVariables: ConfigVariables = {
     fieldNameEmail: {
       type: "string",
       defaultValue: "userPrincipalName",
-    }
+    },
   },
   oauth: {
-    "allowRegistration": {
+    allowRegistration: {
       type: "boolean",
       defaultValue: "true",
     },
-    "ignoreTotp": {
+    ignoreTotp: {
       type: "boolean",
       defaultValue: "true",
     },
-    "disablePassword": {
+    disablePassword: {
       type: "boolean",
       defaultValue: "false",
       secret: false,
@@ -283,6 +307,10 @@ const configVariables: ConfigVariables = {
       type: "boolean",
       defaultValue: "false",
     },
+    "oidc-scope": {
+      type: "string",
+      defaultValue: "openid email profile",
+    },
     "oidc-usernameClaim": {
       type: "string",
       defaultValue: "",
@@ -309,6 +337,84 @@ const configVariables: ConfigVariables = {
       obscured: true,
     },
   },
+  s3: {
+    enabled: {
+      type: "boolean",
+      defaultValue: "false",
+    },
+    endpoint: {
+      type: "string",
+      defaultValue: "",
+    },
+    region: {
+      type: "string",
+      defaultValue: "",
+    },
+    bucketName: {
+      type: "string",
+      defaultValue: "",
+    },
+    bucketPath: {
+      type: "string",
+      defaultValue: "",
+    },
+    key: {
+      type: "string",
+      defaultValue: "",
+      secret: true,
+    },
+    secret: {
+      type: "string",
+      defaultValue: "",
+      obscured: true,
+    },
+    useChecksum: {
+      type: "boolean",
+      defaultValue: "true",
+    },
+  },
+  legal: {
+    enabled: {
+      type: "boolean",
+      defaultValue: "false",
+      secret: false,
+    },
+    imprintText: {
+      type: "text",
+      defaultValue: "",
+      secret: false,
+    },
+    imprintUrl: {
+      type: "string",
+      defaultValue: "",
+      secret: false,
+    },
+    privacyPolicyText: {
+      type: "text",
+      defaultValue: "",
+      secret: false,
+    },
+    privacyPolicyUrl: {
+      type: "string",
+      defaultValue: "",
+      secret: false,
+    },
+  },
+} satisfies ConfigVariables;
+
+export type YamlConfig = {
+  [Category in keyof typeof configVariables]: {
+    [Key in keyof (typeof configVariables)[Category]]: string;
+  };
+} & {
+  initUser: {
+    enabled: string;
+    username: string;
+    email: string;
+    password: string;
+    isAdmin: boolean;
+    ldapDN: string;
+  };
 };
 
 type ConfigVariables = {
@@ -332,11 +438,11 @@ const prisma = new PrismaClient({
 
 async function seedConfigVariables() {
   for (const [category, configVariablesOfCategory] of Object.entries(
-    configVariables
+    configVariables,
   )) {
     let order = 0;
     for (const [name, properties] of Object.entries(
-      configVariablesOfCategory
+      configVariablesOfCategory,
     )) {
       const existingConfigVariable = await prisma.config.findUnique({
         where: { name_category: { name, category } },
@@ -365,7 +471,7 @@ async function migrateConfigVariables() {
   for (const existingConfigVariable of existingConfigVariables) {
     const configVariable =
       configVariables[existingConfigVariable.category]?.[
-      existingConfigVariable.name
+        existingConfigVariable.name
       ];
 
     // Delete the config variable if it doesn't exist in the seed
@@ -382,7 +488,7 @@ async function migrateConfigVariables() {
       // Update the config variable if it exists in the seed
     } else {
       const variableOrder = Object.keys(
-        configVariables[existingConfigVariable.category]
+        configVariables[existingConfigVariable.category],
       ).indexOf(existingConfigVariable.name);
       await prisma.config.update({
         where: {

@@ -158,6 +158,9 @@ export default {
   "account.shares.table.expiresAt": "Expires on",
   "account.shares.table.createdAt": "Created on",
   "account.shares.table.size": "Size",
+  "account.shares.table.password-protected": "Password protected",
+  "account.shares.table.visitor-count": "{count} of {max}",
+  "account.shares.table.expiry-never": "Never",
 
   "account.shares.modal.share-informations": "Share informations",
   "account.shares.modal.share-link": "Share link",
@@ -363,6 +366,8 @@ export default {
   // /share/[id]
   "share.title": "Share {shareId}",
   "share.description": "Look what I've shared with you!",
+  "share.fileCount":
+    "{count, plural, =1 {# file} other {# files}} · {size} (zip file may be smaller due to compression)",
   "share.error.visitor-limit-exceeded.title": "Visitor limit exceeded",
   "share.error.visitor-limit-exceeded.description":
     "The visitor limit from this share has been exceeded.",
@@ -376,7 +381,7 @@ export default {
 
   "share.modal.password.title": "Password required",
   "share.modal.password.description":
-    "Please enter the password to acces this share.",
+    "Please enter the password to access this share.",
   "share.modal.password": "Password",
   "share.modal.error.invalid-password": "Invalid password",
 
@@ -402,10 +407,23 @@ export default {
   "share.edit.notify.save-success": "Share updated successfully",
   // END /share/[id]/edit
 
+  // /imprint
+  "imprint.title": "Imprint",
+  // END /imprint
+
+  // /privacy
+  "privacy.title": "Privacy Policy",
+  // END /privacy
+
   // /admin/config
+  "admin.config.config-file-warning.title": "Configuration file present",
+  "admin.config.config-file-warning.description":
+    "As you have a configured Pingvin Share with a configuration file, you can't change the configuration through the UI.",
+
   "admin.config.title": "Configuration",
   "admin.config.category.general": "General",
   "admin.config.category.share": "Share",
+  "admin.config.category.cache": "Cache",
   "admin.config.category.email": "Email",
   "admin.config.category.smtp": "SMTP",
   "admin.config.category.oauth": "Social Login",
@@ -423,11 +441,24 @@ export default {
     "Whether to show the home page",
   "admin.config.general.session-duration": "Session Duration",
   "admin.config.general.session-duration.description":
-    "Time in hours after which a user must log in again (default: 3 months).",
+    "Time after which a user must log in again (default: 3 months).",
   "admin.config.general.logo": "Logo",
   "admin.config.general.logo.description":
     "Change your logo by uploading a new image. The image must be a PNG and should have the format 1:1.",
   "admin.config.general.logo.placeholder": "Pick image",
+
+  "admin.config.cache.ttl": "TTL",
+  "admin.config.cache.ttl.description":
+    "Time in second to keep information inside the cache.",
+  "admin.config.cache.max-items": "Maximum items",
+  "admin.config.cache.max-items.description":
+    "Maximum number of items inside the cache.",
+  "admin.config.cache.redis-enabled": "Redis enabled",
+  "admin.config.cache.redis-enabled.description":
+    "Normally Pingvin Share caches information in memory. If you run multiple instances of Pingvin Share, you need to enable Redis caching to share the cache between the instances.",
+  "admin.config.cache.redis-url": "Redis URL",
+  "admin.config.cache.redis-url.description":
+    "Url to connect to the Redis instance used for caching.",
 
   "admin.config.email.enable-share-email-recipients":
     "Enable email recipient sharing",
@@ -467,15 +498,18 @@ export default {
     "Whether unauthenticated users can create shares",
   "admin.config.share.max-expiration": "Max expiration",
   "admin.config.share.max-expiration.description":
-    "Maximum share expiration in hours. Set to 0 to allow unlimited expiration.",
+    "Maximum share expiration. Set to 0 to allow unlimited expiration.",
+  "admin.config.share.share-id-length": "Default share ID length",
+  "admin.config.share.share-id-length.description":
+    "Default length for the generated ID of a share. This value is also used to generate links for reverse shares. A value below 8 is not considered secure.",
   "admin.config.share.max-size": "Max size",
-  "admin.config.share.max-size.description": "Maximum share size in bytes",
+  "admin.config.share.max-size.description": "Maximum share size",
   "admin.config.share.zip-compression-level": "Zip compression level",
   "admin.config.share.zip-compression-level.description":
     "Adjust the level to balance between file size and compression speed. Valid values range from 0 to 9, with 0 being no compression and 9 being maximum compression. ",
   "admin.config.share.chunk-size": "Chunk size",
   "admin.config.share.chunk-size.description":
-    "Adjust the chunk size (in bytes) for your uploads to balance efficiency and reliability according to your internet connection. Smaller chunks can enhance success rates for unstable connections, while larger chunks make uploads faster for stable connections.",
+    "Adjust the chunk size for your uploads to balance efficiency and reliability according to your internet connection. Smaller chunks can enhance success rates for unstable connections, while larger chunks make uploads faster for stable connections.",
   "admin.config.share.auto-open-share-modal": "Auto open create share modal",
   "admin.config.share.auto-open-share-modal.description":
     "The share creation modal automatically appears when a user selects files, eliminating the need to manually click the button.",
@@ -489,7 +523,7 @@ export default {
   "admin.config.smtp.port.description": "Port of the SMTP server",
   "admin.config.smtp.email": "Email",
   "admin.config.smtp.email.description":
-    "Email address from wich the emails get sent",
+    "Email address from which the emails get sent",
   "admin.config.smtp.username": "Username",
   "admin.config.smtp.username.description": "Username of the SMTP server",
   "admin.config.smtp.password": "Password",
@@ -563,6 +597,9 @@ export default {
   "admin.config.oauth.oidc-sign-out": "Sign out from OpenID Connect",
   "admin.config.oauth.oidc-sign-out.description":
     "Whether the “Sign out” button will sign out from the OpenID Connect provider",
+  "admin.config.oauth.oidc-scope": "OpenID Connect scope",
+  "admin.config.oauth.oidc-scope.description":
+    "Scopes which should be requested from the OpenID Connect provider.",
   "admin.config.oauth.oidc-username-claim": "OpenID Connect username claim",
   "admin.config.oauth.oidc-username-claim.description":
     "Username claim in OpenID Connect ID token. Leave it blank if you don't know what this config is.",
@@ -615,6 +652,50 @@ export default {
   "admin.config.ldap.field-name-email": "User email attribute name",
   "admin.config.ldap.field-name-email.description":
     "LDAP attribute name for the email of an user.",
+  "admin.config.notify.success": "Configuration updated successfully.",
+  "admin.config.notify.logo-success":
+    "Logo updated successfully. It may take a few minutes to update on the website.",
+  "admin.config.notify.no-changes": "No changes to save.",
+
+  "admin.config.category.s3": "S3",
+  "admin.config.s3.enabled": "Enabled",
+  "admin.config.s3.enabled.description":
+    "Whether S3 should be used to store the shared files instead of the local file system.",
+  "admin.config.s3.endpoint": "Endpoint",
+  "admin.config.s3.endpoint.description": "The URL of the S3 bucket.",
+  "admin.config.s3.region": "Region",
+  "admin.config.s3.region.description": "The region of the S3 bucket.",
+  "admin.config.s3.bucket-name": "Bucket name",
+  "admin.config.s3.bucket-name.description": "The name of the S3 bucket.",
+  "admin.config.s3.bucket-path": "Path",
+  "admin.config.s3.bucket-path.description":
+    "The default path which should be used to store the files in the S3 bucket.",
+  "admin.config.s3.key": "Key",
+  "admin.config.s3.key.description":
+    "The key which allows you to access the S3 bucket.",
+  "admin.config.s3.secret": "Secret",
+  "admin.config.s3.secret.description":
+    "The secret which allows you to access the S3 bucket.",
+  "admin.config.s3.use-checksum": "Use checksum",
+  "admin.config.s3.use-checksum.description":
+    "Turn off for backends that do not support checksum (e.g. B2).",
+
+  "admin.config.category.legal": "Legal",
+  "admin.config.legal.enabled": "Enable legal notices",
+  "admin.config.legal.enabled.description":
+    "Whether to show a link to imprint and privacy policy in the footer.",
+  "admin.config.legal.imprint-text": "Imprint text",
+  "admin.config.legal.imprint-text.description":
+    "The text which should be shown in the imprint. Supports Markdown. Leave blank to link to an external imprint page.",
+  "admin.config.legal.imprint-url": "Imprint URL",
+  "admin.config.legal.imprint-url.description":
+    "If you already have an imprint page you can link it here instead of using the text field.",
+  "admin.config.legal.privacy-policy-text": "Privacy policy text",
+  "admin.config.legal.privacy-policy-text.description":
+    "The text which should be shown in the privacy policy. Supports Markdown. Leave blank to link to an external privacy policy page.",
+  "admin.config.legal.privacy-policy-url": "Privacy policy URL",
+  "admin.config.legal.privacy-policy-url.description":
+    "If you already have a privacy policy page you can link it here instead of using the text field.",
 
   // 404
   "404.description": "Oops this page doesn't exist.",
@@ -665,6 +746,7 @@ export default {
   "common.button.go-back": "Go back",
   "common.button.go-home": "Go home",
   "common.notify.copied": "Your link was copied to the clipboard",
+  "common.notify.copied-link": "Your link was copied to the clipboard",
   "common.success": "Success",
 
   "common.error": "Error",

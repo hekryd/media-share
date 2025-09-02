@@ -31,6 +31,7 @@ import { FileUpload } from "../../../types/File.type";
 import { CreateShare } from "../../../types/share.type";
 import { getExpirationPreview } from "../../../utils/date.util";
 import toast from "../../../utils/toast.util";
+import { Timespan } from "../../../types/timespan.type";
 
 const showCreateUploadModal = (
   modals: ModalsContextProps,
@@ -39,7 +40,8 @@ const showCreateUploadModal = (
     isReverseShare: boolean;
     allowUnauthenticatedShares: boolean;
     enableEmailRecepients: boolean;
-    maxExpirationInHours: number;
+    maxExpiration: Timespan;
+    shareIdLength: number;
     simplified: boolean;
   },
   files: FileUpload[],
@@ -72,18 +74,28 @@ const showCreateUploadModal = (
   });
 };
 
-const generateLink = () =>
-  Buffer.from(Math.random().toString(), "utf8")
-    .toString("base64")
-    .substring(10, 17);
+const generateShareId = (length: number = 16) => {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  const randomArray = new Uint8Array(length >= 3 ? length : 3);
+  crypto.getRandomValues(randomArray);
+  randomArray.forEach((number) => {
+    result += chars[number % chars.length];
+  });
+  return result;
+};
 
-const generateAvailableLink = async (times = 10): Promise<string> => {
+const generateAvailableLink = async (
+  shareIdLength: number,
+  times: number = 10,
+): Promise<string> => {
   if (times <= 0) {
     throw new Error("Could not generate available link");
   }
-  const _link = generateLink();
+  const _link = generateShareId(shareIdLength);
   if (!(await shareService.isShareIdAvailable(_link))) {
-    return await generateAvailableLink(times - 1);
+    return await generateAvailableLink(shareIdLength, times - 1);
   } else {
     return _link;
   }
@@ -101,13 +113,14 @@ const CreateUploadModalBody = ({
     isReverseShare: boolean;
     allowUnauthenticatedShares: boolean;
     enableEmailRecepients: boolean;
-    maxExpirationInHours: number;
+    maxExpiration: Timespan;
+    shareIdLength: number;
   };
 }) => {
   const modals = useModals();
   const t = useTranslate();
 
-  const generatedLink = generateLink();
+  const generatedLink = generateShareId(options.shareIdLength);
 
   const [showNotSignedInAlert, setShowNotSignedInAlert] = useState(true);
 
@@ -168,17 +181,20 @@ const CreateUploadModalBody = ({
       );
 
       if (
-        options.maxExpirationInHours != 0 &&
+        options.maxExpiration.value != 0 &&
         (form.values.never_expires ||
           expirationDate.isAfter(
-            moment().add(options.maxExpirationInHours, "hours"),
+            moment().add(
+              options.maxExpiration.value,
+              options.maxExpiration.unit,
+            ),
           ))
       ) {
         form.setFieldError(
           "expiration_num",
           t("upload.modal.expires.error.too-long", {
             max: moment
-              .duration(options.maxExpirationInHours, "hours")
+              .duration(options.maxExpiration.value, options.maxExpiration.unit)
               .humanize(),
           }),
         );
@@ -229,13 +245,19 @@ const CreateUploadModalBody = ({
             <Button
               style={{ flex: "0 0 auto" }}
               variant="outline"
-              onClick={() => form.setFieldValue("link", generateLink())}
+              onClick={() =>
+                form.setFieldValue(
+                  "link",
+                  generateShareId(options.shareIdLength),
+                )
+              }
             >
               <FormattedMessage id="common.button.generate" />
             </Button>
           </Group>
 
           <Text
+            truncate
             italic
             size="xs"
             sx={(theme) => ({
@@ -309,7 +331,7 @@ const CreateUploadModalBody = ({
                   />
                 </Col>
               </Grid>
-              {options.maxExpirationInHours == 0 && (
+              {options.maxExpiration.value == 0 && (
                 <Checkbox
                   label={t("upload.modal.expires.never-long")}
                   {...form.getInputProps("never_expires")}
@@ -388,7 +410,7 @@ const CreateUploadModalBody = ({
                     {...form.getInputProps("recipients")}
                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                       // Add email on comma or semicolon
-                      if (e.key === "," || e.key === ";") {
+                      if (e.key === "Enter" || e.key === "," || e.key === ";") {
                         e.preventDefault();
                         const inputValue = (
                           e.target as HTMLInputElement
@@ -460,7 +482,8 @@ const SimplifiedCreateUploadModalModal = ({
     isReverseShare: boolean;
     allowUnauthenticatedShares: boolean;
     enableEmailRecepients: boolean;
-    maxExpirationInHours: number;
+    maxExpiration: Timespan;
+    shareIdLength: number;
   };
 }) => {
   const modals = useModals();
@@ -485,10 +508,12 @@ const SimplifiedCreateUploadModalModal = ({
   });
 
   const onSubmit = form.onSubmit(async (values) => {
-    const link = await generateAvailableLink().catch(() => {
-      toast.error(t("upload.modal.link.error.taken"));
-      return undefined;
-    });
+    const link = await generateAvailableLink(options.shareIdLength).catch(
+      () => {
+        toast.error(t("upload.modal.link.error.taken"));
+        return undefined;
+      },
+    );
 
     if (!link) {
       return;

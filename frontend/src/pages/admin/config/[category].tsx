@@ -1,4 +1,5 @@
 import {
+  Alert,
   AppShell,
   Box,
   Button,
@@ -13,6 +14,7 @@ import { useMediaQuery } from "@mantine/hooks";
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { TbInfoCircle } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
 import Meta from "../../../components/Meta";
 import AdminConfigInput from "../../../components/admin/configuration/AdminConfigInput";
@@ -22,11 +24,11 @@ import LogoConfigInput from "../../../components/admin/configuration/LogoConfigI
 import TestEmailButton from "../../../components/admin/configuration/TestEmailButton";
 import CenterLoader from "../../../components/core/CenterLoader";
 import useConfig from "../../../hooks/config.hook";
+import useTranslate from "../../../hooks/useTranslate.hook";
 import configService from "../../../services/config.service";
 import { AdminConfig, UpdateConfig } from "../../../types/config.type";
 import { camelToKebab } from "../../../utils/string.util";
 import toast from "../../../utils/toast.util";
-import useTranslate from "../../../hooks/useTranslate.hook";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
@@ -46,15 +48,17 @@ export default function AppShellDemo() {
 
   const [logo, setLogo] = useState<File | null>(null);
 
+  const isEditingAllowed = (): boolean => {
+    return !configVariables || configVariables[0].allowEdit;
+  };
+
   const saveConfigVariables = async () => {
     if (logo) {
       configService
         .changeLogo(logo)
         .then(() => {
           setLogo(null);
-          toast.success(
-            "Logo updated successfully. It may take a few minutes to update on the website.",
-          );
+          toast.success(t("admin.config.notify.logo-success"));
         })
         .catch(toast.axiosError);
     }
@@ -64,12 +68,12 @@ export default function AppShellDemo() {
         .updateMany(updatedConfigVariables)
         .then(() => {
           setUpdatedConfigVariables([]);
-          toast.success("Configurations updated successfully");
+          toast.success(t("admin.config.notify.success"));
         })
         .catch(toast.axiosError);
       void config.refresh();
     } else {
-      toast.success("No changes to save");
+      toast.success(t("admin.config.notify.no-changes"));
     }
   };
 
@@ -134,6 +138,17 @@ export default function AppShellDemo() {
           ) : (
             <>
               <Stack>
+                {!isEditingAllowed() && (
+                  <Alert
+                    mb={"lg"}
+                    variant="light"
+                    color="primary"
+                    title={t("admin.config.config-file-warning.title")}
+                    icon={<TbInfoCircle />}
+                  >
+                    <FormattedMessage id="admin.config.config-file-warning.description" />
+                  </Alert>
+                )}
                 <Title mb="md" order={3}>
                   {t("admin.config.category." + categoryId)}
                 </Title>
