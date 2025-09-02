@@ -221,7 +221,7 @@ export default {
   "upload.reverse-share.error.invalid.title": "Ungültiger Link zum externen Upload",
   "upload.reverse-share.error.invalid.description": "Dieser externe Upload ist abgelaufen oder ungültig.",
   // Dropzone.tsx
-  "upload.dropzone.title": "Dateien hochladen",
+  "upload.dropzone.title": "Dateien auswählen",
   "upload.dropzone.description": "Ziehe Dateien per Drag'n'Drop hierher, um deinen Upload zu starten. Wir akzeptieren nur Dateien mit einer Gesamtgröße von bis zu {maxSize}.",
   "upload.dropzone.notify.file-too-big": "Ihre Dateien überschreiten die maximale Uploadgröße von {maxSize}.",
   // FileList.tsx
