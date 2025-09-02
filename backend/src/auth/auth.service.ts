@@ -269,10 +269,7 @@ export class AuthService {
           signOutFromProviderSupportedAndActivated
         ) {
           const configuration = await provider.getConfiguration();
-          if (
-            configuration.frontchannel_logout_supported &&
-            URL.canParse(configuration.end_session_endpoint)
-          ) {
+          if (URL.canParse(configuration.end_session_endpoint)) {
             const redirectURI = new URL(configuration.end_session_endpoint);
             redirectURI.searchParams.append(
               "post_logout_redirect_uri",
@@ -306,11 +303,12 @@ export class AuthService {
   }
 
   async createRefreshToken(userId: string, idToken?: string) {
+    const sessionDuration = this.config.get("general.sessionDuration");
     const { id, token } = await this.prisma.refreshToken.create({
       data: {
         userId,
         expiresAt: moment()
-          .add(this.config.get("general.sessionDuration"), "hours")
+          .add(sessionDuration.value, sessionDuration.unit)
           .toDate(),
         oauthIDToken: idToken,
       },
@@ -341,14 +339,20 @@ export class AuthService {
         secure: isSecure,
         maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
       });
-    if (refreshToken)
+    if (refreshToken) {
+      const now = moment();
+      const sessionDuration = this.config.get("general.sessionDuration");
+      const maxAge = moment(now)
+        .add(sessionDuration.value, sessionDuration.unit)
+        .diff(now);
       response.cookie("refresh_token", refreshToken, {
         path: "/api/auth/token",
         httpOnly: true,
         sameSite: "strict",
         secure: isSecure,
-        maxAge: 1000 * 60 * 60 * this.config.get("general.sessionDuration"),
+        maxAge,
       });
+    }
   }
 
   /**
@@ -367,5 +371,13 @@ export class AuthService {
     } catch {
       return null;
     }
+  }
+
+  async verifyPassword(user: User, password: string) {
+    if (!user.password && this.config.get("ldap.enabled")) {
+      return !!this.ldapService.authenticateUser(user.username, password);
+    }
+
+    return argon.verify(user.password, password);
   }
 }

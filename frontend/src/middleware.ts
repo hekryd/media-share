@@ -1,7 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-
-import configService from "./services/config.service";
 import { jwtDecode } from "jwt-decode";
+import { NextRequest, NextResponse } from "next/server";
+import configService from "./services/config.service";
 
 // This middleware redirects based on different conditions:
 // - Authentication state
@@ -15,7 +14,14 @@ export const config = {
 export async function middleware(request: NextRequest) {
   const routes = {
     unauthenticated: new Routes(["/auth/*", "/"]),
-    public: new Routes(["/share/*", "/s/*", "/upload/*", "/error"]),
+    public: new Routes([
+      "/share/*",
+      "/s/*",
+      "/upload/*",
+      "/error",
+      "/imprint",
+      "/privacy",
+    ]),
     admin: new Routes(["/admin/*"]),
     account: new Routes(["/account*"]),
     disabled: new Routes([]),
@@ -56,6 +62,20 @@ export async function middleware(request: NextRequest) {
     routes.disabled.routes.push("/auth/resetPassword*");
   }
 
+  if (!getConfig("legal.enabled")) {
+    routes.disabled.routes.push("/imprint", "/privacy");
+  } else {
+    if (!getConfig("legal.imprintText") && !getConfig("legal.imprintUrl")) {
+      routes.disabled.routes.push("/imprint");
+    }
+    if (
+      !getConfig("legal.privacyPolicyText") &&
+      !getConfig("legal.privacyPolicyUrl")
+    ) {
+      routes.disabled.routes.push("/privacy");
+    }
+  }
+
   // prettier-ignore
   const rules = [
     // Disabled routes
@@ -71,7 +91,7 @@ export async function middleware(request: NextRequest) {
     // Unauthenticated state
     {
       condition: !user && !routes.public.contains(route) && !routes.unauthenticated.contains(route),
-      path: "/",
+      path: "/auth/signIn",
     },
     {
       condition: !user && routes.account.contains(route),
@@ -86,6 +106,16 @@ export async function middleware(request: NextRequest) {
     {
       condition: (!getConfig("general.showHomePage") || user) && route == "/",
       path: "/upload",
+    },
+    // Imprint redirect
+    {
+      condition: route == "/imprint" && !getConfig("legal.imprintText") && getConfig("legal.imprintUrl"),
+      path: getConfig("legal.imprintUrl"),
+    },
+    // Privacy redirect
+    {
+      condition: route == "/privacy" && !getConfig("legal.privacyPolicyText") && getConfig("legal.privacyPolicyUrl"),
+      path: getConfig("legal.privacyPolicyUrl"),
     },
   ];
   for (const rule of rules) {

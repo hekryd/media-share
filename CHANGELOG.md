@@ -1,3 +1,172 @@
+## [1.13.0](https://github.com/stonith404/pingvin-share/compare/v1.12.0...v1.13.0) (2025-05-25)
+
+
+### Features
+
+* allow to use redis cache instead of memory cache ([#832](https://github.com/stonith404/pingvin-share/issues/832)) ([85f5143](https://github.com/stonith404/pingvin-share/commit/85f514316b0b808b8c063bf571df6b528a1b3de4))
+* **backend:** allow to define path to the config file ([#838](https://github.com/stonith404/pingvin-share/issues/838)) ([cfdb29e](https://github.com/stonith404/pingvin-share/commit/cfdb29ed4dde875233b4bc3f510ae50976b963b8))
+
+## [1.12.0](https://github.com/stonith404/pingvin-share/compare/v1.11.1...v1.12.0) (2025-05-07)
+
+
+### Features
+
+* **s3:** stream s3 content over a zip file ([#822](https://github.com/stonith404/pingvin-share/issues/822)) ([ccc783a](https://github.com/stonith404/pingvin-share/commit/ccc783ab6a00841a7041c454e77afb472d76999e))
+
+
+### Bug Fixes
+
+* disable HTML rendering in Markdown preview ([427e99c](https://github.com/stonith404/pingvin-share/commit/427e99c7b1d00ff6ed7b5fd879d8cf0f0d49281a))
+* health check for containers with reverse proxy disabled ([#816](https://github.com/stonith404/pingvin-share/issues/816)) ([a790ac7](https://github.com/stonith404/pingvin-share/commit/a790ac73fd42d266a957e09a05b1894199605f6a)), closes [#809](https://github.com/stonith404/pingvin-share/issues/809)
+* OIDC configuration from YAML configuration file doesn't get loaded ([48a6ceb](https://github.com/stonith404/pingvin-share/commit/48a6ceb3b4b4dfc0407dc6f9ee2e07cca1829cef))
+* spelling mistake and add clarity in email template ([#824](https://github.com/stonith404/pingvin-share/issues/824)) ([af047c0](https://github.com/stonith404/pingvin-share/commit/af047c0bc152a955b3ab135f5a9ea3d62b32fb0f))
+* use sandbox CSP for file previews ([1864951](https://github.com/stonith404/pingvin-share/commit/1864951bdbf573431e795109224a45545b86b54d))
+
+## [1.11.1](https://github.com/stonith404/pingvin-share/compare/v1.11.0...v1.11.1) (2025-04-06)
+
+## [1.11.0](https://github.com/stonith404/pingvin-share/compare/v1.10.4...v1.11.0) (2025-04-05)
+
+
+### Features
+
+* add env variable to disable caddy ([#797](https://github.com/stonith404/pingvin-share/issues/797)) ([27fca64](https://github.com/stonith404/pingvin-share/commit/27fca64a69067eaa094d1559ca1fee4f064d89a7))
+* **s3:** allow disabling upload checksum ([#804](https://github.com/stonith404/pingvin-share/issues/804)) ([73a76a9](https://github.com/stonith404/pingvin-share/commit/73a76a9d5b9825a3dc396f49d76ddc5c303fce40))
+
+## [1.10.4](https://github.com/stonith404/pingvin-share/compare/v1.10.3...v1.10.4) (2025-03-20)
+
+
+### Bug Fixes
+
+* admin role gets reset if signing in with an OIDC provider ([ccb7fdc](https://github.com/stonith404/pingvin-share/commit/ccb7fdca43a2d458243e56a24510fe5325fa7942))
+
+## [1.10.3](https://github.com/stonith404/pingvin-share/compare/v1.10.2...v1.10.3) (2025-03-10)
+
+
+### Bug Fixes
+
+* error while signing in with OIDC if roles claim is undefined ([b737cba](https://github.com/stonith404/pingvin-share/commit/b737cba35e59255904eccae9e9de1cbd36284fb1))
+
+## [1.10.2](https://github.com/stonith404/pingvin-share/compare/v1.10.1...v1.10.2) (2025-03-07)
+
+
+### Bug Fixes
+
+* don't throw error if group claim is missing ([e7b3c48](https://github.com/stonith404/pingvin-share/commit/e7b3c48ff48bd7cfb206c32ea97862b757057573))
+
+## [1.10.1](https://github.com/stonith404/pingvin-share/compare/v1.10.0...v1.10.1) (2025-02-28)
+
+
+### Bug Fixes
+
+* admin property can't be set if OAuth2 user email doesn't match actual user's email ([1159d97](https://github.com/stonith404/pingvin-share/commit/1159d972a8c32a0d6bf53d161c2fc09e6f8dfb28))
+* type error when trying to run the seed command ([b6d1720](https://github.com/stonith404/pingvin-share/commit/b6d1720fe637497ad624c6cdc40058b1b0f0c74c))
+
+## [1.10.0](https://github.com/stonith404/pingvin-share/compare/v1.9.1...v1.10.0) (2025-02-28)
+
+
+### Features
+
+* add ability to configure application with a config file ([#740](https://github.com/stonith404/pingvin-share/issues/740)) ([9dfb52a](https://github.com/stonith404/pingvin-share/commit/9dfb52a14587065dacd9fcd2bb2efa1b458880a5))
+
+
+### Bug Fixes
+
+* confusing config configuration description for session duration ([28fdbc2](https://github.com/stonith404/pingvin-share/commit/28fdbc22814260040c78e27a62d86b84df83751f))
+* page crash if new release check fails ([e848675](https://github.com/stonith404/pingvin-share/commit/e848675d634a08efe3aac4e02d98136c36b36bfc))
+* smtp password gets autofilled in Firefox ([f429142](https://github.com/stonith404/pingvin-share/commit/f4291421b5531b0eeae5bcca9139f80c3cd43b4b))
+
+## [1.9.1](https://github.com/stonith404/pingvin-share/compare/v1.9.0...v1.9.1) (2025-02-14)
+
+
+### Bug Fixes
+
+* page doesn't reload on user deletion ([a2e0313](https://github.com/stonith404/pingvin-share/commit/a2e031326e51f7663c2d864dd0d08a65f180318e))
+* redirection to the OIDC end session endpoint ([ec92e85](https://github.com/stonith404/pingvin-share/commit/ec92e85c8d294b30117ad2599ad03b0bbb04574c))
+
+## [1.9.0](https://github.com/stonith404/pingvin-share/compare/v1.8.2...v1.9.0) (2025-02-12)
+
+
+### Features
+
+* ability to add email to recipients list by clicking enter ([#760](https://github.com/stonith404/pingvin-share/issues/760)) ([70b577f](https://github.com/stonith404/pingvin-share/commit/70b577f5ac8385cfc6a22ffee4c7e317e3cc6403))
+
+## [1.8.2](https://github.com/stonith404/pingvin-share/compare/v1.8.1...v1.8.2) (2025-01-21)
+
+
+### Bug Fixes
+
+* normal share gets attached to previously visited reverse share ([3a534c7](https://github.com/stonith404/pingvin-share/commit/3a534c7512ef82f3fa982f80e364f53c957306a0))
+* wrong TOTP validation for password ([2b7d3c0](https://github.com/stonith404/pingvin-share/commit/2b7d3c0a8a3e527fc1f7f86795731d5ac77eda49))
+
+## [1.8.1](https://github.com/stonith404/pingvin-share/compare/v1.8.0...v1.8.1) (2025-01-04)
+
+
+### Bug Fixes
+
+* wrong validation for expiration in reverse share modal ([b3ea96c](https://github.com/stonith404/pingvin-share/commit/b3ea96c1916980863fc6903c64cd2a7b32d66cfb))
+
+## [1.8.0](https://github.com/stonith404/pingvin-share/compare/v1.7.2...v1.8.0) (2025-01-02)
+
+
+### Features
+
+* add legal page with configuration options ([#724](https://github.com/stonith404/pingvin-share/issues/724)) ([df1ffaa](https://github.com/stonith404/pingvin-share/commit/df1ffaa2bcc047668cdc207cf8f86d821778cf44))
+* improve UI for timespan inputs on admin page ([#726](https://github.com/stonith404/pingvin-share/issues/726)) ([36afbf9](https://github.com/stonith404/pingvin-share/commit/36afbf91b7ba13e5ce42f2d91ec9898363a560b1))
+* **MyShares:** show information about own share security options ([#720](https://github.com/stonith404/pingvin-share/issues/720)) ([b58dcdb](https://github.com/stonith404/pingvin-share/commit/b58dcdba0b8688b286be4cc71796e2862553972a))
+* **UI:** improve filesize input and use it in settings ([#721](https://github.com/stonith404/pingvin-share/issues/721)) ([53c0551](https://github.com/stonith404/pingvin-share/commit/53c05518dfef4f65d76f5a1b301d0c5f8735576a))
+
+## [1.7.2](https://github.com/stonith404/pingvin-share/compare/v1.7.1...v1.7.2) (2024-12-28)
+
+
+### Bug Fixes
+
+* crash on zip download if zip is larger than 4GB ([#709](https://github.com/stonith404/pingvin-share/issues/709)) ([bfd4049](https://github.com/stonith404/pingvin-share/commit/bfd4049c154caae037db0458863e5c8c5d398848))
+
+## [1.7.1](https://github.com/stonith404/pingvin-share/compare/v1.7.0...v1.7.1) (2024-12-24)
+
+
+### Bug Fixes
+
+* incorrect ownership of the public folder ([6a97cc2](https://github.com/stonith404/pingvin-share/commit/6a97cc279c51bf125b9b516d1795f85b208e6ad5))
+
+## [1.7.0](https://github.com/stonith404/pingvin-share/compare/v1.6.1...v1.7.0) (2024-12-19)
+
+
+### Features
+
+* add support for S3 as a storage provider  ([#659](https://github.com/stonith404/pingvin-share/issues/659)) ([5a54fe4](https://github.com/stonith404/pingvin-share/commit/5a54fe4cb7d9c22740edd8619c0a51044ca8c791))
+
+## [1.6.1](https://github.com/stonith404/pingvin-share/compare/v1.6.0...v1.6.1) (2024-11-26)
+
+
+### Bug Fixes
+
+* error for non oidc oauth clients ([ba2e7e1](https://github.com/stonith404/pingvin-share/commit/ba2e7e122c45bfb2a783b15438112a79fee0c307))
+
+## [1.6.0](https://github.com/stonith404/pingvin-share/compare/v1.5.0...v1.6.0) (2024-11-25)
+
+
+### Features
+
+* add config variable to specify the requested OIDC sopes ([da54ce6](https://github.com/stonith404/pingvin-share/commit/da54ce6ee020a9718f55ec30c614607d411f55c8))
+
+
+### Bug Fixes
+
+* add validation for share id and zip compression config variables ([3160f90](https://github.com/stonith404/pingvin-share/commit/3160f90e1d4bb3d6aa4017e98e400929fc4d3b2e))
+
+## [1.5.0](https://github.com/stonith404/pingvin-share/compare/v1.4.0...v1.5.0) (2024-11-24)
+
+
+### Features
+
+* **share:** add share ID length setting ([#677](https://github.com/stonith404/pingvin-share/issues/677)) ([9d4bb55](https://github.com/stonith404/pingvin-share/commit/9d4bb55a0945450f8a42c212d7f23983db38f37f))
+
+
+### Bug Fixes
+
+* totp can't be enabled if user is a ldap user ([c8f05f2](https://github.com/stonith404/pingvin-share/commit/c8f05f2475a5a54550cf64ef57c8b612580273be))
+
 ## [1.4.0](https://github.com/stonith404/pingvin-share/compare/v1.3.0...v1.4.0) (2024-11-17)
 
 

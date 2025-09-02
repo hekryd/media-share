@@ -12,7 +12,7 @@ const ActionAvatar = () => {
     <Menu position="bottom-start" withinPortal>
       <Menu.Target>
         <ActionIcon>
-          <Avatar size="md" variant="transparent" />
+          <Avatar size={28} />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>

@@ -1,11 +1,10 @@
 import { ActionIcon, Table } from "@mantine/core";
-import {TbTrash} from "react-icons/tb";
+import { TbTrash } from "react-icons/tb";
 import { GrUndo } from "react-icons/gr";
 import { FileListItem } from "../../types/File.type";
 import { byteToHumanSizeString } from "../../utils/fileSize.util";
 import UploadProgressIndicator from "./UploadProgressIndicator";
 import { FormattedMessage } from "react-intl";
-
 
 const FileListRow = ({
   file,
@@ -17,7 +16,6 @@ const FileListRow = ({
   onRestore?: () => void;
 }) => {
   {
-
     const uploadable = "uploadingProgress" in file;
     const uploading = uploadable && file.uploadingProgress !== 0;
     const removable = uploadable
@@ -35,7 +33,7 @@ const FileListRow = ({
       >
         <td>{file.name}</td>
         <td>{byteToHumanSizeString(+file.size)}</td>
-        <td style={{display:"flex", justifyContent:"flex-end"}}>
+        <td>
           {removable && (
             <ActionIcon
               color="red"
@@ -102,25 +100,24 @@ const FileList = <T extends FileListItem = FileListItem>({
       file={file}
       onRemove={() => remove(i)}
       onRestore={() => restore(i)}
-
     />
   ));
 
   return (
-      <Table style={{ width: "100%", tableLayout: "fixed" }}>
-        <thead>
+    <Table>
+      <thead>
         <tr>
-          <th style={{ width: "50%" }}>
+          <th>
             <FormattedMessage id="upload.filelist.name" />
           </th>
-          <th style={{ width: "25%" }}>
+          <th>
             <FormattedMessage id="upload.filelist.size" />
           </th>
-          <th style={{ width: "25%" }}></th>
+          <th></th>
         </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      </thead>
+      <tbody>{rows}</tbody>
+    </Table>
   );
 };
 

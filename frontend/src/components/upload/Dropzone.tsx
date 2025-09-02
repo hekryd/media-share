@@ -27,8 +27,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   control: {
-    // position: "absolute",
-    bottom: 20,
+    position: "absolute",
+    bottom: -20,
   },
 }));
 

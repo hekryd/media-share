@@ -11,7 +11,9 @@ import { useClipboard } from "@mantine/hooks";
 import { useModals } from "@mantine/modals";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TbDownload, TbEye, TbLink } from "react-icons/tb";
+import { FormattedMessage } from "react-intl";
 import useConfig from "../../hooks/config.hook";
+import useTranslate from "../../hooks/useTranslate.hook";
 import shareService from "../../services/share.service";
 import { FileMetaData } from "../../types/File.type";
 import { Share } from "../../types/share.type";
@@ -19,8 +21,6 @@ import { byteToHumanSizeString } from "../../utils/fileSize.util";
 import toast from "../../utils/toast.util";
 import TableSortIcon, { TableSort } from "../core/SortIcon";
 import showFilePreviewModal from "./modals/showFilePreviewModal";
-import useTranslate from "../../hooks/useTranslate.hook";
-import { FormattedMessage } from "react-intl";
 
 const FileList = ({
   files,
@@ -71,7 +71,7 @@ const FileList = ({
 
     if (window.isSecureContext) {
       clipboard.copy(link);
-      toast.success(t("common.notify.copied"));
+      toast.success(t("common.notify.copied-link"));
     } else {
       modals.openModal({
         title: t("share.modal.file-link"),
@@ -88,26 +88,26 @@ const FileList = ({
 
   return (
     <Box sx={{ display: "block", overflowX: "auto" }}>
-      <Table style={{ width: "100%", tableLayout: "fixed" }}>
+      <Table>
         <thead>
-        <tr>
-          <th style={{ width: "50%" }}>
-            <Group spacing="xs">
-              <FormattedMessage id="share.table.name" />
-              <TableSortIcon sort={sort} setSort={setSort} property="name" />
-            </Group>
-          </th>
-          <th style={{ width: "25%" }}>
-            <Group spacing="xs">
-              <FormattedMessage id="share.table.size" />
-              <TableSortIcon sort={sort} setSort={setSort} property="size" />
-            </Group>
-          </th>
-          <th style={{ width: "25%" }}></th>
-        </tr>
+          <tr>
+            <th>
+              <Group spacing="xs">
+                <FormattedMessage id="share.table.name" />
+                <TableSortIcon sort={sort} setSort={setSort} property="name" />
+              </Group>
+            </th>
+            <th>
+              <Group spacing="xs">
+                <FormattedMessage id="share.table.size" />
+                <TableSortIcon sort={sort} setSort={setSort} property="size" />
+              </Group>
+            </th>
+            <th></th>
+          </tr>
         </thead>
         <tbody>
-        {isLoading
+          {isLoading
             ? skeletonRows
             : files!.map((file) => (
                 <tr key={file.name}>
@@ -116,35 +116,35 @@ const FileList = ({
                   <td>
                     <Group position="right">
                       {shareService.doesFileSupportPreview(file.name) && (
-                          <ActionIcon
-                              onClick={() =>
-                                  showFilePreviewModal(share.id, file, modals)
-                              }
-                              size={25}
-                          >
-                            <TbEye />
-                          </ActionIcon>
+                        <ActionIcon
+                          onClick={() =>
+                            showFilePreviewModal(share.id, file, modals)
+                          }
+                          size={25}
+                        >
+                          <TbEye />
+                        </ActionIcon>
                       )}
                       {!share.hasPassword && (
-                          <ActionIcon
-                              size={25}
-                              onClick={() => copyFileLink(file)}
-                          >
-                            <TbLink />
-                          </ActionIcon>
+                        <ActionIcon
+                          size={25}
+                          onClick={() => copyFileLink(file)}
+                        >
+                          <TbLink />
+                        </ActionIcon>
                       )}
                       <ActionIcon
-                          size={25}
-                          onClick={async () => {
-                            await shareService.downloadFile(share.id, file.id);
-                          }}
+                        size={25}
+                        onClick={async () => {
+                          await shareService.downloadFile(share.id, file.id);
+                        }}
                       >
                         <TbDownload />
                       </ActionIcon>
                     </Group>
                   </td>
                 </tr>
-            ))}
+              ))}
         </tbody>
       </Table>
     </Box>
