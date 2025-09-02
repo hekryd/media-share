@@ -211,18 +211,18 @@ const Upload = ({
                 <Title order={3}>
                     <FormattedMessage id="index.uploadTitle" />
                 </Title>
-        <Tooltip
-                    position="bottom"
-                    multiline
-                    label={t("index.click")}
-                    events={{ hover: true, focus: false, touch: true }}
-                    openDelay={1200}
-                    closeDelay={100}
-                >
-          <ActionIcon aria-label="Info" onClick={() => showUploadInfoModal(modals)}>
-                        <TbInfoCircle />
-                    </ActionIcon>
-                </Tooltip>
+        {/*<Tooltip*/}
+        {/*            position="bottom"*/}
+        {/*            multiline*/}
+        {/*            label={t("index.click")}*/}
+        {/*            events={{ hover: true, focus: false, touch: true }}*/}
+        {/*            openDelay={1200}*/}
+        {/*            closeDelay={100}*/}
+        {/*        >*/}
+        {/*  <ActionIcon aria-label="Info" onClick={() => showUploadInfoModal(modals)}>*/}
+        {/*                <TbInfoCircle />*/}
+        {/*            </ActionIcon>*/}
+        {/*        </Tooltip>*/}
             </Group>
             <Button
                 loading={isUploading}
@@ -249,10 +249,8 @@ const Upload = ({
         size="sm"
   sx={(theme: any) => ({
           whiteSpace: "pre-line",
-          borderTop: "1px solid",
-          borderColor: "rgba(221, 221, 197, 0.7)",
           paddingTop: theme.spacing.md,
-          marginTop: theme.spacing.md,
+          marginTop: "100px",
         })}
       >
         {t("index.uploadTitleTooltip")}

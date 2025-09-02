@@ -549,9 +549,7 @@ export default {
   "index.uploadTitleTooltip": 
       "Ihr Datei-Upload an die Hektor + Rydzewski GmbH\n" +
       "\n" +
-      "\n" +
-      "Hier haben Sie die Möglichkeit, Dateien für aktuell laufende Produktionen hochzuladen. Dabei wichtig für Sie: Ihre Dokumente werden über eine sichere Verbindung direkt auf einen unserer firmeneigenen Medien-Server gespielt. Das in diesem Zusammenhang von uns beauftragte Rechenzentrum befindet sich in Deutschland. Weiterhin sind für Upload und Speicherung Ihrer Files keinerlei Cloud-Dienste von Drittanbietern involviert. Daher ist es sichergestellt, dass Ihre zur Verfügung gestellten Dateien auschließlich von Mitarbeitern der Hektor + Rydzewski GmbH verwendet und weiterverarbeitet werden. Die vertrauliche Behandlung aller Ihrer Daten sagen wir hier ausdrücklich zu und ist stets gewährleistet.\n" +
-      "Im Falle aufkommender Fragen zum Thema wenden Sie sich gerne jederzeit an uns:\n" +
+      "Hier haben Sie die Möglichkeit, Dateien für aktuell laufende Produktionen hochzuladen. Dabei wichtig für Sie: Ihre Dokumente werden über eine sichere Verbindung direkt auf einen unserer firmeneigenen Medien-Server gespielt. Das in diesem Zusammenhang von uns beauftragte Rechenzentrum befindet sich in Deutschland. Weiterhin sind für Upload und Speicherung Ihrer Files keinerlei Cloud-Dienste von Drittanbietern involviert. Daher ist es sichergestellt, dass Ihre zur Verfügung gestellten Dateien auschließlich von Mitarbeitern der Hektor + Rydzewski GmbH verwendet und weiterverarbeitet werden. Die vertrauliche Behandlung aller Ihrer Daten sagen wir hier ausdrücklich zu und ist stets gewährleistet. Im Falle aufkommender Fragen zum Thema wenden Sie sich gerne jederzeit an uns:\n" +
       "\n" +
       "\n" +
       "Telefon: +49 (0)211 -933 86 -0\n" +
