@@ -109,6 +109,7 @@ model ReverseShare {
   remainingUses         Int
   simplified            Boolean  @default(false)
   publicAccess          Boolean  @default(true)
+  name String? 
 
   creatorId String
   creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)

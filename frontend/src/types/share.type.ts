@@ -47,6 +47,7 @@ export type MyReverseShare = {
   remainingUses: number;
   token: string;
   shares: MyShare[];
+  name?: string;
 };
 
 export type ShareSecurity = {
