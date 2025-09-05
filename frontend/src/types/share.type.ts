@@ -38,6 +38,8 @@ export type MyShare = Omit<Share, "hasPassword"> & {
   views: number;
   createdAt: Date;
   security: MyShareSecurity;
+  // Optional reverse share relation (only includes name from backend listing)
+  reverseShare?: { name?: string };
 };
 
 export type MyReverseShare = {

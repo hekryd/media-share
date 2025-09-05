@@ -79,7 +79,7 @@ const ManageShareTable = ({
                   <td>
                     {share.creator
                       ? share.creator.username
-                      : (share as any)?.reverseShare?.name || (
+                      : share.reverseShare?.name || (
                           <Text color="dimmed">Anonymous</Text>
                         )}
                   </td>
