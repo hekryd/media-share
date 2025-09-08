@@ -107,10 +107,32 @@ const MyShares = () => {
                   <FormattedMessage id="account.reverseShares.table.name" />
                 </th>
                 <th>
-                  <FormattedMessage id="account.reverseShares.table.remaining" />
+                  <Group align="center" spacing={6}>
+                    <FormattedMessage id="account.reverseShares.table.remaining" />
+                    <Tooltip
+                      position="bottom"
+                      label={t("account.reverseShares.table.remaining.tooltip")}
+                      events={{ hover: true, focus: false, touch: true }}
+                    >
+                      <ActionIcon>
+                        <TbInfoCircle />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Group>
                 </th>
                 <th>
-                  <FormattedMessage id="account.reverseShares.table.max-size" />
+                  <Group align="center" spacing={6}>
+                    <FormattedMessage id="account.reverseShares.table.max-size" />
+                    <Tooltip
+                      position="bottom"
+                      label={t("account.reverseShares.table.max-size.tooltip")}
+                      events={{ hover: true, focus: false, touch: true }}
+                    >
+                      <ActionIcon>
+                        <TbInfoCircle />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Group>
                 </th>
                 <th>
                   <FormattedMessage id="account.reverseShares.table.expires" />
@@ -188,7 +210,7 @@ const MyShares = () => {
                   <td>
                     {moment(reverseShare.shareExpiration).unix() === 0
                       ? "Never"
-                      : moment(reverseShare.shareExpiration).format("LLL")}
+                      : moment(reverseShare.shareExpiration).format("DD.MM.YYYY HH:mm")}
                   </td>
                   <td>
                     <Group position="right">

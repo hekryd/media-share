@@ -18,6 +18,8 @@ import { MyShare } from "../../../types/share.type";
 import { byteToHumanSizeString } from "../../../utils/fileSize.util";
 import toast from "../../../utils/toast.util";
 import showShareLinkModal from "../../account/showShareLinkModal";
+import {IoOpenOutline} from 'react-icons/io5';
+import Link from 'next/link';
 
 const ManageShareTable = ({
   shares,
@@ -41,9 +43,9 @@ const ManageShareTable = ({
             <th>
               <FormattedMessage id="account.shares.table.name" />
             </th>
-            {/*<th>*/}
-            {/*   <FormattedMessage id="account.shares.table.description"  />*/}
-            {/*</th>*/}
+            <th>
+               <FormattedMessage id="account.shares.table.description"  />
+            </th>
             <th>
               <FormattedMessage id="account.shares.table.visitors" />
             </th>
@@ -71,14 +73,22 @@ const ManageShareTable = ({
             : shares.map((share) => (
                 <tr key={share.id}>
                   <td>{share.name}</td>
-                  {/*<td>{share.description ? share.description : <Text color="dimmed">Leer</Text>}</td>*/}
+                  <td>
+                    {share.description ? (
+                      share.description.length > 20
+                        ? `${share.description.slice(0, 20)}...`
+                        : share.description
+                    ) : (
+                      <Text color="dimmed">Leer</Text>
+                    )}
+                  </td>
                   <td>{share.views}</td>
                   <td>{byteToHumanSizeString(share.size)}</td>
-                  <td>{moment(share.createdAt).format("LLL")}</td>
+                  <td>{moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}</td>
                   <td>
                     {moment(share.expiration).unix() === 0
                       ? "Never"
-                      : moment(share.expiration).format("LLL")}
+                      : moment(share.expiration).format("DD.MM.YYYY, HH:mm")}
                   </td>
                   <td>
                     {share.creator
@@ -90,6 +100,18 @@ const ManageShareTable = ({
                   <td>{share.id}</td>
                   <td>
                     <Group position="right">
+                      <ActionIcon
+                        color="orange"
+                        variant="light"
+                        size={25}
+                        onClick={() => {
+                          const url = `${window.location.origin}/share/${share.id}`;
+                          // open in new tab
+                          window.open(url, "_blank", "noopener,noreferrer");
+                        }}
+                      >
+                        <IoOpenOutline />
+                      </ActionIcon>
                       <ActionIcon
                         color="victoria"
                         variant="light"

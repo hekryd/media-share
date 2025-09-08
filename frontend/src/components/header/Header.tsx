@@ -167,6 +167,11 @@ const Header = () => {
       <Container className={classes.header}>
         {/* Left side: app name */}
         <Text weight={600}>H+R Media Share</Text>
+        {user && (
+          <Text weight={600}>
+            Angemeldet als: {user.username ?? user.email ?? ""}
+          </Text>
+        )}
         <Group spacing={5} className={classes.links}>
           <Group>{items} </Group>
         </Group>
