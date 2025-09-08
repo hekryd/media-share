@@ -29,6 +29,10 @@ export class ShareDTO {
   @Expose()
   size: number;
 
+  // Optional reverse share relation (only exposing name for now)
+  @Expose()
+  reverseShare?: { name?: string };
+
   from(partial: Partial<ShareDTO>) {
     return plainToClass(ShareDTO, partial, { excludeExtraneousValues: true });
   }

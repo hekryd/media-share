@@ -8,6 +8,7 @@ import {
   Stack,
   Switch,
   Text,
+  TextInput,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import { useModals } from "@mantine/modals";
@@ -66,6 +67,7 @@ const Body = ({
       expiration_unit: "-days",
       simplified: !!(getCookie("reverse-share.simplified") ?? true),
       publicAccess: !!(getCookie("reverse-share.public-access") ?? true),
+      name: "",
     },
     validate: yupResolver(
       yup.object().shape({
@@ -75,6 +77,12 @@ const Body = ({
           .min(1, t("common.error.number-too-small", { min: 1 }))
           .max(1000, t("common.error.number-too-large", { max: 1000 }))
           .required(t("common.error.field-required")),
+        name: yup
+          .string()
+          .transform((v) => (v === "" ? undefined : v))
+          .min(3, t("common.error.string-too-short", { min: 3 }))
+          .max(30, t("common.error.string-too-long", { max: 30 }))
+          .notRequired(),
       }),
     ),
   });
@@ -116,6 +124,7 @@ const Body = ({
         values.sendEmailNotification,
         values.simplified,
         values.publicAccess,
+        values.name,
       )
       .then(({ link }) => {
         modals.closeAll();
@@ -128,6 +137,11 @@ const Body = ({
     <Group>
       <form onSubmit={onSubmit}>
         <Stack align="stretch">
+          <TextInput
+            label={t("account.reverseShares.modal.name.label")}
+            placeholder={t("account.reverseShares.modal.name.placeholder")}
+            {...form.getInputProps("name")}
+          />
           <div>
             <Grid align={form.errors.expiration_num ? "center" : "flex-end"}>
               <Col xs={6}>

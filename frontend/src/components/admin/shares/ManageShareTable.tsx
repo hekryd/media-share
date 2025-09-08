@@ -41,11 +41,17 @@ const ManageShareTable = ({
             <th>
               <FormattedMessage id="account.shares.table.name" />
             </th>
+            {/*<th>*/}
+            {/*   <FormattedMessage id="account.shares.table.description"  />*/}
+            {/*</th>*/}
             <th>
               <FormattedMessage id="account.shares.table.visitors" />
             </th>
             <th>
               <FormattedMessage id="account.shares.table.size" />
+            </th>
+            <th>
+              <FormattedMessage id="account.shares.table.createdAt" />
             </th>
             <th>
               <FormattedMessage id="account.shares.table.expiresAt" />
@@ -65,19 +71,21 @@ const ManageShareTable = ({
             : shares.map((share) => (
                 <tr key={share.id}>
                   <td>{share.name}</td>
+                  {/*<td>{share.description ? share.description : <Text color="dimmed">Leer</Text>}</td>*/}
                   <td>{share.views}</td>
                   <td>{byteToHumanSizeString(share.size)}</td>
+                  <td>{moment(share.createdAt).format("LLL")}</td>
                   <td>
                     {moment(share.expiration).unix() === 0
                       ? "Never"
                       : moment(share.expiration).format("LLL")}
                   </td>
                   <td>
-                    {share.creator ? (
-                      share.creator.username
-                    ) : (
-                      <Text color="dimmed">Anonymous</Text>
-                    )}
+                    {share.creator
+                      ? share.creator.username
+                      : share.reverseShare?.name || (
+                          <Text color="dimmed">Anonymous</Text>
+                        )}
                   </td>
                   <td>{share.id}</td>
                   <td>
@@ -127,6 +135,9 @@ const skeletonRows = [...Array(10)].map((v, i) => (
         <Skeleton key={i} height={20} />
       </td>
     </MediaQuery>
+    <td>
+      <Skeleton key={i} height={20} />
+    </td>
     <td>
       <Skeleton key={i} height={20} />
     </td>

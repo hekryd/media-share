@@ -207,7 +207,12 @@ export class ShareService {
       orderBy: {
         expiration: "desc",
       },
-      include: { files: true, creator: true },
+      // Include reverseShare (only name) so frontend can display the reverse share name
+      include: {
+        files: true,
+        creator: true,
+        reverseShare: { select: { name: true } },
+      },
     });
 
     return shares.map((share) => {
@@ -232,7 +237,12 @@ export class ShareService {
       orderBy: {
         expiration: "desc",
       },
-      include: { recipients: true, files: true, security: true },
+      include: {
+        recipients: true,
+        files: true,
+        security: true,
+        reverseShare: { select: { name: true } },
+      },
     });
 
     return shares.map((share) => {

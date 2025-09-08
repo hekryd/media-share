@@ -13,6 +13,10 @@ export class AdminShareDTO extends OmitType(ShareDTO, [
   @Expose()
   createdAt: Date;
 
+  // Re-expose reverseShare from base DTO (OmitType keeps it since not omitted)
+  @Expose()
+  reverseShare?: { name?: string };
+
   from(partial: Partial<AdminShareDTO>) {
     return plainToClass(AdminShareDTO, partial, {
       excludeExtraneousValues: true,

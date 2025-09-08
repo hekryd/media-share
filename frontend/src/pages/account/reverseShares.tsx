@@ -104,6 +104,9 @@ const MyShares = () => {
                   <FormattedMessage id="account.reverseShares.table.shares" />
                 </th>
                 <th>
+                  <FormattedMessage id="account.reverseShares.table.name" />
+                </th>
+                <th>
                   <FormattedMessage id="account.reverseShares.table.remaining" />
                 </th>
                 <th>
@@ -177,6 +180,7 @@ const MyShares = () => {
                       </Accordion>
                     )}
                   </td>
+                  <td>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
                   <td>{reverseShare.remainingUses}</td>
                   <td>
                     {byteToHumanSizeString(parseInt(reverseShare.maxShareSize))}

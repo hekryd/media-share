@@ -52,6 +52,7 @@ export class ReverseShareService {
         sendEmailNotification: data.sendEmailNotification,
         simplified: data.simplified,
         publicAccess: data.publicAccess,
+        name: data.name,
         creatorId,
       },
     });

@@ -25,5 +25,16 @@ export default <MantineThemeOverride>{
         },
       }),
     },
+    Container: {
+      defaultProps: {
+        // Mantine default is 62rem (roughly 992px) for lg; force a custom size token
+        size: "xl",
+      },
+      styles: (theme, _params, { size }) => ({
+        root: {
+          ...(size === "xl" && { maxWidth: 1200 }),
+        },
+      }),
+    },
   },
 };

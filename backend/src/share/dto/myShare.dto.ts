@@ -25,6 +25,10 @@ export class MyShareDTO extends OmitType(ShareDTO, [
   @Expose()
   security?: MyShareSecurityDTO;
 
+  // Include reverseShare relation (name only)
+  @Expose()
+  reverseShare?: { name?: string };
+
   from(partial: Partial<MyShareDTO>) {
     return plainToClass(MyShareDTO, partial, { excludeExtraneousValues: true });
   }

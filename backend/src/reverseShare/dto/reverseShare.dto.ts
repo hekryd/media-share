@@ -16,6 +16,9 @@ export class ReverseShareDTO {
   @Expose()
   simplified: boolean;
 
+  @Expose()
+  name?: string;
+
   from(partial: Partial<ReverseShareDTO>) {
     return plainToClass(ReverseShareDTO, partial, {
       excludeExtraneousValues: true,
