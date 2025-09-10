@@ -168,7 +168,7 @@ const Header = () => {
         {/* Left side: app name */}
         <Text weight={600}>H+R Media Share</Text>
         {user && (
-          <Text weight={600}>
+          <Text size="sm">
             Angemeldet als: {user.username ?? user.email ?? ""}
           </Text>
         )}
