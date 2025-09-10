@@ -9,6 +9,8 @@ export type Share = {
   expiration: Date;
   size: number;
   hasPassword: boolean;
+  // Optional reverse share relation (may include only name)
+  reverseShare?: { name?: string };
 };
 
 export type CompletedShare = Share & {

@@ -269,6 +269,8 @@ export class ShareService {
         },
         creator: true,
         security: true,
+  // Include reverseShare (only name) so the frontend detail page can display it
+  reverseShare: { select: { name: true } },
       },
     });
 
@@ -280,6 +282,8 @@ export class ShareService {
     return {
       ...share,
       hasPassword: !!share.security?.password,
+      // Provide size (used by ShareDTO) similar to list endpoints
+      size: share.files.reduce((acc, file) => acc + parseInt((file as any).size), 0),
     };
   }
 

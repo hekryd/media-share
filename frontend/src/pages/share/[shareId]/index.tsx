@@ -109,6 +109,15 @@ const Share = ({ shareId }: { shareId: string }) => {
         <Box style={{ maxWidth: "70%" }}>
           <Title order={3}>{share?.name || share?.id}</Title>
           <Text size="sm">{share?.description}</Text>
+          <Text size="sm">
+            {share?.creator
+              ? share.creator.username
+              : share?.reverseShare?.name || (
+                  <Text component="span" color="dimmed">
+                    Anonymous
+                  </Text>
+                )}
+          </Text>
           {share?.files?.length > 0 && (
             <Text size="sm" color="dimmed" mt={5}>
               <FormattedMessage

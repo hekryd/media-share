@@ -6,11 +6,12 @@ import {
   Skeleton,
   Table,
   Text,
+  Tooltip,
 } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
 import { useModals } from "@mantine/modals";
 import moment from "moment";
-import { TbLink, TbTrash } from "react-icons/tb";
+import { TbLink, TbTrash, TbArticle } from "react-icons/tb";
 import { FormattedMessage } from "react-intl";
 import useConfig from "../../../hooks/config.hook";
 import useTranslate from "../../../hooks/useTranslate.hook";
@@ -40,31 +41,31 @@ const ManageShareTable = ({
       <Table verticalSpacing="sm">
         <thead>
           <tr>
-            <th>
+            <th style={{ width: 210 }}>
               <FormattedMessage id="account.shares.table.name" />
             </th>
-            <th>
-               <FormattedMessage id="account.shares.table.description"  />
+            <th style={{ width: 140 }}>
+              <FormattedMessage id="account.shares.table.description" />
             </th>
-            <th>
-              <FormattedMessage id="account.shares.table.visitors" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.size" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.createdAt" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.expiresAt" />
-            </th>
-            <th>
+            <th style={{ width: 210 }}>
               <FormattedMessage id="admin.shares.table.username" />
             </th>
-            <th>
+            <th style={{ width: 65 }}>
+              <FormattedMessage id="account.shares.table.visitors" />
+            </th>
+            <th style={{ width: 100 }}>
+              <FormattedMessage id="account.shares.table.size" />
+            </th>
+            <th style={{ width: 150 }}>
+              <FormattedMessage id="account.shares.table.createdAt" />
+            </th>
+            <th style={{ width: 150 }}>
+              <FormattedMessage id="account.shares.table.expiresAt" />
+            </th>
+            <th style={{ width: 45, textAlign: 'center' }}>
               <FormattedMessage id="account.shares.table.id" />
             </th>
-            <th></th>
+            <th style={{ width: 125 }}></th>
           </tr>
         </thead>
         <tbody>
@@ -72,33 +73,78 @@ const ManageShareTable = ({
             ? skeletonRows
             : shares.map((share) => (
                 <tr key={share.id}>
-                  <td>{share.name}</td>
-                  <td>
+                  {/* Name (30 chars) */}
+                  <td style={{ width: 210, maxWidth: 210 }}>
+                    {share.name ? (
+                      <Text
+                        size="sm"
+                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                      >
+                        {share.name}
+                      </Text>
+                    ) : (
+                      <Text color="dimmed">-</Text>
+                    )}
+                  </td>
+                  {/* Description (20 chars) */}
+                  <td style={{ width: 140, maxWidth: 140 }}>
                     {share.description ? (
-                      share.description.length > 20
-                        ? `${share.description.slice(0, 20)}...`
-                        : share.description
+                      <Text
+                        size="sm"
+                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                      >
+                        {share.description.length > 20
+                          ? `${share.description.slice(0, 20)}...`
+                          : share.description}
+                      </Text>
                     ) : (
                       <Text color="dimmed">Leer</Text>
                     )}
                   </td>
-                  <td>{share.views}</td>
-                  <td>{byteToHumanSizeString(share.size)}</td>
-                  <td>{moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}</td>
-                  <td>
+                  {/* Creator / Reverse share name / Anonymous (30 chars) */}
+                  <td style={{ width: 210, maxWidth: 210 }}>
+                    {(() => {
+                      const creatorLabel = share.creator
+                        ? share.creator.username
+                        : share.reverseShare?.name || 'Anonymous';
+                      const isAnonymous = creatorLabel === 'Anonymous';
+                      return (
+                        <Text
+                          size="sm"
+                          color={isAnonymous ? 'dimmed' : undefined}
+                          sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        >
+                          {creatorLabel}
+                        </Text>
+                      );
+                    })()}
+                  </td>
+                  <td style={{ width: 65 }}>{share.views}</td>
+                  <td style={{ width: 100 }}>{byteToHumanSizeString(share.size)}</td>
+                  <td style={{ width: 150 }}>
+                    {moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}
+                  </td>
+                  <td style={{ width: 150 }}>
                     {moment(share.expiration).unix() === 0
                       ? "Never"
                       : moment(share.expiration).format("DD.MM.YYYY, HH:mm")}
                   </td>
-                  <td>
-                    {share.creator
-                      ? share.creator.username
-                      : share.reverseShare?.name || (
-                          <Text color="dimmed">Anonymous</Text>
-                        )}
+                  <td style={{ width: 45, textAlign: 'center' }}>
+                    <Tooltip label={`ID: ${share.id}`} position="bottom" withinPortal>
+                      <ActionIcon
+                        variant="light"
+                        size={25}
+                        onClick={() => {
+                          clipboard.copy(share.id);
+                          toast.success(t("common.notify.copied-id"));
+                        }}
+                        aria-label={`Copy ID ${share.id}`}
+                      >
+                        <TbArticle />
+                      </ActionIcon>
+                    </Tooltip>
                   </td>
-                  <td>{share.id}</td>
-                  <td>
+                  <td style={{ width: 125 }}>
                     <Group position="right">
                       <ActionIcon
                         color="orange"
