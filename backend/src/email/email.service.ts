@@ -81,8 +81,23 @@ export class EmailService {
     );
   }
 
-  async sendMailToReverseShareCreator(recipientEmail: string, shareId: string) {
+  /**
+   * Sends reverse share creator notification. Supports the same variables as regular upload email:
+   * {creator}, {creatorEmail}, {shareUrl}, {desc}, {expires}
+   */
+  async sendMailToReverseShareCreator(
+    recipientEmail: string,
+    shareId: string,
+    creator?: User,
+    description?: string,
+    expiration?: Date,
+    reverseShareName?: string,
+    shareName?: string,
+  ) {
     const shareUrl = `${this.config.get("general.appUrl")}/s/${shareId}`;
+    const creatorLabel = creator
+      ? creator.username
+      : reverseShareName || "Anonymous";
 
     await this.sendMail(
       recipientEmail,
@@ -90,7 +105,17 @@ export class EmailService {
       this.config
         .get("email.reverseShareMessage")
         .replaceAll("\\n", "\n")
-        .replaceAll("{shareUrl}", shareUrl),
+        .replaceAll("{shareUrl}", shareUrl)
+        .replaceAll("{creator}", creatorLabel)
+        .replaceAll("{creatorEmail}", creator?.email ?? "")
+        .replaceAll("{desc}", description ?? "No description")
+        .replaceAll(
+          "{expires}",
+          expiration && moment(expiration).unix() != 0
+            ? moment(expiration).fromNow()
+            : "in: never",
+        )
+        .replaceAll("{shareName}", shareName ?? "Unnamed share"),
     );
   }
 

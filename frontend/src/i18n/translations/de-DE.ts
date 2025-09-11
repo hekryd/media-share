@@ -347,7 +347,7 @@ export default {
   "admin.config.email.reverse-share-subject": "Name des externen Upload",
   "admin.config.email.reverse-share-subject.description": "Betreff der gesendeten E-Mail, wenn jemand einen Upload mit Ihrem externen Upload-Link erstellt hat.",
   "admin.config.email.reverse-share-message": "Nachricht für externe Uploads",
-  "admin.config.email.reverse-share-message.description": "Nachricht, die gesendet wird, wenn jemand einen Upload mit deinem externen Upload-Link erstellt. {shareUrl} wird durch den Namen des Erstellers und die Upload-URL ersetzt.",
+  "admin.config.email.reverse-share-message.description": "Nachricht, die gesendet wird, wenn jemand einen Upload mit deinem externen Upload-Link erstellt. Verfügbare Variablen:\n- {shareUrl} - Die URL des Upload\n- {shareName} - Der Titel des Upload\n- {creator} - Benutzername des Erstellers\n- {creatorEmail} - E-Mail-Adresse des Erstellers\n- {desc} - Der hinweis für den HR mitarbeiter\n- {expires} - Ablaufzeit relativ\nVariablen werden durch die tatsächlichen Werte ersetzt.",
   "admin.config.email.reset-password-subject": "Betreff für Passwortzurücksetzung",
   "admin.config.email.reset-password-subject.description": "Betreff der gesendeten E-Mail, wenn ein Benutzer ein Passwort zurücksetzen möchte.",
   "admin.config.email.reset-password-message": "Nachricht für Passwortzurücksetzung",

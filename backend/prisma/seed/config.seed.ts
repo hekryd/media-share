@@ -117,7 +117,7 @@ export const configVariables = {
     reverseShareMessage: {
       type: "text",
       defaultValue:
-        "Hey!\n\nA share was just created with your reverse share link: {shareUrl}\n\nShared securely with Pingvin Share 🐧",
+        "Hey!\n\nA share was just created with your reverse share link: {shareUrl}\n\nShare name: {shareName}\nCreator: {creator} ({creatorEmail})\nDescription: {desc}\nExpires: {expires}\n\nShared securely with Pingvin Share 🐧",
     },
     resetPasswordSubject: {
       type: "string",
