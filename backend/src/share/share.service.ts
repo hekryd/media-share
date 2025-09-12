@@ -210,7 +210,7 @@ export class ShareService {
   async getShares() {
     const shares = await this.prisma.share.findMany({
       orderBy: {
-        expiration: "desc",
+        createdAt: "desc",
       },
       // Include reverseShare (only name) so frontend can display the reverse share name
       include: {
@@ -240,7 +240,7 @@ export class ShareService {
         ],
       },
       orderBy: {
-        expiration: "desc",
+        createdAt: "desc",
       },
       include: {
         recipients: true,
