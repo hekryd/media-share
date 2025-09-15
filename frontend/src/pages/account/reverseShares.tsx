@@ -100,13 +100,13 @@ const MyShares = () => {
           <Table>
             <thead>
               <tr>
-                <th style={{ width: 380, minWidth: 340 }}>
+                <th style={{ width: 380, minWidth: 300 }}>
                   <FormattedMessage id="account.reverseShares.table.shares" />
                 </th>
-                <th style={{ width: 140 }}>
+                <th style={{ width: 150 }}>
                   <FormattedMessage id="account.reverseShares.table.name" />
                 </th>
-                <th style={{ width: 120 }}>
+                <th style={{ width: 75 }}>
                   <Group align="center" spacing={6}>
                     <FormattedMessage id="account.reverseShares.table.remaining" />
                     <Tooltip
@@ -120,7 +120,7 @@ const MyShares = () => {
                     </Tooltip>
                   </Group>
                 </th>
-                <th style={{ width: 140 }}>
+                <th style={{ width: 80 }}>
                   <Group align="center" spacing={6}>
                     <FormattedMessage id="account.reverseShares.table.max-size" />
                     <Tooltip
@@ -134,16 +134,16 @@ const MyShares = () => {
                     </Tooltip>
                   </Group>
                 </th>
-                <th style={{ width: 160 }}>
+                <th style={{ width: 120 }}>
                   <FormattedMessage id="account.reverseShares.table.expires" />
                 </th>
-                <th style={{ width: 120 }}></th>
+                <th style={{ width: 75 }}></th>
               </tr>
             </thead>
             <tbody>
               {reverseShares.map((reverseShare) => (
                 <tr key={reverseShare.id}>
-                  <td style={{ width: 380, minWidth: 340 }}>
+                  <td style={{ width: 380, minWidth: 300 }}>
                     {reverseShare.shares.length == 0 ? (
                       <Text color="dimmed" size="sm">
                         <FormattedMessage id="account.reverseShares.table.no-shares" />
@@ -211,17 +211,17 @@ const MyShares = () => {
                       </Accordion>
                     )}
                   </td>
-                  <td style={{ width: 140 }}>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
-                  <td style={{ width: 120 }}>{reverseShare.remainingUses}</td>
-                  <td style={{ width: 140 }}>
+                  <td style={{ width: 150 }}>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
+                  <td style={{ width: 75 }}>{reverseShare.remainingUses}</td>
+                  <td style={{ width: 80 }}>
                     {byteToHumanSizeString(parseInt(reverseShare.maxShareSize))}
                   </td>
-                  <td style={{ width: 160 }}>
+                  <td style={{ width: 120 }}>
                     {moment(reverseShare.shareExpiration).unix() === 0
                       ? "Never"
                       : moment(reverseShare.shareExpiration).format("DD.MM.YYYY HH:mm")}
                   </td>
-                  <td style={{ width: 120 }}>
+                  <td style={{ width: 75 }}>
                     <Group position="right">
                       <ActionIcon
                         color="victoria"
