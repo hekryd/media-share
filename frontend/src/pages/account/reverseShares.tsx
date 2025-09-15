@@ -100,13 +100,13 @@ const MyShares = () => {
           <Table>
             <thead>
               <tr>
-                <th>
+                <th style={{ width: 380, minWidth: 340 }}>
                   <FormattedMessage id="account.reverseShares.table.shares" />
                 </th>
-                <th>
+                <th style={{ width: 140 }}>
                   <FormattedMessage id="account.reverseShares.table.name" />
                 </th>
-                <th>
+                <th style={{ width: 120 }}>
                   <Group align="center" spacing={6}>
                     <FormattedMessage id="account.reverseShares.table.remaining" />
                     <Tooltip
@@ -120,7 +120,7 @@ const MyShares = () => {
                     </Tooltip>
                   </Group>
                 </th>
-                <th>
+                <th style={{ width: 140 }}>
                   <Group align="center" spacing={6}>
                     <FormattedMessage id="account.reverseShares.table.max-size" />
                     <Tooltip
@@ -134,16 +134,16 @@ const MyShares = () => {
                     </Tooltip>
                   </Group>
                 </th>
-                <th>
+                <th style={{ width: 160 }}>
                   <FormattedMessage id="account.reverseShares.table.expires" />
                 </th>
-                <th></th>
+                <th style={{ width: 120 }}></th>
               </tr>
             </thead>
             <tbody>
               {reverseShares.map((reverseShare) => (
                 <tr key={reverseShare.id}>
-                  <td style={{ width: 220 }}>
+                  <td style={{ width: 380, minWidth: 340 }}>
                     {reverseShare.shares.length == 0 ? (
                       <Text color="dimmed" size="sm">
                         <FormattedMessage id="account.reverseShares.table.no-shares" />
@@ -166,53 +166,62 @@ const MyShares = () => {
                             </Text>
                           </Accordion.Control>
                           <Accordion.Panel>
-                            {reverseShare.shares.map((share) => (
-                              <Group key={share.id} mb={4}>
-                                <Anchor
-                                  href={`${window.location.origin}/share/${share.id}`}
-                                  target="_blank"
-                                >
-                                  <Text maw={120} truncate>
-                                    {share.name}
-                                  </Text>
-                                </Anchor>
-                                <ActionIcon
-                                  color="victoria"
-                                  variant="light"
-                                  size={25}
-                                  onClick={() => {
-                                    if (window.isSecureContext) {
-                                      clipboard.copy(
-                                        `${window.location.origin}/s/${share.id}`,
-                                      );
-                                      toast.success(
-                                        t("common.notify.copied-link"),
-                                      );
-                                    } else {
-                                      showShareLinkModal(modals, share.id);
-                                    }
-                                  }}
-                                >
-                                  <TbLink />
-                                </ActionIcon>
-                              </Group>
-                            ))}
+                            {reverseShare.shares.map((share) => {
+                              const created = moment(share.createdAt).format(
+                                "DD.MM.YYYY, HH:mm",
+                              );
+                              return (
+                                <Group key={share.id} mb={4}>
+                                  <Anchor
+                                    href={`${window.location.origin}/share/${share.id}`}
+                                    target="_blank"
+                                  >
+                                    <Text maw={340} truncate>
+                                      {created} – {share.name ? (
+                                        share.name
+                                      ) : (
+                                        <Text span color="dimmed">Unnamed</Text>
+                                      )}
+                                    </Text>
+                                  </Anchor>
+                                  <ActionIcon
+                                    color="victoria"
+                                    variant="light"
+                                    size={25}
+                                    onClick={() => {
+                                      if (window.isSecureContext) {
+                                        clipboard.copy(
+                                          `${window.location.origin}/s/${share.id}`,
+                                        );
+                                        toast.success(
+                                          t("common.notify.copied-link"),
+                                        );
+                                      } else {
+                                        showShareLinkModal(modals, share.id);
+                                      }
+                                    }}
+                                  >
+                                    <TbLink />
+                                  </ActionIcon>
+                                </Group>
+                              );
+                            })}
                           </Accordion.Panel>
                         </Accordion.Item>
                       </Accordion>
                     )}
                   </td>
-                  <td>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
-                  <td>{reverseShare.remainingUses}</td>
-                  <td>
+                  <td style={{ width: 140 }}>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
+                  <td style={{ width: 120 }}>{reverseShare.remainingUses}</td>
+                  <td style={{ width: 140 }}>
                     {byteToHumanSizeString(parseInt(reverseShare.maxShareSize))}
                   </td>
-                  <td>
+                  <td style={{ width: 160 }}>
                     {moment(reverseShare.shareExpiration).unix() === 0
                       ? "Never"
                       : moment(reverseShare.shareExpiration).format("DD.MM.YYYY HH:mm")}
                   </td>
-                  <td>
+                  <td style={{ width: 120 }}>
                     <Group position="right">
                       <ActionIcon
                         color="victoria"
