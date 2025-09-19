@@ -123,22 +123,6 @@ const CreateUploadModalBody = ({
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const [accordionValue, setAccordionValue] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (accordionValue === "description") {
-      let attempts = 0;
-      const tryFocus = () => {
-        const el = nameInputRef.current;
-        if (el) {
-          (el as any).focus?.({ preventScroll: true } as any);
-          (el as HTMLInputElement).select?.();
-          if (document.activeElement === el) return;
-        }
-        if (attempts++ < 8) setTimeout(tryFocus, 50);
-      };
-      setTimeout(tryFocus, 150);
-    }
-  }, [accordionValue]);
-
   const generatedLink = generateShareId(options.shareIdLength);
 
   const [showNotSignedInAlert, setShowNotSignedInAlert] = useState(true);
@@ -373,43 +357,36 @@ const CreateUploadModalBody = ({
               </Text>
             </>
           )}
+          
+          <TextInput
+            variant="filled"
+            label={t(
+              "upload.modal.accordion.name-and-description.name.placeholder",
+            )}
+            withAsterisk
+            placeholder={t(
+              "upload.modal.accordion.name-and-description.name.placeholder",
+            )}
+            required
+            ref={nameInputRef}
+            id="upload-name-input"
+            styles={{ required: { marginLeft: 0 } }}
+            description={<Text size="xs" color="red">{t("common.error.field-required")}</Text>}
+            onFocus={(e: React.FocusEvent<HTMLInputElement>) => e.currentTarget.select()}
+            {...form.getInputProps("name")}
+          />
+          <Textarea
+            variant="filled"
+            label={t(
+              "upload.modal.accordion.name-and-description.description.placeholder",
+            )}
+            placeholder={t(
+              "upload.modal.accordion.name-and-description.description.placeholder",
+            )}
+            {...form.getInputProps("description")}
+          />
+          
           <Accordion value={accordionValue} onChange={setAccordionValue}>
-            <Accordion.Item value="description" sx={{ borderBottom: "none" }}>
-              <Accordion.Control>
-                <FormattedMessage id="upload.modal.accordion.name-and-description.title" />
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Stack align="stretch">
-                  <TextInput
-                    variant="filled"
-                    label={t(
-                      "upload.modal.accordion.name-and-description.name.placeholder",
-                    )}
-                    withAsterisk
-                    placeholder={t(
-                      "upload.modal.accordion.name-and-description.name.placeholder",
-                    )}
-                    required
-                    ref={nameInputRef}
-                    id="upload-name-input"
-                    styles={{ required: { marginLeft: 0 } }}
-                    description={<Text size="xs" color="red">{t("common.error.field-required")}</Text>}
-                    onFocus={(e: React.FocusEvent<HTMLInputElement>) => e.currentTarget.select()}
-                    {...form.getInputProps("name")}
-                  />
-                  <Textarea
-                    variant="filled"
-                    label={t(
-                      "upload.modal.accordion.name-and-description.description.placeholder",
-                    )}
-                    placeholder={t(
-                      "upload.modal.accordion.name-and-description.description.placeholder",
-                    )}
-                    {...form.getInputProps("description")}
-                  />
-                </Stack>
-              </Accordion.Panel>
-            </Accordion.Item>
             {options.enableEmailRecepients && (
               <Accordion.Item value="recipients" sx={{ borderBottom: "none" }}>
                 <Accordion.Control>
