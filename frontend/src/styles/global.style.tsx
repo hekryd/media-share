@@ -49,7 +49,7 @@ const GlobalStyle = () => {
           display: "inline",
         },
         ".legacy-hr .header-nav-list > li > a": {
-          padding: "0 15px",
+          paddingLeft: "30px",
           color: "#7f7f7f",
           fontWeight: 500,
           letterSpacing: "0.6px",
