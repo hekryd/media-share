@@ -93,7 +93,7 @@ const GlobalStyle = () => {
         ".legacy-hr .change .bar3": {
           transform: "rotate(-45deg) translate(2px, -8px)",
         },
-        "@media (max-width: 1000px)": {
+        "@media (max-width: 1024px)": {
           ".legacy-hr .header-nav": { display: "none" },
           ".legacy-hr #menuToggle": { display: "block" },
         },

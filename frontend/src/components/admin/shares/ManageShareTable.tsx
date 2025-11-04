@@ -144,7 +144,7 @@ const ManageShareTable = ({
                       </ActionIcon>
                     </Tooltip>
                   </td>
-                  <td style={{ width: 125 }}>
+                  <td style={{ width: 125, minWidth: 125 }}>
                     <Group position="right">
                       <ActionIcon
                         color="orange"

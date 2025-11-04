@@ -32,7 +32,9 @@ export default <MantineThemeOverride>{
       },
       styles: (theme, _params, { size }) => ({
         root: {
-          ...(size === "xl" && { maxWidth: 1230 }),
+          paddingLeft: 0,
+          paddingRight: 0,
+          ...(size === "xl" && { width: "90%", maxWidth: 1200 }),
         },
       }),
     },
