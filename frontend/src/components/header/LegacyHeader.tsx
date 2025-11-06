@@ -75,7 +75,7 @@ const LegacyHeader = () => {
         <hr className="hr indent" />
       </header>
       {/* spacer to reserve space below fixed header */}
-      <div aria-hidden style={{ height: 140 }} />
+      <div aria-hidden style={{ height: 120 }} />
     </div>
   );
 };
