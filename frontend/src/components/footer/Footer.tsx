@@ -18,7 +18,7 @@ const Footer = () => {
   return (
     <footer ref={footerRef}>
       <div className="footer-content indent">
-        <span>©{year} Hektor + Rydzewski GmbH</span>
+        <span>© {year} Hektor + Rydzewski GmbH</span>
         <ul>
           <li>
             <a href="https://www.hektor-rydzewski.de/pages/rechtliches/impressum.php">Impressum </a>

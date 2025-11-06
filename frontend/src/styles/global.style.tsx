@@ -114,10 +114,11 @@ const GlobalStyle = () => {
           justifyContent: "space-between",
           alignItems: "center",
         },
-        ".footer-content li": {
-          display: "inline",
-          marginRight: '5px',
-        },
+          ".footer-content ul": {
+            display: "flex",
+            gap: "5px",
+            listStyle: "none",
+          },
         ".indent": {
           maxWidth: "90%",
           margin: "0 auto",
