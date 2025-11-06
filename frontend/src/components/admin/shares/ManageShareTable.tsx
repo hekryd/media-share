@@ -41,31 +41,31 @@ const ManageShareTable = ({
       <Table verticalSpacing="sm">
         <thead>
           <tr>
-            <th style={{ width: 210 }}>
+            <th>
               <FormattedMessage id="account.shares.table.name" />
             </th>
-            <th style={{ width: 140 }}>
+            <th>
               <FormattedMessage id="account.shares.table.description" />
             </th>
-            <th style={{ width: 210 }}>
+            <th>
               <FormattedMessage id="admin.shares.table.username" />
             </th>
-            <th style={{ width: 65 }}>
+            <th>
               <FormattedMessage id="account.shares.table.visitors" />
             </th>
-            <th style={{ width: 100 }}>
+            <th>
               <FormattedMessage id="account.shares.table.size" />
             </th>
-            <th style={{ width: 150 }}>
+            <th>
               <FormattedMessage id="account.shares.table.createdAt" />
             </th>
-            <th style={{ width: 150 }}>
+            <th>
               <FormattedMessage id="account.shares.table.expiresAt" />
             </th>
-            <th style={{ width: 45, textAlign: 'center' }}>
+            <th style={{ textAlign: 'center' }}>
               <FormattedMessage id="account.shares.table.id" />
             </th>
-            <th style={{ width: 125 }}></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -74,24 +74,24 @@ const ManageShareTable = ({
             : shares.map((share) => (
                 <tr key={share.id}>
                   {/* Name (30 chars) */}
-                  <td style={{ width: 210, maxWidth: 210 }}>
+                  <td style={{ maxWidth: 200 }}>
                     {share.name ? (
                       <Text
                         size="sm"
-                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
                       >
-                        {share.name}
+                          {share.name}
                       </Text>
                     ) : (
                       <Text color="dimmed">-</Text>
                     )}
                   </td>
                   {/* Description (20 chars) */}
-                  <td style={{ width: 140, maxWidth: 140 }}>
+                  <td style={{ maxWidth: 200 }}>
                     {share.description ? (
                       <Text
                         size="sm"
-                        sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
                       >
                         {share.description.length > 20
                           ? `${share.description.slice(0, 20)}...`
@@ -102,7 +102,7 @@ const ManageShareTable = ({
                     )}
                   </td>
                   {/* Creator / Reverse share name / Anonymous (30 chars) */}
-                  <td style={{ width: 210, maxWidth: 210 }}>
+                  <td style={{ maxWidth: 200}}>
                     {(() => {
                       const creatorLabel = share.creator
                         ? share.creator.username
@@ -112,19 +112,19 @@ const ManageShareTable = ({
                         <Text
                           size="sm"
                           color={isAnonymous ? 'dimmed' : undefined}
-                          sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                          sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
                         >
-                          {creatorLabel}
+                            {creatorLabel}
                         </Text>
                       );
                     })()}
                   </td>
-                  <td style={{ width: 65 }}>{share.views}</td>
-                  <td style={{ width: 100 }}>{byteToHumanSizeString(share.size)}</td>
-                  <td style={{ width: 150 }}>
+                  <td style={{ minWidth: 60 }}>{share.views}</td>
+                  <td style={{ minWidth: 85 }}>{byteToHumanSizeString(share.size)}</td>
+                  <td style={{ minWidth: 140 }}>
                     {moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}
                   </td>
-                  <td style={{ width: 150 }}>
+                  <td style={{ minWidth: 140 }}>
                     {moment(share.expiration).unix() === 0
                       ? "Never"
                       : moment(share.expiration).format("DD.MM.YYYY, HH:mm")}
@@ -144,7 +144,7 @@ const ManageShareTable = ({
                       </ActionIcon>
                     </Tooltip>
                   </td>
-                  <td style={{ width: 125, minWidth: 125 }}>
+                  <td style={{ minWidth: 125 }}>
                     <Group position="right">
                       <ActionIcon
                         color="orange"
