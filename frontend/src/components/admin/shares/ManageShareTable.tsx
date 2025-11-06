@@ -119,12 +119,12 @@ const ManageShareTable = ({
                       );
                     })()}
                   </td>
-                  <td style={{ minWidth: 60 }}>{share.views}</td>
-                  <td style={{ minWidth: 85 }}>{byteToHumanSizeString(share.size)}</td>
-                  <td style={{ minWidth: 140 }}>
+                  <td style={{ width: 60 }}>{share.views}</td>
+                  <td style={{ width: 85 }}>{byteToHumanSizeString(share.size)}</td>
+                  <td style={{ width: 140 }}>
                     {moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}
                   </td>
-                  <td style={{ minWidth: 140 }}>
+                  <td style={{ width: 140 }}>
                     {moment(share.expiration).unix() === 0
                       ? "Never"
                       : moment(share.expiration).format("DD.MM.YYYY, HH:mm")}
@@ -203,6 +203,9 @@ const skeletonRows = [...Array(10)].map((v, i) => (
         <Skeleton key={i} height={20} />
       </td>
     </MediaQuery>
+    <td>
+      <Skeleton key={i} height={20} />
+    </td>
     <td>
       <Skeleton key={i} height={20} />
     </td>
