@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  createStyles,
-  Group,
-  Header as MantineHeader,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Box, Container, createStyles, Group, Header as MantineHeader, Text } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
@@ -166,7 +158,9 @@ const Header = () => {
     <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root} withBorder={false}>
       <Container className={classes.header}>
         {/* Left side: app name */}
-        <Text weight={600}>H+R Media Share</Text>
+        <Text weight={900} sx={{ fontSize: "1.5em", lineHeight: 1.8, }}>
+          H+R Media Share
+        </Text>
         {user && (
           <Text size="sm">
             Angemeldet als: {user.username ?? user.email ?? ""}

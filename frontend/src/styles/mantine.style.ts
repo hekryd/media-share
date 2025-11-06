@@ -1,6 +1,7 @@
 import { MantineThemeOverride } from "@mantine/core";
 
 export default <MantineThemeOverride>{
+  fontFamily: "Trebuchet MS, Helvetica, sans-serif",
   colors: {
     victoria: [
       "#E2E1F1",

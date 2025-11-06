@@ -4,6 +4,15 @@ const GlobalStyle = () => {
   return (
     <Global
       styles={(theme) => ({
+        html: {
+          fontFamily: "Trebuchet MS, Helvetica, sans-serif",
+          color: "#4a4a4a",
+        },
+        body: {
+          minHeight: `calc(100vh + var(--footer-height, 0px))`,
+          fontFamily: "Trebuchet MS, Helvetica, sans-serif",
+          color: "#4a4a4a",
+        },
         a: {
           color: "inherit",
           textDecoration: "none",
@@ -21,7 +30,6 @@ const GlobalStyle = () => {
           zIndex: 2,
           top: 0,
           transform: "translate3d(0, 0, 0)",
-          fontFamily: 'Trebuchet MS, Helvetica, sans-serif',
           fontSize: 17,
           lineHeight: "30.6px",
         },
@@ -38,7 +46,6 @@ const GlobalStyle = () => {
         },
         // Mantine header typography
         ".mantine-Header-root": {
-          fontFamily: 'Trebuchet MS, Helvetica, sans-serif',
           fontSize: 17,
           lineHeight: "30.6px",
         },
@@ -103,7 +110,6 @@ const GlobalStyle = () => {
           backgroundColor: "#edefef",
           color: "#4a4a4a",
           marginTop: 60,
-          fontFamily: 'Trebuchet MS, Helvetica, sans-serif',
         },
         "footer ul": {
           padding: 0,
@@ -114,19 +120,15 @@ const GlobalStyle = () => {
           justifyContent: "space-between",
           alignItems: "center",
         },
-          ".footer-content ul": {
-            display: "flex",
-            gap: "5px",
-            listStyle: "none",
-          },
+        ".footer-content ul": {
+          display: "flex",
+          gap: "5px",
+          listStyle: "none",
+        },
         ".indent": {
           maxWidth: "90%",
           margin: "0 auto",
           width: 1200,
-        },
-        // Ensure there is always scroll to reach the footer
-        body: {
-          minHeight: `calc(100vh + var(--footer-height, 0px))`,
         },
         "table.md, table.md th:nth-of-type(odd), table.md td:nth-of-type(odd)":
           {
