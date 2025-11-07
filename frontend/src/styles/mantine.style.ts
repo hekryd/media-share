@@ -18,11 +18,11 @@ export default <MantineThemeOverride>{
   },
   primaryColor: "victoria",
   breakpoints: {
-    xs: "36em",
-    sm: "48em",
-    md: "1024px",
-    lg: "1280px",
-    xl: "1440px",
+    xs: "36em",// 576px
+    sm: "48em",// 768px
+    md: "64em",// 1024px
+    lg: "80em",// 1280px
+    xl: "90em",// 1440px
   },
   components: {
     Modal: {

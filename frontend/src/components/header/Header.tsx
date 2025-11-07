@@ -46,7 +46,7 @@ const useStyles = createStyles((theme) => ({
     zIndex: 100,
     overflow: "hidden",
 
-    [theme.fn.largerThan("sm")]: {
+    [theme.fn.largerThan("xs")]: {
       display: "none",
     },
   },
@@ -59,7 +59,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-    [theme.fn.smallerThan("sm")]: {
+    [theme.fn.smallerThan("xs")]: {
       display: "none",
     },
   },
@@ -70,7 +70,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   burger: {
-    [theme.fn.largerThan("sm")]: {
+    [theme.fn.largerThan("xs")]: {
       display: "none",
     },
   },
@@ -97,7 +97,7 @@ const useStyles = createStyles((theme) => ({
 
     // On small screens we don't want links to stretch the full width of the
     // dropdown — make them inline-block so the Paper can fit content width.
-    [theme.fn.smallerThan("sm")]: {
+    [theme.fn.smallerThan("xs")]: {
       borderRadius: 0,
       padding: theme.spacing.md,
       display: "inline-block",
