@@ -41,31 +41,51 @@ const ManageShareTable = ({
       <Table verticalSpacing="sm">
         <thead>
           <tr>
-            <th>
-              <FormattedMessage id="account.shares.table.name" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.description" />
-            </th>
-            <th>
-              <FormattedMessage id="admin.shares.table.username" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.visitors" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.size" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.createdAt" />
-            </th>
-            <th>
-              <FormattedMessage id="account.shares.table.expiresAt" />
-            </th>
-            <th style={{ textAlign: 'center' }}>
-              <FormattedMessage id="account.shares.table.id" />
-            </th>
-            <th></th>
+              <th>
+                <FormattedMessage id="account.shares.table.name" />
+              </th>
+
+              <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th>
+                      <FormattedMessage id="account.shares.table.description"/>
+                  </th>
+              </MediaQuery>
+
+              <th>
+                <FormattedMessage id="admin.shares.table.username" />
+              </th>
+
+              <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th>
+                      <FormattedMessage id="account.shares.table.visitors"/>
+                  </th>
+              </MediaQuery>
+
+              <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th>
+                      <FormattedMessage id="account.shares.table.size"/>
+                  </th>
+              </MediaQuery>
+
+              <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th>
+                      <FormattedMessage id="account.shares.table.createdAt"/>
+                  </th>
+              </MediaQuery>
+
+              <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th>
+                      <FormattedMessage id="account.shares.table.expiresAt"/>
+                  </th>
+              </MediaQuery>
+
+              <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{textAlign: 'center'}}>
+                      <FormattedMessage id="account.shares.table.id"/>
+                  </th>
+              </MediaQuery>
+
+              <th></th>
           </tr>
         </thead>
         <tbody>
@@ -86,21 +106,24 @@ const ManageShareTable = ({
                       <Text color="dimmed">-</Text>
                     )}
                   </td>
-                  {/* Description (20 chars) */}
-                  <td style={{ maxWidth: 200 }}>
-                    {share.description ? (
-                      <Text
-                        size="sm"
-                        sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-                      >
-                        {share.description.length > 20
-                          ? `${share.description.slice(0, 20)}...`
-                          : share.description}
-                      </Text>
-                    ) : (
-                      <Text color="dimmed">Leer</Text>
-                    )}
-                  </td>
+
+                    <MediaQuery smallerThan="xs" styles={{display: "none"}}>{/* Description (20 chars) */}
+                        <td style={{maxWidth: 200}}>
+                            {share.description ? (
+                                <Text
+                                    size="sm"
+                                    sx={{overflow: 'hidden', textOverflow: 'ellipsis'}}
+                                >
+                                    {share.description.length > 20
+                                        ? `${share.description.slice(0, 20)}...`
+                                        : share.description}
+                                </Text>
+                            ) : (
+                                <Text color="dimmed">Leer</Text>
+                            )}
+                        </td>
+                    </MediaQuery>
+
                   {/* Creator / Reverse share name / Anonymous (30 chars) */}
                   <td style={{ maxWidth: 200}}>
                     {(() => {
@@ -119,31 +142,47 @@ const ManageShareTable = ({
                       );
                     })()}
                   </td>
-                  <td style={{ width: 60 }}>{share.views}</td>
-                  <td style={{ width: 85 }}>{byteToHumanSizeString(share.size)}</td>
-                  <td style={{ width: 140 }}>
-                    {moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}
-                  </td>
-                  <td style={{ width: 140 }}>
-                    {moment(share.expiration).unix() === 0
-                      ? "Never"
-                      : moment(share.expiration).format("DD.MM.YYYY, HH:mm")}
-                  </td>
-                  <td style={{ width: 45, textAlign: 'center' }}>
-                    <Tooltip label={`ID: ${share.id}`} position="bottom" withinPortal>
-                      <ActionIcon
-                        variant="light"
-                        size={25}
-                        onClick={() => {
-                          clipboard.copy(share.id);
-                          toast.success(t("common.notify.copied-id"));
-                        }}
-                        aria-label={`Copy ID ${share.id}`}
-                      >
-                        <TbArticle />
-                      </ActionIcon>
-                    </Tooltip>
-                  </td>
+
+                    <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                        <td style={{width: 60}}>{share.views}</td>
+                    </MediaQuery>
+
+                    <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                        <td style={{width: 85}}>{byteToHumanSizeString(share.size)}</td>
+                    </MediaQuery>
+
+                    <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                        <td style={{width: 140}}>
+                            {moment(share.createdAt).format("DD.MM.YYYY, HH:mm")}
+                        </td>
+                    </MediaQuery>
+
+                    <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                        <td style={{width: 140}}>
+                            {moment(share.expiration).unix() === 0
+                                ? "Never"
+                                : moment(share.expiration).format("DD.MM.YYYY, HH:mm")}
+                        </td>
+                    </MediaQuery>
+
+                    <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                        <td style={{width: 45, textAlign: 'center'}}>
+                            <Tooltip label={`ID: ${share.id}`} position="bottom" withinPortal>
+                                <ActionIcon
+                                    variant="light"
+                                    size={25}
+                                    onClick={() => {
+                                        clipboard.copy(share.id);
+                                        toast.success(t("common.notify.copied-id"));
+                                    }}
+                                    aria-label={`Copy ID ${share.id}`}
+                                >
+                                    <TbArticle/>
+                                </ActionIcon>
+                            </Tooltip>
+                        </td>
+                    </MediaQuery>
+
                   <td style={{ minWidth: 125 }}>
                     <Group position="right">
                       <ActionIcon
