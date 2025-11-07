@@ -39,12 +39,11 @@ const useStyles = createStyles((theme) => ({
   dropdown: {
     position: "absolute",
     top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 0,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
+    right: "2.5%",
+    left: "auto",
+    width: "fit-content",
+    minWidth: 140,
+    zIndex: 100,
     overflow: "hidden",
 
     [theme.fn.largerThan("sm")]: {
@@ -96,9 +95,12 @@ const useStyles = createStyles((theme) => ({
           : theme.colors.gray[0],
     },
 
+    // On small screens we don't want links to stretch the full width of the
+    // dropdown — make them inline-block so the Paper can fit content width.
     [theme.fn.smallerThan("sm")]: {
       borderRadius: 0,
       padding: theme.spacing.md,
+      display: "inline-block",
     },
   },
 
@@ -109,7 +111,9 @@ const useStyles = createStyles((theme) => ({
           ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
           : theme.colors[theme.primaryColor][0],
       color:
-        theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 3 : 7],
+        theme.colors[theme.primaryColor][
+          theme.colorScheme === "dark" ? 3 : 7
+        ],
     },
   },
 }));
