@@ -1,4 +1,16 @@
-import { Box, Container, createStyles, Group, Header as MantineHeader, Text } from "@mantine/core";
+import {
+  Box,
+  Burger,
+  Container,
+  createStyles,
+  Group,
+  Header as MantineHeader,
+  Paper,
+  Stack,
+  Text,
+  Transition,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
@@ -24,6 +36,22 @@ const useStyles = createStyles((theme) => ({
     zIndex: 1,
   },
 
+  dropdown: {
+    position: "absolute",
+    top: HEADER_HEIGHT,
+    left: 0,
+    right: 0,
+    zIndex: 0,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopWidth: 0,
+    overflow: "hidden",
+
+    [theme.fn.largerThan("sm")]: {
+      display: "none",
+    },
+  },
+
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -32,10 +60,21 @@ const useStyles = createStyles((theme) => ({
   },
 
   links: {
-  // Keep links visible on all viewport sizes
+    [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
   },
 
-  // no responsive hamburger menu; links are always visible
+  // When user is unauthenticated we want links to be visible even on small screens
+  linksAlways: {
+    display: "flex",
+  },
+
+  burger: {
+    [theme.fn.largerThan("sm")]: {
+      display: "none",
+    },
+  },
 
   link: {
     display: "block",
@@ -56,6 +95,11 @@ const useStyles = createStyles((theme) => ({
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
     },
+
+    [theme.fn.smallerThan("sm")]: {
+      borderRadius: 0,
+      padding: theme.spacing.md,
+    },
   },
 
   linkActive: {
@@ -75,6 +119,8 @@ const Header = () => {
   const router = useRouter();
   const config = useConfig();
   const t = useTranslate();
+
+  const [opened, toggleOpened] = useDisclosure(false);
 
   const [currentRoute, setCurrentRoute] = useState("");
 
@@ -130,9 +176,12 @@ const Header = () => {
     });
 
   const { classes, cx } = useStyles();
-  const items = (
+
+  // Build separate items for authenticated and unauthenticated users so we can
+  // render them differently (unauthenticated should not get the burger/menu)
+  const authItems = (
     <>
-      {(user ? authenticatedLinks : unauthenticatedLinks).map((link, i) => {
+      {authenticatedLinks.map((link, i) => {
         if (link.component) {
           return (
             <Box pl={5} py={15} key={i}>
@@ -144,6 +193,7 @@ const Header = () => {
           <Link
             key={link.label}
             href={link.link ?? ""}
+            onClick={() => toggleOpened.toggle()}
             className={cx(classes.link, {
               [classes.linkActive]: currentRoute == link.link,
             })}
@@ -154,6 +204,33 @@ const Header = () => {
       })}
     </>
   );
+
+  const unauthItems = (
+    <>
+      {unauthenticatedLinks.map((link, i) => {
+        if (link.component) {
+          return (
+            <Box pl={5} py={15} key={i}>
+              {link.component}
+            </Box>
+          );
+        }
+        return (
+          <Link
+            key={link.label}
+            href={link.link ?? ""}
+            onClick={() => toggleOpened.toggle()}
+            className={cx(classes.link, {
+              [classes.linkActive]: currentRoute == link.link,
+            })}
+          >
+            {link.label}
+          </Link>
+        );
+      })}
+    </>
+  );
+
   return (
     <MantineHeader height={HEADER_HEIGHT} mb={40} className={classes.root} withBorder={false}>
       <Container className={classes.header}>
@@ -166,10 +243,33 @@ const Header = () => {
             Angemeldet als: {user.username ?? user.email ?? ""}
           </Text>
         )}
-        <Group spacing={5} className={classes.links}>
-          <Group>{items} </Group>
-        </Group>
-        
+
+        {/* For authenticated users: keep previous responsive behavior (links hidden on mobile + burger) */}
+        {user ? (
+          <>
+            <Group spacing={5} className={classes.links}>
+              <Group>{authItems} </Group>
+            </Group>
+            <Burger
+              opened={opened}
+              onClick={() => toggleOpened.toggle()}
+              className={classes.burger}
+              size="sm"
+            />
+            <Transition transition="pop-top-right" duration={400} mounted={opened}>
+              {(styles) => (
+                <Paper className={classes.dropdown} withBorder style={styles}>
+                  <Stack spacing={0}> {authItems}</Stack>
+                </Paper>
+              )}
+            </Transition>
+          </>
+        ) : (
+          // For unauthenticated users: render links always (no burger/mobile menu)
+          <Group spacing={5} className={classes.linksAlways}>
+            <Group>{unauthItems}</Group>
+          </Group>
+        )}
       </Container>
     </MantineHeader>
   );

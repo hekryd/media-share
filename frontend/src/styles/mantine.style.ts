@@ -17,6 +17,13 @@ export default <MantineThemeOverride>{
     ],
   },
   primaryColor: "victoria",
+  breakpoints: {
+    xs: "36em",
+    sm: "48em",
+    md: "1024px",
+    lg: "1280px",
+    xl: "1440px",
+  },
   components: {
     Modal: {
       styles: (theme) => ({
@@ -28,7 +35,6 @@ export default <MantineThemeOverride>{
     },
     Container: {
       defaultProps: {
-        // Mantine default is 62rem (roughly 992px) for lg; force a custom size token
         size: "xl",
       },
       styles: (theme, _params, { size }) => ({

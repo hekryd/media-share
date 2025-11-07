@@ -5,7 +5,7 @@ const LegacyHeader = () => {
 
   return (
     <div className="legacy-hr">
-      <ul id="menu" style={{ width: open ? "100vw" : undefined, opacity: open ? 1 : undefined }}>
+      <ul id="menu" style={{ pointerEvents: open ? undefined : "none", width: open ? "100vw" : undefined, opacity: open ? 1 : undefined }}>
         <div>
           <li className="header-nav-start">
             <a className="in-kuerze-link" href="https://www.hektor-rydzewski.de/#in-kuerze"><span>In Kürze</span></a>
