@@ -41,7 +41,7 @@ const ManageShareTable = ({
       <Table verticalSpacing="sm">
         <thead>
           <tr>
-            <th style={{width: 240}}>
+            <th style={{width: 230}}>
               <FormattedMessage id="account.shares.table.name"/>
             </th>
 
@@ -56,7 +56,7 @@ const ManageShareTable = ({
               </th>
             </MediaQuery>
 
-            <th style={{width: 240}}>
+            <th style={{width: 230}}>
               <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
                 <span><FormattedMessage id="admin.shares.table.username" /></span>
               </MediaQuery>
@@ -78,7 +78,7 @@ const ManageShareTable = ({
             </MediaQuery>
 
             <MediaQuery smallerThan="xs" styles={{display: "none"}}>
-              <th style={{width: 140}}>
+              <th style={{width: 150}}>
                 <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
                   <span><FormattedMessage id="account.shares.table.createdAt" /></span>
                 </MediaQuery>
@@ -89,7 +89,7 @@ const ManageShareTable = ({
             </MediaQuery>
 
             <MediaQuery smallerThan="xs" styles={{display: "none"}}>
-              <th style={{width: 140}}>
+              <th style={{width: 150}}>
                 <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
                   <span><FormattedMessage id="account.shares.table.expiresAt" /></span>
                 </MediaQuery>
