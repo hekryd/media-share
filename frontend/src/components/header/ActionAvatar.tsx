@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Menu } from "@mantine/core";
+import {ActionIcon, Avatar, Group, Menu, Text} from "@mantine/core";
 import Link from "next/link";
 import { TbDoorExit, TbSettings, TbUser } from "react-icons/tb";
 import useUser from "../../hooks/user.hook";
@@ -7,13 +7,19 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 const ActionAvatar = () => {
   const { user } = useUser();
+  if (!user) return null;
 
   return (
     <Menu position="bottom-start" withinPortal>
       <Menu.Target>
-        <ActionIcon>
-          <Avatar size={28} />
+        <Group>
+          <ActionIcon style={{ backgroundColor: "#f8f9fa", borderRadius: "0.25rem", width: "auto", display: "flex" , alignItems: "flex-end"}}>
+          <Avatar size={28}/>
+          <Text mr={5}>
+            {user.username ?? user.email ?? ""}
+          </Text>
         </ActionIcon>
+        </Group>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item component={Link} href="/account" icon={<TbUser size={14} />}>

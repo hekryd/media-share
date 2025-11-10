@@ -242,11 +242,6 @@ const Header = () => {
         <Text weight={900} sx={{ fontSize: "1.5em", lineHeight: 1.8, }}>
           H+R Media Share
         </Text>
-        {user && (
-          <Text size="sm">
-            Angemeldet als: {user.username ?? user.email ?? ""}
-          </Text>
-        )}
 
         {/* For authenticated users: keep previous responsive behavior (links hidden on mobile + burger) */}
         {user ? (
