@@ -170,6 +170,7 @@ export default {
   "account.reverseShare.expires-on": "Dieser externe Upload wird am {expiration} ablaufen.",
   "account.reverseShares.table.no-shares": "Noch keine Uploads erstellt",
   "account.reverseShares.table.name": "Anfrage Empfänger",
+  "account.reverseShares.table.name.short": "Empfänger",
   "account.reverseShares.table.count.singular": "Upload",
   "account.reverseShares.table.count.plural": "Uploads",
   "account.reverseShares.table.shares": "Uploads",

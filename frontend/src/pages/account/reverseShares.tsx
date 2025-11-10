@@ -5,7 +5,7 @@ import {
   Box,
   Button,
   Center,
-  Group,
+  Group, MediaQuery,
   Stack,
   Table,
   Text,
@@ -65,7 +65,7 @@ const MyShares = () => {
             label={t("account.reverseShares.description")}
             events={{ hover: true, focus: false, touch: true }}
           >
-            <ActionIcon>
+            <ActionIcon sx={{ width: "auto", minWidth: "auto" }}>
               <TbInfoCircle />
             </ActionIcon>
           </Tooltip>
@@ -100,50 +100,90 @@ const MyShares = () => {
           <Table>
             <thead>
               <tr>
-                <th style={{ width: 380, minWidth: 300 }}>
+                <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{ width: 400 , minWidth: 170 }}>
                   <FormattedMessage id="account.reverseShares.table.shares" />
                 </th>
-                <th style={{ width: 150 }}>
-                  <FormattedMessage id="account.reverseShares.table.name" />
+                </MediaQuery>
+                <MediaQuery largerThan="xs" styles={{display: "none"}}>
+                  <th>
+                    <FormattedMessage id="account.reverseShares.table.shares" />
+                  </th>
+                </MediaQuery>
+
+                <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{ minWidth: 150 }}>
+                  <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+                    <span><FormattedMessage id="account.reverseShares.table.name" /></span>
+                  </MediaQuery>
+                  <MediaQuery largerThan="md" styles={{ display: "none" }}>
+                    <span><FormattedMessage id="account.reverseShares.table.name.short" /></span>
+                  </MediaQuery>
                 </th>
-                <th style={{ width: 75 }}>
-                  <Group align="center" spacing={6}>
+                </MediaQuery>
+                <MediaQuery largerThan="xs" styles={{display: "none"}}>
+                  <th>
+                    <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+                      <span><FormattedMessage id="account.reverseShares.table.name" /></span>
+                    </MediaQuery>
+                    <MediaQuery largerThan="md" styles={{ display: "none" }}>
+                      <span><FormattedMessage id="account.reverseShares.table.name.short" /></span>
+                    </MediaQuery>
+                  </th>
+                </MediaQuery>
+
+                <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{ width: 75, minWidth: 62 }}>
+                  <Group align="center" spacing={5}>
                     <FormattedMessage id="account.reverseShares.table.remaining" />
                     <Tooltip
                       position="bottom"
                       label={t("account.reverseShares.table.remaining.tooltip")}
                       events={{ hover: true, focus: false, touch: true }}
                     >
-                      <ActionIcon>
+                      <ActionIcon sx={{ width: "auto", minWidth: "auto" }}>
                         <TbInfoCircle />
                       </ActionIcon>
                     </Tooltip>
                   </Group>
                 </th>
-                <th style={{ width: 80 }}>
-                  <Group align="center" spacing={6}>
+                </MediaQuery>
+
+                <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{ width: 80, minWidth: 70 }}>
+                  <Group align="center" spacing={5}>
                     <FormattedMessage id="account.reverseShares.table.max-size" />
                     <Tooltip
                       position="bottom"
                       label={t("account.reverseShares.table.max-size.tooltip")}
                       events={{ hover: true, focus: false, touch: true }}
                     >
-                      <ActionIcon>
+                      <ActionIcon sx={{ width: "auto", minWidth: "auto" }}>
                         <TbInfoCircle />
                       </ActionIcon>
                     </Tooltip>
                   </Group>
                 </th>
-                <th style={{ width: 120 }}>
+                </MediaQuery>
+
+                <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{ width: 130 }}>
                   <FormattedMessage id="account.reverseShares.table.expires" />
                 </th>
-                <th style={{ width: 75 }}></th>
+                </MediaQuery>
+
+                <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                  <th style={{ width: 90, minWidth: 90, maxWidth: 90 }}></th>
+                </MediaQuery>
+                <MediaQuery largerThan="xs" styles={{display: "none"}}>
+                  <th></th>
+                </MediaQuery>
               </tr>
             </thead>
             <tbody>
               {reverseShares.map((reverseShare) => (
                 <tr key={reverseShare.id}>
-                  <td style={{ width: 380, minWidth: 300 }}>
+                  <td>
                     {reverseShare.shares.length == 0 ? (
                       <Text color="dimmed" size="sm">
                         <FormattedMessage id="account.reverseShares.table.no-shares" />
@@ -176,7 +216,7 @@ const MyShares = () => {
                                     href={`${window.location.origin}/share/${share.id}`}
                                     target="_blank"
                                   >
-                                    <Text maw={340} truncate>
+                                    <Text maw={340}>
                                       {created} – {share.name ? (
                                         share.name
                                       ) : (
@@ -211,17 +251,23 @@ const MyShares = () => {
                       </Accordion>
                     )}
                   </td>
-                  <td style={{ width: 150 }}>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
-                  <td style={{ width: 75 }}>{reverseShare.remainingUses}</td>
-                  <td style={{ width: 80 }}>
+                  <td>{reverseShare.name || <Text color="dimmed">Unnamed</Text>}</td>
+                  <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                    <td>{reverseShare.remainingUses}</td>
+                  </MediaQuery>
+                  <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                    <td>
                     {byteToHumanSizeString(parseInt(reverseShare.maxShareSize))}
                   </td>
-                  <td style={{ width: 120 }}>
+                  </MediaQuery>
+                  <MediaQuery smallerThan="xs" styles={{display: "none"}}>
+                    <td>
                     {moment(reverseShare.shareExpiration).unix() === 0
                       ? "Never"
                       : moment(reverseShare.shareExpiration).format("DD.MM.YYYY HH:mm")}
                   </td>
-                  <td style={{ width: 75 }}>
+                  </MediaQuery>
+                  <td>
                     <Group position="right">
                       <ActionIcon
                         color="victoria"
