@@ -38,7 +38,7 @@ const ManageShareTable = ({
 
   return (
     <Box sx={{ display: "block", overflowX: "auto" }}>
-      <Table verticalSpacing="sm">
+  <Table verticalSpacing="sm" sx={{ 'td': { verticalAlign: 'top' } }}>
         <thead>
           <tr>
             <th style={{width: 230}}>
