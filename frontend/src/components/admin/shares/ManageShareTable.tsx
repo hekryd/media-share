@@ -261,7 +261,7 @@ const skeletonRows = [...Array(10)].map((v, i) => (
     <td>
       <Skeleton key={i} height={20} />
     </td>
-    <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+    <MediaQuery smallerThan="xs" styles={{ display: "none" }}>
       <td>
         <Skeleton key={i} height={20} />
       </td>
