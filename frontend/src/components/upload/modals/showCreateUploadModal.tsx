@@ -140,7 +140,7 @@ const CreateUploadModalBody = ({
   .string()
   .required(t("common.error.field-required"))
   .min(3, t("common.error.too-short", { length: 3 }))
-  .max(30, t("common.error.too-long", { length: 30 })),
+  .max(50, t("common.error.too-long", { length: 50 })),
     password: yup
       .string()
       .transform((value) => value || undefined)
@@ -522,7 +522,7 @@ const SimplifiedCreateUploadModalModal = ({
       .string()
       .required(t("common.error.field-required"))
       .min(3, t("common.error.too-short", { length: 3 }))
-      .max(30, t("common.error.too-long", { length: 30 })),
+      .max(50, t("common.error.too-long", { length: 50 })),
   });
 
   const form = useForm({
