@@ -1,18 +1,18 @@
-name: Backend system tests
+name: "Test backend systems"
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-  push:
-    tags:
-      - "v*"
+  pull_request:
 
 jobs:
-  system-tests:
+
+  tests:
     timeout-minutes: 15
-    runs-on: ubuntu-latest
-    container: node:22
+    runs-on: [ docker, builder ]
+    container:
+      image: node:22
     steps:
       - uses: actions/checkout@v3
       - name: Install Dependencies
