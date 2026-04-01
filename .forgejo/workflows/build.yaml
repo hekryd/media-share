@@ -1,0 +1,52 @@
+name: "Build project"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+
+env:
+  IMAGE_NAME: "media-share"
+
+jobs:
+
+  docker:
+    runs-on: [ docker, builder ]
+    container:
+      image: docker:cli
+    steps:
+      - name: "Prepare environment"
+        run: |
+          # Host / Domain of the Forgejo instance without leading "https://"
+          FORGE_HOST=$( echo '${{ forgejo.server_url }}' | sed 's|^https://||' )
+          echo "FORGE_HOST=$FORGE_HOST" | tee -a $GITHUB_ENV
+          # Docker registry repository name (owner of the forge repository)
+          REPO_NAME=$( echo '${{ forgejo.repository_owner }}' | tr '[:upper:]' '[:lower:]' )
+          echo "REPO_NAME=$REPO_NAME" | tee -a $GITHUB_ENV
+          # Full base name for the docker image (without tag)
+          IMAGE_BASE="$FORGE_HOST/$REPO_NAME/${{ env.IMAGE_NAME }}"
+          echo "IMAGE_BASE=$IMAGE_BASE" | tee -a $GITHUB_ENV
+      - name: "Install git"
+        run: apk add --no-cache git
+      - name: "Checkout repository"
+        run: |
+          git clone --depth=1 "https://oauth2:${{ secrets.FORGEJO_TOKEN }}@$FORGE_HOST/${{ forgejo.repository }}.git" .
+          git fetch --depth=1 origin ${{ forgejo.sha }}
+          git checkout ${{ forgejo.sha }}
+      - name: "Build docker image"
+        run: |
+          docker build \
+            --label "org.opencontainers.image.source=${{ forgejo.server_url }}/${{ forgejo.repository }}" \
+            -t "$IMAGE_BASE:sha-${{ forgejo.sha }}" \
+            -t "$IMAGE_BASE:latest" \
+            -t "$IMAGE_BASE:dev" \
+            .
+      - name: "Registry login"
+        run: |
+          echo "${{ secrets.REGISTRY_TOKEN }}" | docker login "$FORGE_HOST" --username "oauth2" --password-stdin
+      - name: "Push to registry"
+        run: |
+          docker push "$IMAGE_BASE:dev"
+          docker push "$IMAGE_BASE:latest"
+          docker push "$IMAGE_BASE:sha-${{ forgejo.sha }}"
