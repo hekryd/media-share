@@ -1,6 +1,7 @@
 services:
-  pingvin-share:
-    image: stonith404/pingvin-share # or ghcr.io/stonith404/pingvin-share
+
+  media-share:
+    image: forge.vipolist.de/hekryd/media-share
     restart: unless-stopped
     ports:
       - 3000:3000
