@@ -32,7 +32,7 @@ RUN npm run build && npm prune --production
 FROM node:22-alpine AS runner
 ENV NODE_ENV=docker
 
-# Delete default node user
+# Delete default node user
 RUN deluser --remove-home node
 
 RUN apk update --no-cache \
@@ -56,6 +56,12 @@ WORKDIR /opt/app
 
 COPY ./reverse-proxy  /opt/app/reverse-proxy
 COPY ./scripts/docker ./scripts/docker
+
+LABEL org.opencontainers.image.authors="Hektor + Rydzewski Bild + Ton Produktion GmbH <post@hektor-rydzewski.de>"
+LABEL org.opencontainers.image.vendor="Hektor + Rydzewski Bild + Ton Produktion GmbH"
+LABEL org.opencontainers.image.description="File sharing platform based on pingvin-share"
+LABEL org.opencontainers.image.source="https://forge.vipolist.de/hekryd/media-share"
+LABEL org.opencontainers.image.licenses="BSD-2-Clause"
 
 EXPOSE 3000
 
