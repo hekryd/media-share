@@ -1,0 +1,17 @@
+services:
+
+  media-share:
+    container_name: media-share
+    image: forge.vipolist.de/hekryd/media-share
+    privileged: true
+    networks:
+      - "gateway_services"
+    environment:
+      TRUST_PROXY: "true"
+    volumes:
+      - "./data/:/opt/app/backend/data/"
+      - "./data/images/:/opt/app/frontend/public/img/"
+
+networks:
+  gateway_services:
+    external: true
