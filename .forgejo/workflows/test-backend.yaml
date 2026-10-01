@@ -10,7 +10,7 @@ jobs:
 
   tests:
     timeout-minutes: 15
-    runs-on: [ docker, builder ]
+    runs-on: [ docker-build-any ]
     container:
       image: node:22
     steps:

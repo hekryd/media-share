@@ -12,7 +12,7 @@ env:
 jobs:
 
   docker:
-    runs-on: [ docker, builder ]
+    runs-on: [ docker-build-amd64 ]
     container:
       image: docker:cli
     steps:
